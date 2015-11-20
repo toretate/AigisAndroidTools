@@ -11,17 +11,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.toretate.aigistwclient.MainActivity"
-    tools:showIn="@layout/activity_main">
+    >
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/twitter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </ListView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+        <!--android:id="@+id/swipeRefresh"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<ListView-->
+            <!--android:id="@+id/twitter"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+        <!--</ListView>-->
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 
 </RelativeLayout>
