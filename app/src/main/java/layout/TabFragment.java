@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.toretate.aigistwclient.CustomTweetTimelineListAdapter;
 import com.toretate.aigistwclient.R;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -67,22 +68,34 @@ public class TabFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_tab, container, false);
 
 		Timeline<Tweet> timeline;
-		if( m_position == 1 ) {
+		switch( m_position ) {
+		case 1:
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
 					.includeRetweets(false)
 					.maxItemsPerRequest(5)
 					.screenName("Aigis1000")
 					.build();
-		} else {
+			break;
+		case 2:
 			timeline = new SearchTimeline.Builder()
 					.query("#千年戦争アイギス")
 					.maxItemsPerRequest(5)
 					.languageCode("ja")
 					.build();
+			break;
+		case 3:
+		default:
+			timeline = new UserTimeline.Builder()
+					.includeReplies(false)
+					.includeRetweets(false)
+					.maxItemsPerRequest(5)
+					.screenName("toretatenee")
+					.build();
+			break;
 		}
 
-		final TweetTimelineListAdapter adapter = new TweetTimelineListAdapter.Builder( getActivity() )
+		final CustomTweetTimelineListAdapter adapter = new CustomTweetTimelineListAdapter.Builder( getActivity() )
 				.setTimeline( timeline )
 				.build();
 
