@@ -45,17 +45,17 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 				switch( position ) {
 				case 0:
 					return "運営";
+				default:
 				case 1:
 					return "#千年戦争アイギス";
 				case 2:
-				default:
 					return "作者";
 				}
 			}
 
 			@Override
 			public int getCount() {
-				return 3;
+				return 2;
 			}
 		};
 
@@ -78,6 +78,13 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 //			}
 //		});
 	}
+
+	@Override
+	public void onBackPressed() {
+
+		super.onBackPressed();
+	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -2,6 +2,7 @@ package com.toretate.aigistwclient;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -23,6 +24,8 @@ import com.twitter.sdk.android.tweetui.internal.TimelineDelegate;
  * Created by toretatenee on 2015/11/26.
  */
 public class CustomTweetTimelineListAdapter extends TweetTimelineListAdapter {
+
+	CompactTweetView m_tweetView = null;
 
 	public CustomTweetTimelineListAdapter(Context context, Timeline<Tweet> timeline) {
 		super(context, timeline);
@@ -51,9 +54,31 @@ public class CustomTweetTimelineListAdapter extends TweetTimelineListAdapter {
 					public void success(Result<Tweet> result) {
 						view.setVisibility( View.VISIBLE );
 
-						CompactTweetView tweetView = new CompactTweetView( context, result.data );
+						if( m_tweetView != null && m_tweetView.getParent() != null ) {
+							view.removeView( m_tweetView );
+						}
+						m_tweetView = new CompactTweetView( context, result.data );
+						m_tweetView.setFocusable( true );
+						m_tweetView.setFocusableInTouchMode( true );
+						m_tweetView.setOnKeyListener(new View.OnKeyListener() {
+							@Override
+							public boolean onKey(View v, int keyCode, KeyEvent event) {
+								if( event.getAction() != KeyEvent.ACTION_DOWN ) return false;
 
-						view.addView( tweetView );
+								if( keyCode == KeyEvent.KEYCODE_BACK ) {
+									view.removeView( m_tweetView );
+									m_tweetView.setOnKeyListener( null );
+									m_tweetView = null;
+
+									view.setVisibility( View.GONE );
+									return true;
+								}
+								return false;
+							}
+						});
+
+						view.addView( m_tweetView );
+						m_tweetView.requestFocus();
 					}
 
 					@Override
