@@ -84,6 +84,14 @@ public class TabFragment extends Fragment {
 					.build();
 			break;
 		case 3:
+			timeline = new UserTimeline.Builder()
+					.includeReplies(false)
+					.includeRetweets(false)
+					.maxItemsPerRequest(5)
+					.screenName("Aigis1000_A")
+					.build();
+			break;
+		case 4:
 		default:
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
