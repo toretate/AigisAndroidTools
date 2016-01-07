@@ -1,4 +1,4 @@
-package com.toretate.aigistwclient;
+package com.toretate.aigisandroidtools;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import com.mopub.mobileads.MoPubErrorCode;
+import com.mopub.mobileads.MoPubView;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -19,7 +21,8 @@ import io.fabric.sdk.android.Fabric;
 import layout.TabFragment;
 
 
-public class MainActivity extends AppCompatActivity implements TabFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements TabFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener, MoPubView.BannerAdListener {
+	private MoPubView moPubView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,12 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 		Fabric.with(this, new Twitter(authConfig));
 
 		setContentView(R.layout.activity_main);
+
+		moPubView = (MoPubView) findViewById(R.id.adview);
+		// TODO: Replace this test id with your personal ad unit id
+		moPubView.setAdUnitId("df8b7addafda4f788212d2a8dead7a57");
+		moPubView.loadAd();
+		moPubView.setBannerAdListener(this);
 
 		TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
 		ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
@@ -80,6 +89,12 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 	}
 
 	@Override
+	protected void onDestroy() {
+		moPubView.destroy();
+		super.onDestroy();
+	}
+
+	@Override
 	public void onBackPressed() {
 
 		super.onBackPressed();
@@ -125,6 +140,31 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
+
+	}
+
+	@Override
+	public void onBannerLoaded(MoPubView moPubView) {
+
+	}
+
+	@Override
+	public void onBannerFailed(MoPubView moPubView, MoPubErrorCode moPubErrorCode) {
+
+	}
+
+	@Override
+	public void onBannerClicked(MoPubView moPubView) {
+
+	}
+
+	@Override
+	public void onBannerExpanded(MoPubView moPubView) {
+
+	}
+
+	@Override
+	public void onBannerCollapsed(MoPubView moPubView) {
 
 	}
 }

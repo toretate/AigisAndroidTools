@@ -9,55 +9,61 @@
 	android:layout_height="match_parent"
 >
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-	android:orientation="vertical"
-    tools:context="com.toretate.aigistwclient.MainActivity"
-	>
-
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-	<android.support.design.widget.TabLayout
-		android:id="@+id/tab_layout"
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/toolbar"
-		/>
+		android:layout_height="match_parent"
+		android:fitsSystemWindows="true"
+		android:orientation="vertical"
+		tools:context="com.toretate.aigisandroidtools.MainActivity"
+		>
 
-	<android.support.v4.view.ViewPager
-		android:id="@+id/pager"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/tab_layout"
-		/>
+		<com.mopub.mobileads.MoPubView
+			android:id="@+id/adview"
+			android:layout_alignParentBottom="true"
+			android:layout_width="fill_parent"
+			android:layout_height="50dp"/>
 
-    <!--<include layout="@layout/content_main"/>-->
+		<android.support.design.widget.AppBarLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:theme="@style/AppTheme.AppBarOverlay">
 
-    <!--
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"/>
-	-->
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:background="?attr/colorPrimary"
+				app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-</LinearLayout>
+		</android.support.design.widget.AppBarLayout>
+
+		<android.support.design.widget.TabLayout
+			android:id="@+id/tab_layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/toolbar"
+			/>
+
+		<android.support.v4.view.ViewPager
+			android:id="@+id/pager"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/tab_layout"
+			/>
+
+		<!--<include layout="@layout/content_main"/>-->
+
+		<!--
+		<android.support.design.widget.FloatingActionButton
+			android:id="@+id/fab"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|end"
+			android:layout_margin="@dimen/fab_margin"
+			android:src="@android:drawable/ic_dialog_email"/>
+		-->
+
+	</LinearLayout>
 
 	<RelativeLayout
 		android:id="@+id/overlayTweetUI"
