@@ -1,4 +1,4 @@
-package com.toretate.aigistwclient;
+package com.toretate.aigisandroidtools;
 
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
