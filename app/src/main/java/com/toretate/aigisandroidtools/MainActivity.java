@@ -58,13 +58,15 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 				case 1:
 					return "#千年戦争アイギス";
 				case 2:
+					return "運営A";
+				case 3:
 					return "作者";
 				}
 			}
 
 			@Override
 			public int getCount() {
-				return 2;
+				return 3;
 			}
 		};
 
