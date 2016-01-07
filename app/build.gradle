@@ -8,19 +8,19 @@ buildscript {
 	}
 }
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 repositories {
 	maven { url 'https://maven.fabric.io/public' }
 }
 
-apply plugin: 'io.fabric'
 
 android {
 	compileSdkVersion 22
 	buildToolsVersion '23.0.2'
 
 	defaultConfig {
-		applicationId "com.toretate.aigistwclient"
+		applicationId "com.toretate.aigisandroidtools"
 		minSdkVersion 15
 		targetSdkVersion 22
 		versionCode 1
@@ -39,8 +39,11 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 
 	// Twitter Kit
-	compile('com.twitter.sdk.android:twitter:1.9.1@aar') {
+	compile('com.twitter.sdk.android:twitter:1.11.0@aar') {
 		transitive = true
+	}
+	compile('com.mopub.sdk.android:mopub:4.2.0@aar') {
+		transitive = true;
 	}
 	compile 'com.android.support:appcompat-v7:22.2.1'
 	compile 'com.android.support:design:22.2.1'

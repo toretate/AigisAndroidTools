@@ -1,4 +1,4 @@
-package com.toretate.aigistwclient;
+package com.toretate.aigisandroidtools;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
