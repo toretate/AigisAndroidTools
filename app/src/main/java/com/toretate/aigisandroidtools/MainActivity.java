@@ -125,11 +125,14 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 		return super.onOptionsItemSelected(item);
 	}
 
+	// #tabFlagment
+
 	@Override
 	public void onFragmentInteraction(Uri uri) {
 
 	}
 
+	// #ViewPager
 	@Override
 	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -144,6 +147,8 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 	public void onPageScrollStateChanged(int state) {
 
 	}
+
+	// #MoPubView
 
 	@Override
 	public void onBannerLoaded(MoPubView moPubView) {
