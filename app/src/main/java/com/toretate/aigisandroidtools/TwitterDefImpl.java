@@ -3,6 +3,7 @@ package com.toretate.aigisandroidtools;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 /**
+ * Twitter用の固定値
  * Created by toretate on 2015/11/21.
  */
 public class TwitterDefImpl implements TwitterDefInterface {
