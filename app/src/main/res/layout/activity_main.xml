@@ -26,7 +26,9 @@
 		<android.support.design.widget.AppBarLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:theme="@style/AppTheme.AppBarOverlay">
+			android:theme="@style/AppTheme.AppBarOverlay"
+			android:visibility="gone"
+			>
 
 			<android.support.v7.widget.Toolbar
 				android:id="@+id/toolbar"
@@ -42,6 +44,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/toolbar"
+			android:visibility="gone"
 			/>
 
 		<android.support.v4.view.ViewPager
@@ -49,6 +52,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/tab_layout"
+			android:visibility="gone"
 			/>
 
 		<!--<include layout="@layout/content_main"/>-->
