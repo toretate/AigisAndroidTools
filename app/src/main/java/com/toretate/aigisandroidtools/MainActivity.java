@@ -18,64 +18,32 @@ import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
 import io.fabric.sdk.android.Fabric;
-import layout.TabFragment;
+import layout.ViewPagerContentFragment;
 
 
-public class MainActivity extends AppCompatActivity implements TabFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener, MoPubView.BannerAdListener {
-	private MoPubView moPubView;
+public class MainActivity extends AppCompatActivity implements ViewPagerContentFragment.OnFragmentInteractionListener, ViewPager.OnPageChangeListener {
+	private MoPubSettings m_moPub;
+	private TwitterSettings m_tw;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		TwitterDefInterface twitterDef = new TwitterDefImpl();
-		TwitterAuthConfig authConfig = twitterDef.createTwitterAuthConfig();
-		Fabric.with(this, new Twitter(authConfig));
+		m_tw = new TwitterSettings( this );
 
 		setContentView(R.layout.activity_main);
 
-		moPubView = (MoPubView) findViewById(R.id.adview);
-		// TODO: Replace this test id with your personal ad unit id
-		moPubView.setAdUnitId("df8b7addafda4f788212d2a8dead7a57");
-		moPubView.loadAd();
-		moPubView.setBannerAdListener(this);
+		m_moPub = new MoPubSettings( this );
 
-		TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
-		ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
+		{	// Tab + ViewPager
+			TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
+			ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
 
-		FragmentPagerAdapter adapter = new FragmentPagerAdapter( getSupportFragmentManager() ) {
-			@Override
-			public Fragment getItem(int position) {
-				return TabFragment.newInstance( position +1 );
-			}
-
-			@Override
-			public CharSequence getPageTitle(int position) {
-				switch( position ) {
-				case 0:
-					return "運営";
-				default:
-				case 1:
-					return "#千年戦争アイギス";
-				case 2:
-					return "運営A";
-				case 3:
-					return "作者";
-				}
-			}
-
-			@Override
-			public int getCount() {
-				return 3;
-			}
-		};
-
-		viewPager.setAdapter( adapter );
-		viewPager.addOnPageChangeListener(this);
-		tabLayout.setupWithViewPager( viewPager );
-
-		// TODO: Use a more specific parent
-		final ViewGroup parentView = (ViewGroup) getWindow().getDecorView().getRootView();
+			PagerAdapter adapter = new PagerAdapter( getSupportFragmentManager() );
+			viewPager.setAdapter( adapter );
+			viewPager.addOnPageChangeListener(this);
+			tabLayout.setupWithViewPager( viewPager );
+		}
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -92,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 
 	@Override
 	protected void onDestroy() {
-		moPubView.destroy();
+		m_moPub.destroy();
 		super.onDestroy();
 	}
 
@@ -145,33 +113,6 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnFra
 
 	@Override
 	public void onPageScrollStateChanged(int state) {
-
-	}
-
-	// #MoPubView
-
-	@Override
-	public void onBannerLoaded(MoPubView moPubView) {
-
-	}
-
-	@Override
-	public void onBannerFailed(MoPubView moPubView, MoPubErrorCode moPubErrorCode) {
-
-	}
-
-	@Override
-	public void onBannerClicked(MoPubView moPubView) {
-
-	}
-
-	@Override
-	public void onBannerExpanded(MoPubView moPubView) {
-
-	}
-
-	@Override
-	public void onBannerCollapsed(MoPubView moPubView) {
 
 	}
 }

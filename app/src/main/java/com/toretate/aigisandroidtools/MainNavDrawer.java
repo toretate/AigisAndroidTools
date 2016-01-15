@@ -2,14 +2,9 @@ package com.toretate.aigisandroidtools;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,50 +13,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.tweetui.SearchTimeline;
 import com.twitter.sdk.android.tweetui.Timeline;
-import com.twitter.sdk.android.tweetui.TimelineResult;
-import com.twitter.sdk.android.tweetui.UserTimeline;
 
 import io.fabric.sdk.android.Fabric;
-import layout.TabFragment;
+import layout.ViewPagerContentFragment;
 
 /**
  * ルートとなるNavigationDrawer
  */
-public class MainNavDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MoPubView.BannerAdListener {
-	private MoPubView moPubView;
+public class MainNavDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, ViewPagerContentFragment.OnFragmentInteractionListener {
+
+	private TwitterSettings m_tw;
+	private MoPubSettings m_moPub;
+	private ViewPager m_pager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Fabric関係
-		TwitterDefInterface twitterDef = new TwitterDefImpl();
-		TwitterAuthConfig authConfig = twitterDef.createTwitterAuthConfig();
-		Fabric.with(this, new Twitter(authConfig));
+		// Twitter関係
+		m_tw = new TwitterSettings( this );
 
 		setContentView(R.layout.activity_main_nav_drawer);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 
 		// MoPUB
-		moPubView = (MoPubView) findViewById(R.id.adview);
-		// TODO: Replace this test id with your personal ad unit id
-		moPubView.setAdUnitId("df8b7addafda4f788212d2a8dead7a57");
-		moPubView.loadAd();
-		moPubView.setBannerAdListener(this);
+		m_moPub = new MoPubSettings( this );
 
 		/*
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -75,85 +59,31 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		*/
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
 		drawer.setDrawerListener(toggle);
 		toggle.syncState();
 
+		// NavigationDrawer の選択リスナを張っておく
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 
-		setupTwitterLayout( 0 );
-	}
+		// ViewPagerの設定
+		{
+			m_pager = (ViewPager)findViewById(R.id.pager);
+			PagerAdapter pagerAdapter = new PagerAdapter( getSupportFragmentManager() );
 
-	private void setupTwitterLayout( final int position ) {
-		Timeline<Tweet> timeline;
-		switch( position ) {
-		case 0:
-			timeline = new UserTimeline.Builder()
-					.includeReplies(false)
-					.includeRetweets(false)
-					.maxItemsPerRequest(5)
-					.screenName("Aigis1000")
-					.build();
-			break;
-		case 1:
-			timeline = new UserTimeline.Builder()
-					.includeReplies(false)
-					.includeRetweets(false)
-					.maxItemsPerRequest(5)
-					.screenName("Aigis1000_A")
-					.build();
-			break;
-		case 2:
-			timeline = new SearchTimeline.Builder()
-					.query("#千年戦争アイギス")
-					.maxItemsPerRequest(5)
-					.languageCode("ja")
-					.build();
-			break;
-		case 3:
-		default:
-			timeline = new UserTimeline.Builder()
-					.includeReplies(false)
-					.includeRetweets(false)
-					.maxItemsPerRequest(5)
-					.screenName("toretatenee")
-					.build();
-			break;
+			m_pager.setAdapter( pagerAdapter );
+			m_pager.addOnPageChangeListener(this);
 		}
 
-		final CustomTweetTimelineListAdapter adapter = new CustomTweetTimelineListAdapter.Builder( this )
-				.setTimeline( timeline )
-				.build();
-
-		ListView twitter = (ListView)findViewById( R.id.twitter );
-		twitter.setAdapter( adapter );
-
-		final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)findViewById( R.id.swipeRefresh );
-		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				swipeRefreshLayout.setRefreshing( true );
-				adapter.refresh(new Callback<TimelineResult<Tweet>>() {
-					@Override
-					public void success(Result<TimelineResult<Tweet>> result) {
-						swipeRefreshLayout.setRefreshing( false );
-					}
-
-					@Override
-					public void failure(TwitterException e) {
-						// 失敗通知(Toastとかで？)
-					}
-				});
-			}
-		});
+		// 初期設定
+		m_pager.setCurrentItem(0);
 	}
 
 	@Override
 	protected void onDestroy() {
+		m_moPub.destroy();
 		super.onDestroy();
-		moPubView.destroy();
 	}
 
 	@Override
@@ -194,14 +124,16 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 
-		if (id == R.id.tw_aigis1000) {
-			setupTwitterLayout(0);
-		} else if (id == R.id.tw_aigis1000A) {
-			setupTwitterLayout(1);
-		} else if (id == R.id.tw_aigis_hash) {
-			setupTwitterLayout(2);
-		} else if (id == R.id.nav_manage) {
-
+		if(id == R.id.tw_aigis1000) {
+			m_pager.setCurrentItem(0);
+		} else if(id == R.id.tw_aigis1000A) {
+			m_pager.setCurrentItem(1);
+		} else if(id == R.id.tw_aigis_hash) {
+			m_pager.setCurrentItem(2);
+		} else if(id == R.id.tw_toretatenee) {
+			m_pager.setCurrentItem(3);
+		} else if(id == R.id.nav_manage) {
+			m_pager.setCurrentItem(4);
 		}
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -209,30 +141,26 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		return true;
 	}
 
-	// #MOPUB View
-
+	// #ViewPager.OnPageChangeListener
 	@Override
-	public void onBannerLoaded(MoPubView moPubView) {
+	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
 	}
 
 	@Override
-	public void onBannerFailed(MoPubView moPubView, MoPubErrorCode moPubErrorCode) {
+	public void onPageSelected(int position) {
 
 	}
 
 	@Override
-	public void onBannerClicked(MoPubView moPubView) {
+	public void onPageScrollStateChanged(int state) {
 
 	}
 
-	@Override
-	public void onBannerExpanded(MoPubView moPubView) {
-
-	}
+	// ViewPagerContentFragment.OnFragmentInteractionListener,
 
 	@Override
-	public void onBannerCollapsed(MoPubView moPubView) {
+	public void onFragmentInteraction(Uri uri) {
 
 	}
 }

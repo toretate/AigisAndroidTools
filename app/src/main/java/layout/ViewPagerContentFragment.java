@@ -24,12 +24,12 @@ import com.twitter.sdk.android.tweetui.UserTimeline;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TabFragment.OnFragmentInteractionListener} interface
+ * {@link ViewPagerContentFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TabFragment#newInstance} factory method to
+ * Use the {@link ViewPagerContentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TabFragment extends Fragment {
+public class ViewPagerContentFragment extends Fragment {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private static final String ARG_PARAM1 = "param1";
@@ -39,8 +39,8 @@ public class TabFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public static TabFragment newInstance( int position ) {
-		TabFragment fragment = new TabFragment();
+	public static ViewPagerContentFragment newInstance(int position ) {
+		ViewPagerContentFragment fragment = new ViewPagerContentFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_PARAM1, position);
 		fragment.setArguments(args);
@@ -48,7 +48,7 @@ public class TabFragment extends Fragment {
 	}
 
 
-	public TabFragment() {
+	public ViewPagerContentFragment() {
 		// Required empty public constructor
 	}
 
@@ -68,12 +68,21 @@ public class TabFragment extends Fragment {
 
 		Timeline<Tweet> timeline;
 		switch( m_position ) {
-		case 1:
+		default:
+		case 0:
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
 					.includeRetweets(false)
 					.maxItemsPerRequest(5)
 					.screenName("Aigis1000")
+					.build();
+			break;
+		case 1:
+			timeline = new UserTimeline.Builder()
+					.includeReplies(false)
+					.includeRetweets(false)
+					.maxItemsPerRequest(5)
+					.screenName("Aigis1000_A")
 					.build();
 			break;
 		case 2:
@@ -84,15 +93,6 @@ public class TabFragment extends Fragment {
 					.build();
 			break;
 		case 3:
-			timeline = new UserTimeline.Builder()
-					.includeReplies(false)
-					.includeRetweets(false)
-					.maxItemsPerRequest(5)
-					.screenName("Aigis1000_A")
-					.build();
-			break;
-		case 4:
-		default:
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
 					.includeRetweets(false)
