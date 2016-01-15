@@ -30,20 +30,12 @@
 		app:layout_behavior="@string/appbar_scrolling_view_behavior"
 		>
 
-		<android.support.v4.widget.SwipeRefreshLayout
-			android:id="@+id/swipeRefresh"
+		<android.support.v4.view.ViewPager
+			android:id="@+id/pager"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="wrap_content"
 			android:layout_above="@id/adview"
-			>
-			<ListView
-				android:id="@+id/twitter"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-			</ListView>
-		</android.support.v4.widget.SwipeRefreshLayout>
-
-		<!--<include layout="@layout/fragment_tab" />-->
+			/>
 
 		<com.mopub.mobileads.MoPubView
 			android:id="@+id/adview"
@@ -51,6 +43,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="50dp"
 			android:layout_gravity="bottom"
+			android:background="@android:color/black"
 			/>
 
 	</RelativeLayout>
