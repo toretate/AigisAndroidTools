@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.toretate.aigisandroidtools.CustomTweetTimelineListAdapter;
+import com.toretate.aigisandroidtools.MainNavDrawer;
 import com.toretate.aigisandroidtools.R;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -39,7 +40,7 @@ public class ViewPagerContentFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public static ViewPagerContentFragment newInstance(int position ) {
+	public static ViewPagerContentFragment newInstance( int position ) {
 		ViewPagerContentFragment fragment = new ViewPagerContentFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_PARAM1, position);
@@ -56,7 +57,7 @@ public class ViewPagerContentFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			m_position = getArguments().getInt(ARG_PARAM1);
+			m_position = getArguments().getInt(ARG_PARAM1) -1;
 		}
 	}
 
@@ -64,11 +65,10 @@ public class ViewPagerContentFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.fragment_tab, container, false);
+		View view = inflater.inflate(R.layout.view_pager_content_fragment, container, false);
 
 		Timeline<Tweet> timeline;
 		switch( m_position ) {
-		default:
 		case 0:
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
@@ -78,6 +78,7 @@ public class ViewPagerContentFragment extends Fragment {
 					.build();
 			break;
 		case 1:
+			MainNavDrawer.setTitle( "@Aigis1000" );
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
 					.includeRetweets(false)
@@ -86,6 +87,7 @@ public class ViewPagerContentFragment extends Fragment {
 					.build();
 			break;
 		case 2:
+			MainNavDrawer.setTitle( "@Aigis1000_A" );
 			timeline = new SearchTimeline.Builder()
 					.query("#千年戦争アイギス")
 					.maxItemsPerRequest(5)
@@ -93,6 +95,7 @@ public class ViewPagerContentFragment extends Fragment {
 					.build();
 			break;
 		case 3:
+			MainNavDrawer.setTitle( "#千年戦争アイギス" );
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
 					.includeRetweets(false)
@@ -100,33 +103,37 @@ public class ViewPagerContentFragment extends Fragment {
 					.screenName("toretatenee")
 					.build();
 			break;
+		default:
+			timeline = null;
 		}
 
-		final CustomTweetTimelineListAdapter adapter = new CustomTweetTimelineListAdapter.Builder( getActivity() )
-				.setTimeline( timeline )
-				.build();
+		if( timeline != null ) {
+			final CustomTweetTimelineListAdapter adapter = new CustomTweetTimelineListAdapter.Builder( getActivity() )
+					.setTimeline( timeline )
+					.build();
 
-		ListView twitter = (ListView)view.findViewById( R.id.twitter );
-		twitter.setAdapter( adapter );
+			ListView twitter = (ListView)view.findViewById( R.id.twitter );
+			twitter.setAdapter( adapter );
 
-		final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById( R.id.swipeRefresh );
-		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				swipeRefreshLayout.setRefreshing( true );
-				adapter.refresh(new Callback<TimelineResult<Tweet>>() {
-					@Override
-					public void success(Result<TimelineResult<Tweet>> result) {
-						swipeRefreshLayout.setRefreshing( false );
-					}
+			final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById( R.id.swipeRefresh );
+			swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+				@Override
+				public void onRefresh() {
+					swipeRefreshLayout.setRefreshing( true );
+					adapter.refresh(new Callback<TimelineResult<Tweet>>() {
+						@Override
+						public void success(Result<TimelineResult<Tweet>> result) {
+							swipeRefreshLayout.setRefreshing( false );
+						}
 
-					@Override
-					public void failure(TwitterException e) {
-						// 失敗通知(Toastとかで？)
-					}
-				});
-			}
-		});
+						@Override
+						public void failure(TwitterException e) {
+							// 失敗通知(Toastとかで？)
+						}
+					});
+				}
+			});
+		}
 
 		return view;
 	}
