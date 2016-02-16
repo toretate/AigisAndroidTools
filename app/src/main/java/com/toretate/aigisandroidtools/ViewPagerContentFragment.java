@@ -54,7 +54,7 @@ public class ViewPagerContentFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			m_position = getArguments().getInt(ARG_PARAM1) -1;
+			m_position = getArguments().getInt(ARG_PARAM1);
 		}
 	}
 
@@ -66,6 +66,7 @@ public class ViewPagerContentFragment extends Fragment {
 
 		Timeline<Tweet> timeline;
 		switch( m_position ) {
+		default:
 		case 0:
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
@@ -75,7 +76,6 @@ public class ViewPagerContentFragment extends Fragment {
 					.build();
 			break;
 		case 1:
-			MainNavDrawer.setTitle( "@Aigis1000" );
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
 					.includeRetweets(false)
@@ -84,7 +84,6 @@ public class ViewPagerContentFragment extends Fragment {
 					.build();
 			break;
 		case 2:
-			MainNavDrawer.setTitle( "@Aigis1000_A" );
 			timeline = new SearchTimeline.Builder()
 					.query("#千年戦争アイギス")
 					.maxItemsPerRequest(5)
@@ -92,7 +91,6 @@ public class ViewPagerContentFragment extends Fragment {
 					.build();
 			break;
 		case 3:
-			MainNavDrawer.setTitle( "#千年戦争アイギス" );
 			timeline = new UserTimeline.Builder()
 					.includeReplies(false)
 					.includeRetweets(false)
@@ -100,8 +98,6 @@ public class ViewPagerContentFragment extends Fragment {
 					.screenName("toretatenee")
 					.build();
 			break;
-		default:
-			timeline = null;
 		}
 
 		if( timeline != null ) {
