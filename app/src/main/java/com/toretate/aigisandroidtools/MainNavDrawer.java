@@ -139,8 +139,25 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	}
 
 	@Override
-	public void onPageSelected(int position) {
-
+	public void onPageSelected( final int position) {
+		switch( position ) {
+		default:
+		case 0:
+			m_toolbar.setTitle( "@Aigis1000" );
+			break;
+		case 1:
+			m_toolbar.setTitle( "@Aigis1000_A" );
+			break;
+		case 2:
+			m_toolbar.setTitle( "#千年戦争アイギス" );
+			break;
+		case 3:
+			m_toolbar.setTitle( "作者" );
+			break;
+		case 4:
+			m_toolbar.setTitle( "管理" );
+			break;
+		}
 	}
 
 	@Override
