@@ -15,13 +15,15 @@ import com.twitter.sdk.android.tweetui.CompactTweetView;
 import com.twitter.sdk.android.tweetui.Timeline;
 import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 import com.twitter.sdk.android.tweetui.TweetUtils;
+import com.twitter.sdk.android.tweetui.TweetView;
 
 /**
+ * Twitterタイムライン用のアダプタ
  * Created by toretatenee on 2015/11/26.
  */
 public class CustomTweetTimelineListAdapter extends TweetTimelineListAdapter {
 
-	CompactTweetView m_tweetView = null;
+	TweetView m_tweetView = null;
 
 	public CustomTweetTimelineListAdapter(Context context, Timeline<Tweet> timeline) {
 		super(context, timeline);
@@ -36,7 +38,8 @@ public class CustomTweetTimelineListAdapter extends TweetTimelineListAdapter {
 			disableViewAndSubViews( (ViewGroup) view );
 		}
 
-		// ルートビューに対してリスナを設定する
+		// そのままだと、タップ時にTwitterクライアントが立ち上がるのでカスタム
+		// タップ時には Tweet内容を Overlay 表示する
 		view.setEnabled( true );
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -53,7 +56,7 @@ public class CustomTweetTimelineListAdapter extends TweetTimelineListAdapter {
 						if( m_tweetView != null && m_tweetView.getParent() != null ) {
 							view.removeView( m_tweetView );
 						}
-						m_tweetView = new CompactTweetView( context, result.data );
+						m_tweetView = new TweetView( context, result.data );
 						m_tweetView.setFocusable( true );
 						m_tweetView.setFocusableInTouchMode( true );
 						m_tweetView.setOnKeyListener(new View.OnKeyListener() {

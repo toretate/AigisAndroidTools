@@ -32,6 +32,9 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	private TwitterSettings m_tw;
 	private MoPubSettings m_moPub;
 	private ViewPager m_pager;
+	private static Toolbar m_toolbar;
+	public static void setTitle( String title ) { if( m_toolbar != null ) m_toolbar.setTitle( title ); }
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +44,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		m_tw = new TwitterSettings( this );
 
 		setContentView(R.layout.activity_main_nav_drawer);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+		m_toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar( m_toolbar );
 
 		// MoPUB
 		m_moPub = new MoPubSettings( this );
@@ -59,7 +62,7 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		*/
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, m_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
 		drawer.setDrawerListener(toggle);
 		toggle.syncState();
 
