@@ -3,11 +3,6 @@ package com.toretate.aigisandroidtools;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v7.widget.Toolbar;
-
-import java.lang.ref.WeakReference;
-
-import layout.ViewPagerContentFragment;
 
 /**
  * ViewPager用のアダプタ
