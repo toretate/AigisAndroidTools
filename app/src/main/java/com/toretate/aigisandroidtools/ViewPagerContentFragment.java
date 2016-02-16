@@ -1,4 +1,4 @@
-package layout;
+package com.toretate.aigisandroidtools;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -10,9 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.toretate.aigisandroidtools.CustomTweetTimelineListAdapter;
-import com.toretate.aigisandroidtools.MainNavDrawer;
-import com.toretate.aigisandroidtools.R;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
