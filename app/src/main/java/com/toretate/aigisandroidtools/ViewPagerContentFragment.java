@@ -59,75 +59,11 @@ public class ViewPagerContentFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.view_pager_content_fragment, container, false);
 
-		Timeline<Tweet> timeline;
-		switch( m_position ) {
-		default:
-		case 0:
-			timeline = new UserTimeline.Builder()
-					.includeReplies(false)
-					.includeRetweets(false)
-					.maxItemsPerRequest(5)
-					.screenName("Aigis1000")
-					.build();
-			break;
-		case 1:
-			timeline = new UserTimeline.Builder()
-					.includeReplies(false)
-					.includeRetweets(false)
-					.maxItemsPerRequest(5)
-					.screenName("Aigis1000_A")
-					.build();
-			break;
-		case 2:
-			timeline = new SearchTimeline.Builder()
-					.query("#千年戦争アイギス")
-					.maxItemsPerRequest(5)
-					.languageCode("ja")
-					.build();
-			break;
-		case 3:
-			timeline = new UserTimeline.Builder()
-					.includeReplies(false)
-					.includeRetweets(false)
-					.maxItemsPerRequest(5)
-					.screenName("toretatenee")
-					.build();
-			break;
-		}
-
-		if( timeline != null ) {
-			final CustomTweetTimelineListAdapter adapter = new CustomTweetTimelineListAdapter.Builder( getActivity() )
-					.setTimeline( timeline )
-					.build();
-
-			ListView twitter = (ListView)view.findViewById( R.id.twitter );
-			twitter.setAdapter( adapter );
-
-			final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById( R.id.swipeRefresh );
-			swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-				@Override
-				public void onRefresh() {
-					swipeRefreshLayout.setRefreshing( true );
-					adapter.refresh(new Callback<TimelineResult<Tweet>>() {
-						@Override
-						public void success(Result<TimelineResult<Tweet>> result) {
-							swipeRefreshLayout.setRefreshing( false );
-						}
-
-						@Override
-						public void failure(TwitterException e) {
-							// 失敗通知(Toastとかで？)
-						}
-					});
-				}
-			});
-		}
-
+		ViewPagerPageDefs pageDefs = ViewPagerPageDefs.instance;
+		View view = pageDefs.createView( m_position, getActivity(), inflater, container );
 		return view;
 	}
 
