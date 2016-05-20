@@ -21,23 +21,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		switch( position ) {
-		default:
-		case 0:
-			return "@aigis1000";
-		case 1:
-			return "@aigis1000A";
-		case 2:
-			return "#千年戦争アイギス";
-		case 3:
-			return "@toretatenee";
-		case 4:
-			return "Tools";
-		}
+		return ViewPagerPageDefs.instance.getTitle( position );
 	}
 
 	@Override
 	public int getCount() {
-		return 5;
+		return ViewPagerPageDefs.instance.getPageCount();
 	}
 }
