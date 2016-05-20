@@ -23,7 +23,6 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	private static Toolbar m_toolbar;
 	public static void setTitle( String title ) { if( m_toolbar != null ) m_toolbar.setTitle( title ); }
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,19 +112,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
-		int id = item.getItemId();
-
-		if(id == R.id.tw_aigis1000) {
-			m_pager.setCurrentItem(0);
-		} else if(id == R.id.tw_aigis1000A) {
-			m_pager.setCurrentItem(1);
-		} else if(id == R.id.tw_aigis_hash) {
-			m_pager.setCurrentItem(2);
-		} else if(id == R.id.tw_toretatenee) {
-			m_pager.setCurrentItem(3);
-		} else if(id == R.id.nav_manage) {
-			m_pager.setCurrentItem(4);
-		}
+		int itemIndex = ViewPagerPageDefs.instance.findItemIndex( item.getItemId() );
+		if( itemIndex != -1 ) m_pager.setCurrentItem( itemIndex );
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
@@ -140,24 +128,7 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 
 	@Override
 	public void onPageSelected( final int position) {
-		switch( position ) {
-		default:
-		case 0:
-			m_toolbar.setTitle( "@Aigis1000" );
-			break;
-		case 1:
-			m_toolbar.setTitle( "@Aigis1000_A" );
-			break;
-		case 2:
-			m_toolbar.setTitle( "#千年戦争アイギス" );
-			break;
-		case 3:
-			m_toolbar.setTitle( "作者" );
-			break;
-		case 4:
-			m_toolbar.setTitle( "管理" );
-			break;
-		}
+		m_toolbar.setTitle( ViewPagerPageDefs.instance.getTitle( position ) );
 	}
 
 	@Override
