@@ -1,5 +1,6 @@
 package com.toretate.aigisandroidtools;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.toretate.aigisandroidtools.pager.PagerAdapter;
+import com.toretate.aigisandroidtools.pager.ViewPagerContentFragment;
+import com.toretate.aigisandroidtools.pager.ViewPagerPageDefs;
+import com.toretate.aigisandroidtools.twitter.TwitterSettings;
+
 /**
  * ルートとなるNavigationDrawer
  */
@@ -22,6 +28,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	private ViewPager m_pager;
 	private static Toolbar m_toolbar;
 	public static void setTitle( String title ) { if( m_toolbar != null ) m_toolbar.setTitle( title ); }
+
+	private static final int CALL_SETTINGS_ACTIVITY = 100;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +68,7 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		// ViewPagerの設定
 		{
 			m_pager = (ViewPager)findViewById(R.id.pager);
-			PagerAdapter pagerAdapter = new PagerAdapter( getSupportFragmentManager() );
+			PagerAdapter pagerAdapter = new PagerAdapter( getSupportFragmentManager(), this );
 
 			m_pager.setAdapter( pagerAdapter );
 			m_pager.addOnPageChangeListener(this);
@@ -102,18 +110,40 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 
 		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_settings) {
+			Intent intent = new Intent( this, SettingsActivity.class );
+			startActivityForResult( intent, CALL_SETTINGS_ACTIVITY );
+
 			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch( requestCode ) {
+		case CALL_SETTINGS_ACTIVITY:
+			ViewPagerPageDefs.getInstance( this ).update( this );
+			m_pager.getAdapter().notifyDataSetChanged();
+			break;
+		}
+	}
+
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
-		int itemIndex = ViewPagerPageDefs.instance.findItemIndex( item.getItemId() );
-		if( itemIndex != -1 ) m_pager.setCurrentItem( itemIndex );
+		int itemIndex = ViewPagerPageDefs.getInstance( this ).findItemIndex( item.getItemId() );
+		if( itemIndex == -1 ) {
+			if( ViewPagerPageDefs.isSettings( item.getItemId() ) ) {
+				// 設定アクティビティに飛ばす
+				Intent intent = new Intent( this, SettingsActivity.class );
+				this.startActivity( intent );
+			}
+		} else {
+			m_pager.setCurrentItem( itemIndex );
+		}
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
@@ -128,7 +158,7 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 
 	@Override
 	public void onPageSelected( final int position) {
-		m_toolbar.setTitle( ViewPagerPageDefs.instance.getTitle( position ) );
+		m_toolbar.setTitle( ViewPagerPageDefs.getInstance( this ).getTitle( position ) );
 	}
 
 	@Override
