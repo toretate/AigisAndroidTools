@@ -1,6 +1,5 @@
-package com.toretate.aigisandroidtools;
+package com.toretate.aigisandroidtools.twitter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.toretate.aigisandroidtools.R;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -55,17 +55,17 @@ public class TwitterPageBuilder {
 		return view;
 	}
 
-	TwitterPageBuilder screenName( String name ) {
+	public TwitterPageBuilder screenName( String name ) {
 		if( m_userTimelineBuidler != null ) m_userTimelineBuidler = m_userTimelineBuidler.screenName( name );
 		return this;
 	}
 
-	TwitterPageBuilder query( String query ) {
+	public TwitterPageBuilder query( String query ) {
 		if( m_searchTimelineBuilder != null ) m_searchTimelineBuilder = m_searchTimelineBuilder.query( query );
 		return this;
 	}
 
-	Timeline<Tweet> build() {
+	public Timeline<Tweet> build() {
 		return m_userTimelineBuidler != null ? m_userTimelineBuidler.build() : m_searchTimelineBuilder.build();
 	}
 
