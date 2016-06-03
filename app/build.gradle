@@ -57,11 +57,11 @@ dependencies {
 	compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
 		transitive = true
 	}
-	compile('com.mopub.sdk.android:mopub:4.2.0@aar') {
-		transitive = true;
-	}
 	compile 'com.android.support:appcompat-v7:22.2.1'
 	compile 'com.android.support:design:22.2.1'
 	compile 'com.android.support:support-v4:22.2.1'
+    compile('com.mopub:mopub-sdk:4.6.0@aar') {
+        transitive = true;
+    }
 }
 

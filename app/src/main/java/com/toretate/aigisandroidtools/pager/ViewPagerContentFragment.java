@@ -1,23 +1,12 @@
-package com.toretate.aigisandroidtools;
+package com.toretate.aigisandroidtools.pager;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-
-import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.tweetui.SearchTimeline;
-import com.twitter.sdk.android.tweetui.Timeline;
-import com.twitter.sdk.android.tweetui.TimelineResult;
-import com.twitter.sdk.android.tweetui.UserTimeline;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,7 +51,7 @@ public class ViewPagerContentFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 
-		ViewPagerPageDefs pageDefs = ViewPagerPageDefs.instance;
+		ViewPagerPageDefs pageDefs = ViewPagerPageDefs.getInstance(getActivity());
 		View view = pageDefs.createView( m_position, getActivity(), inflater, container );
 		return view;
 	}

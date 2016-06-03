@@ -1,4 +1,4 @@
-package com.toretate.aigisandroidtools;
+package com.toretate.aigisandroidtools.twitter;
 
 import android.app.Activity;
 
