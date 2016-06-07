@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	ミッション一覧を表示する
+	各ミッションは下記を持ちます
+	　・タイトル
+	　・編成スクショ表示（追加）ボタン
+	　・ニコ動検索実行ボタン
+-->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 android:id="@+id/MissionTable"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent"
+			 android:stretchColumns="0"
+	>
+
+</TableLayout>

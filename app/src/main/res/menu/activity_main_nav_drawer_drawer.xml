@@ -15,6 +15,10 @@
 			android:icon="@mipmap/ic_twitter_logo"
 			android:title="#千年戦争アイギス" />
 		<item
+			android:id="@+id/tool_mission"
+			android:title="ミッション"
+			/>
+		<item
 			android:id="@+id/tw_toretatenee"
 			android:icon="@mipmap/ic_twitter_logo"
 			android:title="＠作者" />
