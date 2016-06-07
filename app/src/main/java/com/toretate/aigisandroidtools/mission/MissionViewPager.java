@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
+import java.util.zip.Inflater;
 
 /**
  * Created by kenji_watatani on 16/06/06.
@@ -47,20 +48,33 @@ public class MissionViewPager extends ViewPagerPageDefs.CommonViewPagerPageDef {
 		JSONObject json = loadJSON( inflater.getContext() );
 
 		try {
-			JSONArray missions = json.getJSONArray( "missions" );
-
-			for( int i= 0; i<missions.length(); i++ ) {
-				inflater.inflate( R.layout.tool_mission_item, table );	// ここで table に追加
-
-				JSONObject mission = missions.getJSONObject( i );
-
-				TableRow tr = (TableRow)table.getChildAt( i );
-				String text = mission.getString( "title" );
-				TextView tv = (TextView)tr.getChildAt(0);
-				tv.setText(text);
-			}
+			JSONArray specials = json.getJSONArray( "specials" );
+			loadSpecials( specials, inflater, table );
 		} catch( JSONException ex ) {
 			ex.printStackTrace();
+		}
+	}
+
+	void loadSpecials(JSONArray specials, LayoutInflater inflater, TableLayout table ) throws JSONException {
+		for( int i= 0; i<specials.length(); i++ ) {
+			loadSpecial( specials.getJSONObject(i), inflater, table );
+		}
+	}
+
+	void loadSpecial( JSONObject special, LayoutInflater inflater, TableLayout table ) throws JSONException {
+		String title = special.getString("title");
+		JSONArray missions = special.getJSONArray("missions");
+		loadMissions( missions, inflater, table );
+	}
+
+	void loadMissions( JSONArray missions, LayoutInflater inflater, TableLayout table ) throws JSONException {
+		for( int i= 0; i<missions.length(); i++ ) {
+			inflater.inflate( R.layout.tool_mission_item, table );	// ここで table に追加
+
+			String mission = missions.getString( i );
+			TableRow tr = (TableRow)table.getChildAt( i );
+			TextView tv = (TextView)tr.getChildAt(0);
+			tv.setText( mission );
 		}
 	}
 
