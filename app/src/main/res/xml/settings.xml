@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference
+		android:key="tw_aigis1000"
+		android:title="\@aigis1000"
+		android:summary="twitter"
+		/>
+	<CheckBoxPreference
+		android:key="tw_aigis1000A"
+		android:title="\@aigis1000A"
+		android:summary="twitter"
+		/>
+	<CheckBoxPreference
+		android:key="tw_aigis_hash"
+		android:title="#千年戦争アイギス"
+		android:summary="twitter"
+		/>
+	<CheckBoxPreference
+		android:key="tool_compose"
+		android:title="合成表"
+		/>
+	<CheckBoxPreference
+		android:key="tool_mission"
+		android:title="ミッション"
+		/>
+	<CheckBoxPreference
+		android:key="tw_toretatenee"
+		android:title="お知らせ"
+		android:summary="twitter"
+		/>
+</PreferenceScreen>

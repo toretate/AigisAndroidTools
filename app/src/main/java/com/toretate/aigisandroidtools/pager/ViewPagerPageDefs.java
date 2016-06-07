@@ -3,11 +3,13 @@ package com.toretate.aigisandroidtools.pager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.toretate.aigisandroidtools.R;
+import com.toretate.aigisandroidtools.mission.MissionViewPager;
 import com.toretate.aigisandroidtools.twitter.TwitterPageBuilder;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.Timeline;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 public class ViewPagerPageDefs {
 
-	abstract class ViewPagerPageDef {
+	public static abstract class ViewPagerPageDef {
 		String title;					//!< タイトル
 		int itemId;						//!< アイテムID
 		boolean visible;				//!< 表示状態
@@ -38,18 +40,21 @@ public class ViewPagerPageDefs {
 		abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
 	}
 
-	class CommonViewPagerPageDef extends ViewPagerPageDef {
+	public static class CommonViewPagerPageDef extends ViewPagerPageDef {
 		private int m_layoutId;
-		CommonViewPagerPageDef( String title, int itemId, String key, boolean defVisible, int layoutId ) {
+		public CommonViewPagerPageDef( String title, int itemId, String key, boolean defVisible, int layoutId ) {
 			super( title, itemId, key, defVisible );
 			m_layoutId = layoutId;
 		}
 		View createView(Context context, LayoutInflater inflater, ViewGroup container ) {
-			return m_layoutId != -1 ? inflater.inflate( m_layoutId, container ) : null;
+			View view = m_layoutId != -1 ? inflater.inflate( m_layoutId, container, false ) : null;
+			afterCreateView( view, inflater );
+			return view;
 		}
+		public void afterCreateView( final @Nullable View root, final LayoutInflater inflater ) {}
 	}
 
-	class TwitterUserPagerDef extends ViewPagerPageDef {
+	public class TwitterUserPagerDef extends ViewPagerPageDef {
 		String userName;
 		TwitterUserPagerDef( String title, int itemId, String key, boolean defVisible, String userName ) {
 			super( title, itemId, key, defVisible );
@@ -62,7 +67,7 @@ public class ViewPagerPageDefs {
 		}
 	}
 
-	class TwitterSearchPagerDef extends ViewPagerPageDef {
+	public class TwitterSearchPagerDef extends ViewPagerPageDef {
 		String query;
 		TwitterSearchPagerDef( String title, int itemId, String key, boolean defVisible, String query ) {
 			super( title, itemId, key, defVisible );
@@ -90,11 +95,12 @@ public class ViewPagerPageDefs {
 		SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( context.getApplicationContext() );
 
 		ArrayList<ViewPagerPageDef> pageDefs = new ArrayList<>();
-		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000", 		R.id.tw_aigis1000, 	"tw_aigis1000",		true,	"Aigis1000" ) );
-		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000_A", 		R.id.tw_aigis1000A, 	"tw_aigis1000A",		false,	"Aigis1000_A" ) );
-		pageDefs.add( new TwitterSearchPagerDef(	"#千年戦争アイギス", 	R.id.tw_aigis_hash, 	"tw_aigis_hash",		true, 	"#千年戦争アイギス" ) );
-		pageDefs.add( new CommonViewPagerPageDef(	"合成表", 				R.id.tool_compose,	"tool_compose",		true,	R.layout.compose_fragment ) );
-		pageDefs.add( new TwitterUserPagerDef( 		"作者", 				R.id.tw_toretatenee,	"tw_toretatenee",		false,	"toretatenee" ) );
+		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000", 		R.id.tw_aigis1000, 		"tw_aigis1000",		true,	"Aigis1000" ) );
+		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000_A", 	R.id.tw_aigis1000A, 	"tw_aigis1000A",	false,	"Aigis1000_A" ) );
+		pageDefs.add( new TwitterSearchPagerDef(	"#千年戦争アイギス", 	R.id.tw_aigis_hash, 	"tw_aigis_hash",	true, 	"#千年戦争アイギス" ) );
+		pageDefs.add( new MissionViewPager(			"ミッション",			R.id.tool_mission,		"tool_mission",		true	 ) );
+		pageDefs.add( new CommonViewPagerPageDef(	"合成表", 			R.id.tool_compose,		"tool_compose",		false,	R.layout.compose_fragment ) );
+		pageDefs.add( new TwitterUserPagerDef( 		"作者", 				R.id.tw_toretatenee,	"tw_toretatenee",	false,	"toretatenee" ) );
 		pageDefs.add( new CommonViewPagerPageDef(	"管理", 				R.id.action_settings,	"action_settings",	false,	-1 ) );
 		m_pages = pageDefs;
 
@@ -131,6 +137,7 @@ public class ViewPagerPageDefs {
 	public int getPageCount() { return m_pageVisibles.size(); }
 
 	public View createView(int index,Context context, LayoutInflater inflater, ViewGroup container ) {
+		if( m_pageVisibles.size() <= index ) return null;
 		return m_pageVisibles.get( index ).createView( context, inflater, container );
 	}
 
