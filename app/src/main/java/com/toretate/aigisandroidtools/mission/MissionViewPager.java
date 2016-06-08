@@ -2,11 +2,15 @@ package com.toretate.aigisandroidtools.mission;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.drm.DrmStore;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,7 +31,7 @@ import java.util.Locale;
 import java.util.zip.Inflater;
 
 /**
- * Created by kenji_watatani on 16/06/06.
+ * Created by toretatenee on 16/06/06.
  */
 public class MissionViewPager extends ViewPagerPageDefs.CommonViewPagerPageDef {
 
@@ -67,14 +71,46 @@ public class MissionViewPager extends ViewPagerPageDefs.CommonViewPagerPageDef {
 		loadMissions( missions, inflater, table );
 	}
 
-	void loadMissions( JSONArray missions, LayoutInflater inflater, TableLayout table ) throws JSONException {
+	void loadMissions(JSONArray missions, final LayoutInflater inflater, TableLayout table ) throws JSONException {
 		for( int i= 0; i<missions.length(); i++ ) {
 			inflater.inflate( R.layout.tool_mission_item, table );	// ここで table に追加
 
-			String mission = missions.getString( i );
+			final String mission = missions.getString( i );
 			TableRow tr = (TableRow)table.getChildAt( i );
+
 			TextView tv = (TextView)tr.getChildAt(0);
 			tv.setText( mission );
+
+			ImageButton button;
+			button = (ImageButton)tr.getChildAt(1);	// 編成用
+			button.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				}
+			});
+
+			button = (ImageButton)tr.getChildAt(2);	// ニコ動
+			button.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Uri uri = Uri.parse( "http://sp.nicovideo.jp/search/" +mission );
+					Intent intent = new Intent( Intent.ACTION_VIEW, uri );
+					inflater.getContext().startActivity( intent );
+				}
+			});
+
+			button = (ImageButton)tr.getChildAt(3);	// Youtube
+			button.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent( Intent.ACTION_SEARCH );
+					intent.setPackage( "com.google.android.youtube" );
+					intent.putExtra( "query", mission );
+					intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+					inflater.getContext().startActivity( intent );
+				}
+			});
+
 		}
 	}
 
