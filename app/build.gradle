@@ -14,10 +14,11 @@ apply plugin: 'io.fabric'
 
 repositories {
 	maven { url 'https://maven.fabric.io/public' }
+ 	maven { url 'https://jcenter.bintray.com/com/mopub/mopub-sdk/' }
 }
 
 android {
-	compileSdkVersion 22
+	compileSdkVersion 23
 	buildToolsVersion '23.0.2'
 
 	signingConfigs {
@@ -54,13 +55,13 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 
 	// Twitter Kit
-	compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
+	compile('com.twitter.sdk.android:twitter:1.13.2@aar') {
 		transitive = true
 	}
-	compile 'com.android.support:appcompat-v7:22.2.1'
-	compile 'com.android.support:design:22.2.1'
-	compile 'com.android.support:support-v4:22.2.1'
-    compile('com.mopub:mopub-sdk:4.6.0@aar') {
+	compile 'com.android.support:appcompat-v7:23.4.0'
+	compile 'com.android.support:design:23.4.0'
+	compile 'com.android.support:support-v4:23.4.0'
+    compile('com.mopub:mopub-sdk:4.7.0@aar') {
         transitive = true;
     }
 }
