@@ -1,42 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-		  android:orientation="vertical"
-		  android:layout_width="match_parent"
-		  android:layout_height="48dp"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+	android:layout_width="match_parent"
+	android:layout_height="48dp"
 	>
-	<TextView android:textSize="13sp"
-			  android:layout_height="match_parent"
-			  android:layout_marginLeft="16dp"
-			  android:gravity="center_vertical"
+	<TextView
+		android:id="@+id/title"
+		android:textSize="13sp"
+		android:layout_weight="1"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_marginLeft="16dp"
+		android:gravity="center_vertical"
 		/>
 
 
-	<ImageButton android:src="@drawable/hensei_40_40"
-				 android:scaleType="fitCenter"
-				 android:layout_width="48dp"
-				 android:layout_height="48dp"
-				 android:background="@null"
-				 android:layout_marginRight="8dp"
-				 android:paddingRight="4dp"
-				 android:paddingLeft="4dp"
+	<ImageButton
+		android:id="@+id/hensei"
+		android:src="@drawable/hensei_40_40"
+		android:scaleType="fitCenter"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:background="@null"
+		android:layout_marginRight="8dp"
+		android:paddingRight="4dp"
+		android:paddingLeft="4dp"
 		/>
-	<ImageButton android:src="@drawable/niconico"
-				 android:scaleType="fitCenter"
-				 android:layout_width="48dp"
-				 android:layout_height="48dp"
-				 android:background="@null"
-				 android:layout_marginRight="8dp"
-				 android:paddingRight="4dp"
-				 android:paddingLeft="4dp"
+
+	<ImageButton
+		android:id="@+id/niconico"
+		android:src="@drawable/niconico"
+		android:scaleType="fitCenter"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:background="@null"
+		android:layout_marginRight="8dp"
+		android:paddingRight="4dp"
+		android:paddingLeft="4dp"
 	/>
 
-	<ImageButton android:src="@drawable/youtube"
-				 android:scaleType="fitCenter"
-				 android:layout_width="48dp"
-				 android:layout_height="48dp"
-				 android:background="@null"
-				 android:layout_marginRight="8dp"
-				 android:paddingRight="4dp"
-				 android:paddingLeft="4dp"
+	<ImageButton
+		android:id="@+id/youtube"
+		android:src="@drawable/youtube"
+		android:scaleType="fitCenter"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:background="@null"
+		android:layout_marginRight="8dp"
+		android:paddingRight="4dp"
+		android:paddingLeft="4dp"
 		/>
-</TableRow>
+</LinearLayout>
