@@ -16,6 +16,10 @@
 		android:summary="twitter"
 		/>
 	<CheckBoxPreference
+		android:key="tool_timer"
+		android:title="カリ/スタ管理"
+		/>
+	<CheckBoxPreference
 		android:key="tool_compose"
 		android:title="合成表"
 		/>
