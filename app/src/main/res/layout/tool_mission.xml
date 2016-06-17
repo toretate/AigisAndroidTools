@@ -7,11 +7,11 @@
 	　・編成スクショ表示（追加）ボタン
 	　・ニコ動検索実行ボタン
 -->
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			 android:id="@+id/MissionTable"
-			 android:layout_width="match_parent"
-			 android:layout_height="match_parent"
-			 android:stretchColumns="0"
+<ExpandableListView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/MissionTable"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:stretchColumns="0"
 	>
-
-</TableLayout>
+</ExpandableListView>
