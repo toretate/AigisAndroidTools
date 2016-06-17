@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.toretate.aigisandroidtools.R;
 import com.toretate.aigisandroidtools.mission.MissionViewPager;
+import com.toretate.aigisandroidtools.timer.TimerViewPager;
 import com.toretate.aigisandroidtools.twitter.TwitterPageBuilder;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.Timeline;
@@ -99,6 +100,7 @@ public class ViewPagerPageDefs {
 		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000_A", 	R.id.tw_aigis1000A, 	"tw_aigis1000A",	false,	"Aigis1000_A" ) );
 		pageDefs.add( new TwitterSearchPagerDef(	"#千年戦争アイギス", 	R.id.tw_aigis_hash, 	"tw_aigis_hash",	true, 	"#千年戦争アイギス" ) );
 		pageDefs.add( new MissionViewPager(			"ミッション",			R.id.tool_mission,		"tool_mission",		true	 ) );
+		pageDefs.add( new TimerViewPager(			"カリ/スタ管理",		R.id.tool_timer,		"tool_timer",		false ) );
 		pageDefs.add( new CommonViewPagerPageDef(	"合成表", 			R.id.tool_compose,		"tool_compose",		false,	R.layout.compose_fragment ) );
 		pageDefs.add( new TwitterUserPagerDef( 		"作者", 				R.id.tw_toretatenee,	"tw_toretatenee",	false,	"toretatenee" ) );
 		pageDefs.add( new CommonViewPagerPageDef(	"管理", 				R.id.action_settings,	"action_settings",	false,	-1 ) );
