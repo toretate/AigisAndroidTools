@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:tools="http://schemas.android.com/tools"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:orientation="vertical"
+	>
+	<!-- 王子Lv -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/princeLv"
+			android:textAppearance="?android:attr/textAppearanceMedium" />
+			/>
+		<Button
+			android:id="@+id/princeLvSpinner"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="100"
+			/>
+	</LinearLayout>
+
+	<!-- スタミナ -->
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="スタミナ："
+			/>
+		<Button
+			android:id="@+id/staminaSpinner"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="10/12"
+			/>
+
+		<!-- スタミナ(sub) -->
+		<Button
+			android:id="@+id/staminaSubSettingButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingLeft="4dp"
+			tools:text="次 30"
+			/>
+	</LinearLayout>
+
+
+	<!-- カリスマ -->
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="カリスマ："
+			/>
+		<Button
+			android:id="@+id/charismaSettingButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="100/120"
+			/>
+	</LinearLayout>
+
+	<!-- タイマー設定 -->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="4dp"
+		android:background="@drawable/border"
+		>
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="タイマー設定"
+		/>
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="カリorスタ 満杯の30分前"
+			android:id="@+id/tool_timer_notify_30m"
+			/>
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="カリorスタ 満杯の１時間前"
+			android:id="@+id/tool_timer_notify_1h"
+			/>
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="カリorスタ 満杯の２時間前"
+			android:id="@+id/tool_timer_notify_2h"
+			/>
+	</LinearLayout>
+
+</LinearLayout>
