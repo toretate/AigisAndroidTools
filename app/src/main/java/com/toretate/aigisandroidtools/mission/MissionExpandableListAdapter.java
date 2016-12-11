@@ -30,7 +30,7 @@ public class MissionExpandableListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return getGroup(groupPosition).items.size();
+		return getGroup(groupPosition).getSubmissionCount();
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class MissionExpandableListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public String getChild(int groupPosition, int childPosition) {
-		return getGroup(groupPosition).items.get(childPosition);
+		return getGroup(groupPosition).getSubTitle(childPosition);
 	}
 
 	@Override
