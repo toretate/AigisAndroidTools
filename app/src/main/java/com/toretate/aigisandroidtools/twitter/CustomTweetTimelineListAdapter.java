@@ -57,7 +57,7 @@ public class CustomTweetTimelineListAdapter extends TweetTimelineListAdapter {
 						if( m_tweetView != null && m_tweetView.getParent() != null ) {
 							view.removeView( m_tweetView );
 						}
-						m_tweetView = new CustomTweetView( context, result.data );
+						m_tweetView = new TweetView( context, result.data );
 						m_tweetView.setFocusable( true );
 						m_tweetView.setFocusableInTouchMode( true );
 						m_tweetView.setOnKeyListener(new View.OnKeyListener() {

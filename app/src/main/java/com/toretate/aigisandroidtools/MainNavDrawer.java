@@ -17,11 +17,19 @@ import com.toretate.aigisandroidtools.pager.PagerAdapter;
 import com.toretate.aigisandroidtools.pager.ViewPagerContentFragment;
 import com.toretate.aigisandroidtools.pager.ViewPagerPageDefs;
 import com.toretate.aigisandroidtools.twitter.TwitterSettings;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * ルートとなるNavigationDrawer
  */
 public class MainNavDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, ViewPagerContentFragment.OnFragmentInteractionListener {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "66gsxBA0dccvtroeHnmUJNfhQ";
+    private static final String TWITTER_SECRET = "8tbn8YFHabqNJuQ0QTBetKgmfaJJfGuljIuubq3slRLCej1YYh";
+
 
 	private TwitterSettings m_tw;
 	private MoPubSettings m_moPub;
@@ -34,6 +42,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+		Fabric.with(this, new Twitter(authConfig));
 
 		// Twitter関係
 		m_tw = new TwitterSettings( this );
