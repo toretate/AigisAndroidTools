@@ -42,7 +42,7 @@ public class MissionItemView {
 	}
 
 	public void update() {
-		final String title = m_special.items.get( m_index );
+		final String title = m_special.getSubTitle( m_index );
 		m_title.setText( title );
 
 		ImageButton button;
