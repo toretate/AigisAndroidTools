@@ -59,7 +59,7 @@ public class MissionViewPager extends ViewPagerPageDefs.CommonViewPagerPageDef {
 		List<Mission> missions = new ArrayList<>();
 		for( int i= 0; i<missionArray.length(); i++ ) {
 			Mission special = Mission.loadFromJSON( missionArray.getJSONObject(i) );
-			missions.add( special );
+			if( special != null ) missions.add( special );
 		}
 		return missions;
 	}
