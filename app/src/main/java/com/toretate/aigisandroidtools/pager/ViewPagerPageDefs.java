@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.toretate.aigisandroidtools.R;
 import com.toretate.aigisandroidtools.mission.MissionViewPager;
@@ -55,6 +56,27 @@ public class ViewPagerPageDefs {
 		public void afterCreateView( final @Nullable View root, final LayoutInflater inflater ) {}
 	}
 
+	/** WebViewが張られているPager */
+	public static class WebViewPagerPageDef extends ViewPagerPageDef {
+		private int m_layoutId;
+		private String m_htmlFile;
+		public WebViewPagerPageDef( String title, int itemId, String key, boolean defVisible, int layoutId, String htmlFile ) {
+			super( title, itemId, key, defVisible );
+			m_layoutId = layoutId;
+			m_htmlFile = htmlFile;
+		}
+		View createView(Context context, LayoutInflater inflater, ViewGroup container ) {
+			View view = m_layoutId != -1 ? inflater.inflate( m_layoutId, container, false ) : null;
+			afterCreateView( view, inflater );
+			return view;
+		}
+		public void afterCreateView( final @Nullable View root, final LayoutInflater inflater ) {
+			WebView view = (WebView)root.findViewById( R.id.webviewpager_webview );
+			view.loadUrl("file:///android_asset/compose.html");
+		}
+	}
+
+
 	public class TwitterUserPagerDef extends ViewPagerPageDef {
 		String userName;
 		TwitterUserPagerDef( String title, int itemId, String key, boolean defVisible, String userName ) {
@@ -96,13 +118,13 @@ public class ViewPagerPageDefs {
 		SharedPreferences shared = PreferenceManager.getDefaultSharedPreferences( context.getApplicationContext() );
 
 		ArrayList<ViewPagerPageDef> pageDefs = new ArrayList<>();
-		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000", 		R.id.tw_aigis1000, 		"tw_aigis1000",		true,	"Aigis1000" ) );
-		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000_A", 	R.id.tw_aigis1000A, 	"tw_aigis1000A",	false,	"Aigis1000_A" ) );
-		pageDefs.add( new TwitterSearchPagerDef(	"#千年戦争アイギス", 	R.id.tw_aigis_hash, 	"tw_aigis_hash",	true, 	"#千年戦争アイギス" ) );
-		pageDefs.add( new MissionViewPager(			"ミッション",			R.id.tool_mission,		"tool_mission",		true	 ) );
-		pageDefs.add( new TimerViewPager(			"カリ/スタ管理",		R.id.tool_timer,		"tool_timer",		false ) );
-		pageDefs.add( new CommonViewPagerPageDef(	"合成表", 			R.id.tool_compose,		"tool_compose",		false,	R.layout.compose_fragment ) );
-		pageDefs.add( new TwitterUserPagerDef( 		"作者", 				R.id.tw_toretatenee,	"tw_toretatenee",	false,	"toretatenee" ) );
+		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000", 		R.id.tw_aigis1000, 	"tw_aigis1000",		true,	"Aigis1000" ) );
+		pageDefs.add( new TwitterUserPagerDef( 		"@aigis1000_A", 		R.id.tw_aigis1000A, 	"tw_aigis1000A",		false,	"Aigis1000_A" ) );
+		pageDefs.add( new TwitterSearchPagerDef(	"#千年戦争アイギス", 	R.id.tw_aigis_hash, 	"tw_aigis_hash",		true, 	"#千年戦争アイギス" ) );
+		pageDefs.add( new MissionViewPager(			"ミッション",			R.id.tool_mission,	"tool_mission",		true	 ) );
+		pageDefs.add( new TimerViewPager(			"カリ/スタ管理",		R.id.tool_timer,		"tool_timer",			false ) );
+		pageDefs.add( new WebViewPagerPageDef(		"合成表", 				R.id.tool_compose,	"tool_compose",		false,	R.layout.compose_fragment, "compose.html" ) );
+		pageDefs.add( new TwitterUserPagerDef( 		"作者", 				R.id.tw_toretatenee,	"tw_toretatenee",		false,	"toretatenee" ) );
 		pageDefs.add( new CommonViewPagerPageDef(	"管理", 				R.id.action_settings,	"action_settings",	false,	-1 ) );
 		m_pages = pageDefs;
 
