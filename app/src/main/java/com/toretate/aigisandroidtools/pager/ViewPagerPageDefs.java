@@ -72,6 +72,8 @@ public class ViewPagerPageDefs {
 		}
 		public void afterCreateView( final @Nullable View root, final LayoutInflater inflater ) {
 			WebView view = (WebView)root.findViewById( R.id.webviewpager_webview );
+			view.getSettings().setDomStorageEnabled(true);
+			view.getSettings().setJavaScriptEnabled(true);
 			view.loadUrl("file:///android_asset/compose.html");
 		}
 	}

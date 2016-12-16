@@ -1,30 +1,131 @@
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<title>合成表</title>
+
+    	<!-- BootstrapのCSS読み込み -->
+    	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    	<style>
+    		td { text-align: right; }
+    		th { text-align: center; }
+    	</style>
+	</head>
 <body>
 
-<h5>金</h5>
-<table border="1" cellspacing="0" cellpadding="0" bordercolor="black">
-	<tr><th>Lv</th>	<th>次</th>		<th>Lv</th>	<th>次</th>		<th>Lv</th>	<th>次</th>	</tr>
-	<tr><td>50</td>	<td>0</td>		<td>60</td>	<td>0</td>		<td>80</td>	<td>0</td>		</tr>
-	<tr><td>40</td>	<td>69</td>		<td>54</td>	<td>950</td>	<td>76</td>	<td>729</td>	</tr>
-	<tr><td>17</td>	<td>105</td>	<td>46</td>	<td>92</td>		<td>72</td>	<td>62</td>		</tr>
-	<tr><td></td>	<td></td>		<td>35</td>	<td>424</td>	<td>68</td>	<td>64</td>		</tr>
-	<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>64</td>	<td>933</td>	</tr>
-	<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>59</td>	<td>1000</td>	</tr>
-	<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>53</td>	<td>672</td>	</tr>
-	<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>45</td>	<td>181</td>	</tr>
-	<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>32</td>	<td>147</td>	</tr>
-</table>
+<!--
+本来は白鎧(8000)がわかってるので、最終Expさえわかれば計算でどうにかなるはず
 
-<h5>銀</h5>
-<table border="1" cellspacing="0" cellpadding="0" bordercolor="black">
-	<tr><th>Lv</th><th>次Lv</th><th>Lv</th><th>次Lv</th></tr>
-	<tr><td>50</td><td>0</td><td>55</td><td>0</td></tr>
-	<tr><td>40</td><td>678</td><td>47</td><td>691</td></tr>
-	<tr><td>1</td><td>38</td><td>34</td><td>339</td></tr>
-</table>
+計算式
+
+${目標Exp}
+
+■Lv毎の計算値式ってあるのか？
+
+
+銀が基本値。他のレアリティはこれの x倍 になってる)
+
+銀					黒
+1			38				48
+2	38		40		48		50
+3	78		42		98		52
+4	120		42		150		53
+5	162		44		203		55
+6	206		47		258		59
+7	253		47		317		58
+8	300		49		375		62
+9	349		51		437		63
+
+10	400		102		500		127
+11	502		105		627		132
+12	607		111		759		138
+13	718		114		897		143
+14	832		117		1040	147
+15	949		123		1187	153
+16	1072	126		1340	157
+17	1198	129		1497	162
+18	1327	135		1659	168
+19	1462	138		1827	173
+
+20	1600	204		2000	255
+
+
+
+-->
+
+<div class="panel-groiup" id="accordion">
+	<div class="panel-default">
+		<div class="panel-heading" role="tab">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" href="#collapseGold"><span class="glyphicon glyphicon-triangle-right" />金</a>
+			</h4>
+		</div>
+		<div id="collapseGold" class="panel-collapse collapse" role="tabpanel">
+			<div class="panel-body">
+				<table class="table table-condensed table-striped table-bordered">
+					<thead>
+					<tr><th colspan="2">CC前</th>	<th colspan="2">CC</th>		<th colspan="2">覚醒</th>	</tr>
+					<tr><th>Lv</th>	<th>次</th>		<th>Lv</th>	<th>次</th>		<th>Lv</th>	<th>次</th>		</tr>
+					</thead>
+					<tbody>
+					<tr><td>50</td>	<td>0</td>		<td>60</td>	<td>0</td>		<td>80</td>	<td>0</td>		</tr>
+					<tr><td>40</td>	<td>69</td>		<td>54</td>	<td>950</td>	<td>76</td>	<td>729</td>	</tr>
+					<tr><td>17</td>	<td>105</td>	<td>46</td>	<td>92</td>		<td>72</td>	<td>62</td>		</tr>
+					<tr><td></td>	<td></td>		<td>35</td>	<td>424</td>	<td>68</td>	<td>64</td>		</tr>
+					<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>64</td>	<td>933</td>	</tr>
+					<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>59</td>	<td>1000</td>	</tr>
+					<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>53</td>	<td>672</td>	</tr>
+					<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>45</td>	<td>181</td>	</tr>
+					<tr><td></td>	<td></td>		<td></td>	<td></td>		<td>32</td>	<td>147</td>	</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" href="#collapseSilver"><span class="glyphicon glyphicon-triangle-right" />銀</a>
+			</h4>
+		</div>
+		<div id="collapseSilver" class="panel-collapse collapse" role="tabpanel">
+			<div class="panel-body">
+				<table class="table table-condensed table-striped table-bordered">
+					<thead>
+					<tr><th colspan="2">CC前</th>	<th colspan="2">CC</th>	</tr>
+					<tr><th>Lv</th>	<th>次Lv</th>	<th>Lv</th><th>次Lv</th>	</tr>
+					</thead>
+					<tbody>
+					<tr><td>50</td>	<td>0</td>		<td>55</td>	<td>0</td>	</tr>
+					<tr><td>40</td>	<td>678</td>	<td>47</td>	<td>691</td></tr>
+					<tr><td>1</td>	<td>38</td>		<td>34</td>	<td>339</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- jQuery読み込み -->
+<script src="./jquery-1.12.4.min.js"></script>
+<!-- BootstrapのJS読み込み -->
+<script src="bootstrap/js/bootstrap.js"></script>
+
+<script>
+$(function(){
+	$('.collapse').on('show.bs.collapse', function() {
+		var v1 = $(this).parent().find("span");
+		v1.attr('class', 'glyphicon glyphicon-triangle-bottom');
+	});
+	$('.collapse').on('hide.bs.collapse', function() {
+		var v1 = $(this).parent().find("span");
+		v1.attr('class', 'glyphicon glyphicon-triangle-right');
+	});
+});
+</script>
 
 
 </body>
