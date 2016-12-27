@@ -25,6 +25,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
 /**
  * Created by toretate on 2016/12/27.
@@ -41,7 +47,6 @@ public class DBViewPagerPage extends CommonViewPagerPage {
 
     @Override
     protected View createView(Context context, LayoutInflater inflater, ViewGroup container) {
-        View result = super.createView(context, inflater, container);
 
         m_helper = new AigisDBHelper( context );
         try {
@@ -53,6 +58,7 @@ public class DBViewPagerPage extends CommonViewPagerPage {
             throw e;
         }
 
+        View result = super.createView(context, inflater, container);
         return result;
     }
 
@@ -66,28 +72,32 @@ public class DBViewPagerPage extends CommonViewPagerPage {
     protected void afterCreateView(@Nullable View root, LayoutInflater inflater) {
         super.afterCreateView(root, inflater);
 
-        TableLayout table = (TableLayout)root.findViewById(R.id.dbTable);
+        TableView<String[]> table = (TableView<String[]>)root.findViewById(R.id.dbTable);
         Context ctx = root.getContext();
 
         Cursor c = findData();
         c.moveToFirst();
+
+        final int colCount = c.getColumnCount();
+        table.setColumnCount( colCount );
+
+        List<String[]> data = new ArrayList<>();
+
         final int total = c.getCount();
         for( int i=0; i<total; i++ ) {
-            TableRow row = new TableRow( ctx );
 
-            TextView c1 = new TextView( ctx );
-            c1.setText( c.getString(0) );
-            row.addView( c1 );
-
-            TextView c2 = new TextView( ctx );
-            c2.setText( c.getString(1) );
-            row.addView( c2 );
-
-            table.addView( row );
+            String[] values = new String[ colCount ];
+            for( int colIndex = 0; colIndex < colCount; colIndex++ ) {
+                String value = c.getString( colIndex );
+                values[ colIndex ] = value;
+            }
+            data.add( values );
 
             c.moveToNext();
         }
 
+        table.setDataAdapter( new SimpleTableDataAdapter( ctx, data.toArray( new String[][]{} ) ));
+        table.setHeaderAdapter( new SimpleTableHeaderAdapter( ctx, Columns ) );
     }
 
     private String[] Columns = {"RowIndex", "Message"};
