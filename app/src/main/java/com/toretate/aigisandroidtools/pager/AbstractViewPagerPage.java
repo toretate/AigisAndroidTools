@@ -42,4 +42,6 @@ public abstract class AbstractViewPagerPage {
     }
 
     protected abstract View createView(Context context, LayoutInflater inflater, ViewGroup container);
+
+    protected void destroyView() {}
 }

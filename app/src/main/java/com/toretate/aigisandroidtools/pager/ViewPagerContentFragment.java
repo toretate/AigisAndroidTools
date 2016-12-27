@@ -56,6 +56,13 @@ public class ViewPagerContentFragment extends Fragment {
 	}
 
 	@Override
+	public void onDestroyView() {
+		ViewPagerPageDefs pageDefs = ViewPagerPageDefs.getInstance(getActivity());
+		pageDefs.destroyView( m_position );
+		super.onDestroyView();
+	}
+
+	@Override
 	public void onAttach( Context context ) {
 		super.onAttach(context);
 		if (context instanceof OnFragmentInteractionListener) {
