@@ -2,6 +2,7 @@ package com.toretate.aigisandroidtools.pager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.XmlResourceParser;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,9 @@ import com.toretate.aigisandroidtools.timer.TimerViewPager;
 import com.toretate.aigisandroidtools.twitter.TwitterSearchPagerPage;
 import com.toretate.aigisandroidtools.twitter.TwitterUserPagerPage;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +44,77 @@ public class ViewPagerPageDefs {
 
 	private ViewPagerPageDefs( @NonNull  final Context context ) {
 		ArrayList<AbstractViewPagerPage> pageDefs = new ArrayList<>();
-		pageDefs.add( new TwitterUserPagerPage( 	"@aigis1000", 		R.id.tw_aigis1000, 	"tw_aigis1000",		true,	"Aigis1000" ) );
-		pageDefs.add( new TwitterUserPagerPage( 	"@aigis1000_A", 		R.id.tw_aigis1000A, 	"tw_aigis1000A",		false,	"Aigis1000_A" ) );
-		pageDefs.add( new TwitterSearchPagerPage(	"#千年戦争アイギス", 	R.id.tw_aigis_hash, 	"tw_aigis_hash",		true, 	"#千年戦争アイギス" ) );
-		pageDefs.add( new MissionViewPager(			"ミッション",			R.id.tool_mission,	"tool_mission",		true	 ) );
-		pageDefs.add( new TimerViewPager(			"カリ/スタ管理",		R.id.tool_timer,		"tool_timer",			false ) );
-		pageDefs.add( new WebViewPagerPage(			"合成表", 				R.id.tool_compose,	"tool_compose",		false,	R.layout.compose_fragment, "compose.html" ) );
-		pageDefs.add( new TwitterUserPagerPage( 	"作者", 				R.id.tw_toretatenee,	"tw_toretatenee",		false,	"toretatenee" ) );
-		pageDefs.add( new CommonViewPagerPage(		"管理", 				R.id.action_settings,	"action_settings",	false,	-1 ) );
+
+		// /pager-defs/* から @key, @title, @summary を取得してチェックボックス項目を作成
+		XmlResourceParser parser = context.getResources().getXml( R.xml.settings );
+		try {
+			int event;
+			boolean isPagerDefsChildren = false;
+			while ((event = parser.next()) != XmlResourceParser.END_DOCUMENT) {
+				switch( event ) {
+					case XmlResourceParser.START_DOCUMENT:
+					case XmlResourceParser.END_DOCUMENT:
+						break;
+					case XmlResourceParser.START_TAG: {
+						String tagName = parser.getName();
+
+						String title = parser.getAttributeValue( null, "title" );
+						int itemID = parser.getAttributeResourceValue( null, "itemID", -1 );
+						String key = parser.getAttributeValue( null, "key" );
+						boolean defVisible = parser.getAttributeBooleanValue( null, "defVisible", true );
+
+						if( tagName.equals("pager-defs") ) {
+							isPagerDefsChildren = true;
+						} else if( isPagerDefsChildren ) {
+							switch( tagName ) {
+								case "twitter":
+									if( isPagerDefsChildren ) {
+										String user = parser.getAttributeValue( null, "user" );
+										String search = parser.getAttributeValue( null, "search" );
+										if( user != null ) {
+											pageDefs.add( new TwitterUserPagerPage( title, itemID, key, defVisible,	user ) );
+										} else {
+											pageDefs.add( new TwitterSearchPagerPage( title, itemID, key, defVisible, search ) );
+										}
+									}
+									break;
+								case "mission":
+									pageDefs.add( new MissionViewPager(	 title, itemID,	key, defVisible ) );
+									break;
+								case "timer":
+									pageDefs.add( new TimerViewPager( title, itemID, key, defVisible ) );
+									break;
+								case "webview":
+									int fragment = parser.getAttributeResourceValue( null, "fragment", -1 );
+									String html = parser.getAttributeValue( null, "html" );
+									pageDefs.add( new WebViewPagerPage( title, itemID, key, defVisible,	fragment, html ) );
+									break;
+								case "common":
+									pageDefs.add( new CommonViewPagerPage( title, itemID, key, defVisible,	-1 ) );
+									break;
+							}
+						}
+						break;
+					}
+					case XmlResourceParser.END_TAG: {
+						String tagName = parser.getName();
+						switch( tagName ) {
+							case "pager-defs":
+								isPagerDefsChildren = false;
+								break;
+							default:
+								break;
+						}
+						break;
+					}
+					case XmlResourceParser.TEXT:
+						break;
+				}
+			}
+		} catch( XmlPullParserException e ) {
+		} catch( IOException e ) {
+		}
+
 		m_pages = pageDefs;
 
 		updateVisibility( context );
