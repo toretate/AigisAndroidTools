@@ -12,8 +12,7 @@ public class TwitterDefImpl implements TwitterDefInterface {
 	private static final String TWITTER_SECRET = "8tbn8YFHabqNJuQ0QTBetKgmfaJJfGuljIuubq3slRLCej1YYh";
 
 	public TwitterAuthConfig createTwitterAuthConfig() {
-		TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-		return authConfig;
+		return new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
 	}
 
 }

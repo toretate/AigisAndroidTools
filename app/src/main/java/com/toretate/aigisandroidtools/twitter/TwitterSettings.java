@@ -11,9 +11,10 @@ import io.fabric.sdk.android.Fabric;
  * Created by toretate on 2016/01/16.
  */
 public class TwitterSettings {
-	public TwitterSettings( final Activity activity ) {
+	public static void init( final Activity activity ) {
 		TwitterDefInterface twitterDef = new TwitterDefImpl();
 		TwitterAuthConfig authConfig = twitterDef.createTwitterAuthConfig();
 		Fabric.with( activity, new Twitter(authConfig));
 	}
+
 }

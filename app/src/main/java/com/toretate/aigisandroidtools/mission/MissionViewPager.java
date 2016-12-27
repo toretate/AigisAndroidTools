@@ -32,7 +32,7 @@ public class MissionViewPager extends CommonViewPagerPage {
 	}
 
 	@Override
-	public void afterCreateView(final @Nullable View root, final LayoutInflater inflater ) {
+	protected void afterCreateView(final @Nullable View root, final LayoutInflater inflater ) {
 		super.afterCreateView(root, inflater);
 		if( root == null ) return;
 
