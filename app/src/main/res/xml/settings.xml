@@ -25,4 +25,7 @@
 
     <!-- 管理 -->
     <common title="管理" itemID="@id/action_settings" key="action_settings" defVisible="false" />
+
+    <!-- データ表示 -->
+    <common title="データ" itemID="@id/db_view" defVisible="false" layout="@layout/db_view" />
 </pager-defs>

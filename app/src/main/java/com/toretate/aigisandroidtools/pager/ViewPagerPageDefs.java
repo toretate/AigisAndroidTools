@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.toretate.aigisandroidtools.R;
+import com.toretate.aigisandroidtools.dbview.DBViewPagerPage;
 import com.toretate.aigisandroidtools.mission.MissionViewPager;
 import com.toretate.aigisandroidtools.timer.TimerViewPager;
 import com.toretate.aigisandroidtools.twitter.TwitterSearchPagerPage;
@@ -84,14 +85,22 @@ public class ViewPagerPageDefs {
 								case "timer":
 									pageDefs.add( new TimerViewPager( title, itemID, key, defVisible ) );
 									break;
-								case "webview":
+								case "webview": {
 									int fragment = parser.getAttributeResourceValue( null, "fragment", -1 );
 									String html = parser.getAttributeValue( null, "html" );
 									pageDefs.add( new WebViewPagerPage( title, itemID, key, defVisible,	fragment, html ) );
 									break;
-								case "common":
-									pageDefs.add( new CommonViewPagerPage( title, itemID, key, defVisible,	-1 ) );
+								}
+								case "db": {
+									int layout = parser.getAttributeResourceValue( null, "layout", -1 );
+									pageDefs.add( new DBViewPagerPage( title, itemID, key, defVisible,	layout ) );
 									break;
+								}
+								case "common": {
+									int layout = parser.getAttributeResourceValue( null, "layout", -1 );
+									pageDefs.add( new CommonViewPagerPage( title, itemID, key, defVisible,	layout ) );
+									break;
+								}
 							}
 						}
 						break;
@@ -165,6 +174,12 @@ public class ViewPagerPageDefs {
 		View view = null;
 		if( viewPager != null ) view = viewPager.createView( context, inflater, container );
 		return view;
+	}
+
+	public void destroyView( final int index ) {
+		if( m_pageVisibles.size() <= index ) return;
+		final AbstractViewPagerPage viewPager = m_pageVisibles.get( index );
+		if( viewPager != null ) viewPager.destroyView();
 	}
 
 	/** 指定したIDが「設定」のものかどうか */
