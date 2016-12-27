@@ -7,4 +7,7 @@
 	<string name="navigation_drawer_close">Close navigation drawer</string>
 
 	<string name="princeLv">王子Lv：</string>
+
+	<!-- 設定画面 -->
+	<string name="settings_title">設定</string>
 </resources>

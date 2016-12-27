@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<CheckBoxPreference
-		android:key="tw_aigis1000"
-		android:title="\@aigis1000"
-		android:summary="twitter"
-		/>
-	<CheckBoxPreference
-		android:key="tw_aigis1000A"
-		android:title="\@aigis1000A"
-		android:summary="twitter"
-		/>
-	<CheckBoxPreference
-		android:key="tw_aigis_hash"
-		android:title="#千年戦争アイギス"
-		android:summary="twitter"
-		/>
-	<CheckBoxPreference
-		android:key="tool_timer"
-		android:title="カリ/スタ管理"
-		/>
-	<CheckBoxPreference
-		android:key="tool_compose"
-		android:title="合成表"
-		/>
-	<CheckBoxPreference
-		android:key="tool_mission"
-		android:title="ミッション"
-		/>
-	<CheckBoxPreference
-		android:key="tw_toretatenee"
-		android:title="お知らせ"
-		android:summary="twitter"
-		/>
-</PreferenceScreen>
+
+<pager-defs>
+
+    <!-- twitter(@aigis1000) -->
+    <twitter title="aigis1000" itemID="@id/tw_aigis1000"   key="tw_aigis1000"      defVisible="true"   user="Aigis1000" />
+
+    <!-- twitter(@aigis1000A) -->
+    <twitter title="aigis1000_A" itemID="@id/tw_aigis1000A"   key="tw_aigis1000A"     defVisible="true" user="Aigis1000_A" />
+
+    <!-- twitter(#千年戦争アイギス) -->
+    <twitter title="'#'千年戦争アイギス" itemID="@id/tw_aigis_hash" key="tw_aigis_hash" defVisible="true" search="'#'千年戦争アイギス" />
+
+    <!-- mission  -->
+    <mission title="ミッション" itemID="@id/tool_mission" key="tool_mission" defVisible="true" />
+
+    <!-- タイマー  -->
+    <timer title="カリ/スタ管理" itemID="@id/tool_timer" key="tool_timer" defVisible="false" />
+
+    <!-- 合成表  -->
+    <webview title="合成表" itemID="@id/tool_compose" key="tool_compose" defVisible="false" fragment="@layout/compose_fragment" html="compose.html" />
+
+    <!-- twitter(@aigis1000A) -->
+    <twitter title="作者" itemID="@id/tw_toretatenee" key="tw_toretatenee" defVisible="false" user="toretatenee" />
+
+    <!-- 管理 -->
+    <common title="管理" itemID="@id/action_settings" key="action_settings" defVisible="false" />
+</pager-defs>

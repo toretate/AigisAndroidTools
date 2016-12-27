@@ -3,6 +3,7 @@ package com.toretate.aigisandroidtools;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -134,7 +135,7 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		super.onActivityResult(requestCode, resultCode, data);
 		switch( requestCode ) {
 		case CALL_SETTINGS_ACTIVITY:
-			ViewPagerPageDefs.getInstance( this ).update( this );
+			ViewPagerPageDefs.getInstance( this ).updateVisibility( this );
 			m_pager.getAdapter().notifyDataSetChanged();
 			break;
 		}
@@ -144,8 +145,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
 		// Handle navigation view item clicks here.
-		int itemIndex = ViewPagerPageDefs.getInstance( this ).findItemIndex( item.getItemId() );
-		if( itemIndex == -1 ) {
+		Integer itemIndex = ViewPagerPageDefs.getInstance( this ).findItemIndex( item.getItemId() );
+		if( itemIndex == null ) {
 			if( ViewPagerPageDefs.isSettings( item.getItemId() ) ) {
 				// 設定アクティビティに飛ばす
 				Intent intent = new Intent( this, SettingsActivity.class );
