@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Web SQL Database Sample</title>
+	<style>
+	#message { margin:1em; width:500px; border:1px solid gray; padding:1em; }
+	</style>
+	<!-- jQuery読み込み -->
+	<script src="./jquery-1.12.4.min.js"></script>
+
+	<script>
+	function print(msg) {
+	    document.getElementById("message").innerHTML += msg + "<br>";
+	}
+
+	$(function(){
+		$('#btn').click(function(e) {
+
+		    function processQuery(db, i, queries, dbname) {
+		    	if( i < queries.length -1 ) {
+		    		if( i % 100 == 0 ) {
+						print(i +' of '+queries.length);
+		    		}
+					if(!queries[i+1].match(/(INSERT|CREATE|DROP|PRAGMA|BEGIN|COMMIT)/)) {
+						queries[i+1] = queries[i]+ ';\n' + queries[i+1];
+						return processQuery(db, i+1, queries, dbname);
+					}
+					db.transaction(
+						function (query){ 
+							query.executeSql(queries[i]+';', [], function(tx, result) {
+								processQuery(db, i +1, queries,dbname);  
+				        	});
+				    	}, function(err) { 
+				    		print("Query error in ", queries[i], err.message);                          
+				    		processQuery(db, i +1, queries, dbname);   
+				    	});
+		    	} else {
+		    		console.log( "Done importing!");
+		    	}
+		    }
+
+
+		    $.get("./aigis.sql", function(response) {
+		     	print("got db dump!");
+		    	var db = openDatabase('aigis', '1.0', 'aigisdb', 1000000);
+		    	processQuery( db, 2, response.split(';'), 'aigisdb');
+		    });
+		});
+
+		$('#check').click(function(e) {
+			if(('localStorage' in window) && (window.localStorage != null ) ) {
+				print( "Local Storage OK");
+			}
+		}):
+	});
+
+	// function test() {
+	//     print("FUNCSTION START");
+
+
+	            /*
+	    var db = openDatabase("aigis.db", "", "Test Database", 204800);
+	    db.transaction(
+	        function(tr) {
+	            print("TRANSACTION START");
+	            print("CALLBACK START");
+	            tr.executeSql("DROP TABLE IF EXISTS test", [],
+	                function() { print("DROP TABLE SUCCESS"); },
+	                function() { print("DROP TABLE ERROR"); }
+	            );
+	            tr.executeSql("CREATE TABLE test ( id, name )", [],
+	                function() { print("CREATE TABLE SUCCESS"); },
+	                function() { print("CREATE TABLE ERROR"); }
+	            );
+	            tr.executeSql("INSERT INTO test VALUES ( ?, ? )", [ '1', 'YAMADA' ],
+	                function() { print("INSERT DATA YAMADA SUCCESS"); },
+	                function() { print("INSERT DATA YAMADA ERROR"); }
+	            );
+	            tr.executeSql("INSERT INTO test VALUES ( ?, ? )", [ '2', 'SUZUKI' ],
+	                function() { print("INSERT DATA SUZUKI SUCCESS"); },
+	                function() { print("INSERT DATA SUZUKI ERROR"); }
+	            );
+	            tr.executeSql("SELECT * FROM CardDataTable", [],
+	                function(rt, rs) {
+	                    print("SELECT: SUCCESS");
+	                    for (var i = 0; i < rs.rows.length; i++) {
+	                        var row = rs.rows.item(i);
+	                        print(row.id + " / " + row.name);
+	                    }
+	                },
+	                function() { print("SELECT: ERROR"); }
+	            );
+	            print("CALLBACK END");
+	        },
+	        function(err) { print("TRANSACTION ERROR"); },
+	        function(   ) { print("TRANSACTION SUCCESS"); }
+	    );
+	    print("FUNCSTION END");
+	            */
+	// }
+	</script>
+</head>
+<body>
+<button id="btn">IMPORT</button>
+<button id="btn2">SELECT</button>
+<div id="message"></div>
+
+</body>
+</html>

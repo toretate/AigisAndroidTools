@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.toretate.aigisandroidtools.R;
-import com.toretate.aigisandroidtools.pager.ViewPagerPageDefs;
+import com.toretate.aigisandroidtools.pager.CommonViewPagerPage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by toretatenee on 16/06/06.
  */
-public class MissionViewPager extends ViewPagerPageDefs.CommonViewPagerPageDef {
+public class MissionViewPager extends CommonViewPagerPage {
 
 	private List<Mission> m_mission;
 
