@@ -31,8 +31,6 @@ public class SettingsActivity extends AppCompatActivity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			this.setPreferenceScreen( createList() );
-//
-//			addPreferencesFromResource( R.xml.settings );
 		}
 
 		private Preference createCheckboxPref(
