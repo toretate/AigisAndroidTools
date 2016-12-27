@@ -1,6 +1,6 @@
 package com.toretate.aigisandroidtools.pager;
 
-import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -52,19 +52,11 @@ public class ViewPagerContentFragment extends Fragment {
 		// Inflate the layout for this fragment
 
 		ViewPagerPageDefs pageDefs = ViewPagerPageDefs.getInstance(getActivity());
-		View view = pageDefs.createView( m_position, getActivity(), inflater, container );
-		return view;
+		return pageDefs.createView( m_position, getActivity(), inflater, container );
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
-//	public void onButtonPressed(Uri uri) {
-//		if (mListener != null) {
-//			mListener.onFragmentInteraction(uri);
-//		}
-//	}
-
 	@Override
-	public void onAttach(Activity context) {
+	public void onAttach( Context context ) {
 		super.onAttach(context);
 		if (context instanceof OnFragmentInteractionListener) {
 			mListener = (OnFragmentInteractionListener) context;
