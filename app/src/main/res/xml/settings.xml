@@ -3,13 +3,13 @@
 <pager-defs>
 
     <!-- twitter(@aigis1000) -->
-    <twitter title="aigis1000" itemID="@id/tw_aigis1000"   key="tw_aigis1000"      defVisible="true"   user="Aigis1000" />
+    <twitter title="aigis1000" summary="twitter" itemID="@id/tw_aigis1000"   key="tw_aigis1000"      defVisible="true"   user="Aigis1000" />
 
     <!-- twitter(@aigis1000A) -->
-    <twitter title="aigis1000_A" itemID="@id/tw_aigis1000A"   key="tw_aigis1000A"     defVisible="true" user="Aigis1000_A" />
+    <twitter title="aigis1000_A" summary="twitter" itemID="@id/tw_aigis1000A"   key="tw_aigis1000A"     defVisible="true" user="Aigis1000_A" />
 
     <!-- twitter(#千年戦争アイギス) -->
-    <twitter title="'#'千年戦争アイギス" itemID="@id/tw_aigis_hash" key="tw_aigis_hash" defVisible="true" search="'#'千年戦争アイギス" />
+    <twitter title="'#'千年戦争アイギス" summary="twitter" itemID="@id/tw_aigis_hash" key="tw_aigis_hash" defVisible="true" search="'#'千年戦争アイギス" />
 
     <!-- mission  -->
     <mission title="ミッション" itemID="@id/tool_mission" key="tool_mission" defVisible="true" />
@@ -21,7 +21,7 @@
     <webview title="合成表" itemID="@id/tool_compose" key="tool_compose" defVisible="false" fragment="@layout/compose_fragment" html="compose.html" />
 
     <!-- twitter(@aigis1000A) -->
-    <twitter title="作者" itemID="@id/tw_toretatenee" key="tw_toretatenee" defVisible="false" user="toretatenee" />
+    <twitter title="作者" summary="twitter" itemID="@id/tw_toretatenee" key="tw_toretatenee" defVisible="false" user="toretatenee" />
 
     <!-- 管理 -->
     <common title="管理" itemID="@id/action_settings" key="action_settings" defVisible="false" />

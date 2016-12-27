@@ -32,11 +32,13 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
     private static final String TWITTER_SECRET = "8tbn8YFHabqNJuQ0QTBetKgmfaJJfGuljIuubq3slRLCej1YYh";
 
 
-	private TwitterSettings m_tw;
 	private MoPubSettings m_moPub;
 	private ViewPager m_pager;
-	private static Toolbar m_toolbar;
-	public static void setTitle( String title ) { if( m_toolbar != null ) m_toolbar.setTitle( title ); }
+
+	public void setTitle( String title ) {
+		Toolbar toolbar = (Toolbar)this.findViewById( R.id.toolbar );
+		if( toolbar != null ) toolbar.setTitle( title );
+	}
 
 	private static final int CALL_SETTINGS_ACTIVITY = 100;
 
@@ -47,11 +49,11 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		Fabric.with(this, new Twitter(authConfig));
 
 		// Twitter関係
-		m_tw = new TwitterSettings( this );
+		TwitterSettings.init( this );
 
 		setContentView(R.layout.activity_main_nav_drawer);
-		m_toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar( m_toolbar );
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar( toolbar );
 
 		// MoPUB
 		m_moPub = new MoPubSettings( this );
@@ -68,8 +70,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		*/
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, m_toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
-		drawer.setDrawerListener(toggle);
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
+		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 
 		// NavigationDrawer の選択リスナを張っておく
@@ -169,7 +171,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 
 	@Override
 	public void onPageSelected( final int position) {
-		m_toolbar.setTitle( ViewPagerPageDefs.getInstance( this ).getTitle( position ) );
+		Toolbar toolbar = (Toolbar)this.findViewById( R.id.toolbar );
+		if( toolbar != null ) toolbar.setTitle( ViewPagerPageDefs.getInstance( this ).getTitle( position ) );
 	}
 
 	@Override

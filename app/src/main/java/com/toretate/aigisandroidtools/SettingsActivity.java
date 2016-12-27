@@ -1,10 +1,8 @@
 package com.toretate.aigisandroidtools;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
-import android.media.audiofx.BassBoost;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -13,15 +11,14 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.WindowManager;
-import android.widget.CheckBox;
 
-import java.io.BufferedReader;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 
 /**
  * 設定画面
@@ -50,6 +47,12 @@ public class SettingsActivity extends AppCompatActivity {
 			return pref;
 		}
 
+		private Preference createCheckboxPref( final @NonNull XmlPullParser parser) {
+			String key = parser.getAttributeValue( null, "key" );
+			String title = parser.getAttributeValue( null, "title" );
+			String summary = parser.getAttributeValue( null, "summary" );
+			return createCheckboxPref( key, title, summary );
+		}
 
 		private PreferenceScreen createList() {
 			final Context c = getActivity();
@@ -58,31 +61,49 @@ public class SettingsActivity extends AppCompatActivity {
 			PreferenceCategory category = new PreferenceCategory(c);
 			root.addPreference( category );
 
-			CheckBoxPreference pref;
-
-			// twitter(@aigis1000)
-			category.addPreference( createCheckboxPref("tw_aigis1000", "@aigis1000", "twitter") );
-
-			// twitter(@aigis1000A)
-			category.addPreference( createCheckboxPref("tw_aigis1000A", "@aigis1000A", "twitter") );
-
-			// twitter(#千年戦争アイギス)
-			category.addPreference( createCheckboxPref("tw_aigis_hash", "#千年戦争アイギス", "twitter") );
-
-			// タイマー
-			category.addPreference( createCheckboxPref("tool_timer", "カリ/スタ管理", null) );
-
-			// 合成表
-			category.addPreference( createCheckboxPref("tool_compose", "合成表", null) );
-
-			// ミッション表
-			category.addPreference( createCheckboxPref("tool_mission", "ミッション", null) );
-
-			// twitter(@tw_toretatenee)
-			category.addPreference( createCheckboxPref("tw_toretatenee", "お知らせ", "twitter") );
+			// /pager-defs/* から @key, @title, @summary を取得してチェックボックス項目を作成
+			XmlResourceParser parser = c.getResources().getXml( R.xml.settings );
+			try {
+				int event;
+				boolean isPagerDefsChildren = false;
+				while ((event = parser.next()) != XmlResourceParser.END_DOCUMENT) {
+					switch( event ) {
+						case XmlResourceParser.START_DOCUMENT:
+							break;
+						case XmlResourceParser.START_TAG: {
+							String tagName = parser.getName();
+							switch( tagName ) {
+								case "pager-defs":
+									isPagerDefsChildren = true;
+									break;
+								default:
+									if( isPagerDefsChildren ) category.addPreference( createCheckboxPref( parser ) );
+									break;
+							}
+							break;
+						}
+						case XmlResourceParser.END_TAG: {
+							String tagName = parser.getName();
+							switch( tagName ) {
+								case "pager-defs":
+									isPagerDefsChildren = false;
+									break;
+								default:
+									break;
+							}
+							break;
+						}
+						case XmlResourceParser.TEXT:
+							break;
+					}
+				}
+			} catch( XmlPullParserException e ) {
+			} catch( IOException e ) {
+			}
 
 			return root;
 		}
+
 	}
 
 	@Override
