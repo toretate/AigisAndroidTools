@@ -100,10 +100,30 @@ public class DBViewPagerPage extends CommonViewPagerPage {
         table.setHeaderAdapter( new SimpleTableHeaderAdapter( ctx, Columns ) );
     }
 
-    private String[] Columns = {"RowIndex", "Message"};
-    private String TABLE_NAME = "NameText";
+    private String[] Columns = {"NameText.Message", "ClassData.Name"};
+    private String TABLE_NAME = "NameText, ClassData, CardDataTable";
+    private String SELECTION = "CardDataTable.CardID = NameText.RowIndex and CardDataTable.InitClassID = ClassID";
+
+    /*
+select cd.Name, cd2.Name, cd3.Name, cd3.JobChange
+from ClassData as cd
+         left join ClassData as cd2 on cd.JobChange = cd2.ClassID
+         left join ClassData as cd3 on cd2.JobChange = cd3.ClassID
+;
+     */
+
     public Cursor findData() {
-        Cursor cursor = m_db.query( TABLE_NAME, Columns, null, null, null, null, null );
+        Cursor cursor = m_db.query(
+                /* distinct */          false
+                , /* table */           TABLE_NAME
+                , /* columns */         Columns
+                , /* selection */       SELECTION
+                , /* selectionArgs */   null
+                , /* groupBy */         null
+                , /* having */          null
+                , /* orderBy */         null
+                , /* limit */           null
+        );
         return cursor;
     }
 
