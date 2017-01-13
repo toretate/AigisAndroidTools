@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<title>曜日オーブ表</title>
+
+    	<!-- BootstrapのCSS読み込み -->
+    	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    	<style>
+    		td { text-align: right; }
+    		th { text-align: center; }
+    		.current { background-color: #FFD700; !important; }
+    		.月 { background-color: #c0c0c0; -moz-opacity:0.5; opacity:0.5; }
+    		.火 { background-color: #d60033; -moz-opacity:0.5; opacity:0.5; }
+    		.水 { background-color: #0095d9; -moz-opacity:0.5; opacity:0.5; }
+    		.木 { background-color: #68be8d; -moz-opacity:0.5; opacity:0.5; }
+    		.金 { background-color: #e6b422; -moz-opacity:0.5; opacity:0.5; }
+    		.土 { background-color: #8b4513; -moz-opacity:0.5; opacity:0.5; }
+    		.日 { background-color: #ffea00; -moz-opacity:0.5; opacity:0.5; }
+    	</style>
+	</head>
+<body>
+
+<div class="panel-group">
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab">
+			<h4 class="panel-title">覚醒オーブ表</h4>
+		</div>
+		<div class="panel">
+			<table class="table table-condensed table-striped table-bordered" id="orb-list">
+				<tbody>
+					<tr id="monday">	<th>月</th>	<td>ﾀﾞｰｸﾅｲﾄ</td>		<td>ﾌﾟﾘｰｽﾄ</td>		<td>ｽﾅｲﾊﾟｰ</td>		<td>後衛軍師</td>		<td>重砲士</td>		</tr>
+					<tr id="thesday">	<th>火</th>	<td>ﾕﾆｺｰﾝﾅｲﾄ</td>	<td>ﾍﾟｶﾞｻｽﾅｲﾄ</td>	<td>ﾏｽﾀｰﾓﾝｸ</td>		<td>ﾊﾞｰｻｰｶｰ</td>		<td>風水士</td>		</tr>
+					<tr id="wednesday">	<th>水</th>	<td>ｿﾙｼﾞｬｰ</td>		<td>ｱｻｼﾝ</td>		<td>ｷｬﾌﾟﾃﾝ</td>		<td>ﾊｲｼｬｰﾏﾝ</td>		<td>ﾊｲﾋﾞｼｮｯﾌﾟ</td>	</tr>
+					<tr id="thursday">	<th>木</th>	<td>ﾊﾞﾄﾙﾏｽﾀｰ</td>	<td>ｻﾑﾗｲﾏｽﾀｰ</td>	<td>ﾙｰﾝﾌｪﾝｻｰ</td>	<td>ｳﾞｧﾝﾊﾟｲｱｷﾗｰ</td>	<td>ｾｰﾗｰﾁｰﾌ</td>		</tr>
+					<tr id="friday">	<th>金</th>	<td>ﾛｰﾄﾞｳｨｯﾁ</td>		<td>ｳｫｰﾛｯｸ</td>		<td>前衛軍師</td>		<td>忍者ﾏｽﾀｰ</td>	<td>ｱｰｸｴﾝｼﾞｪﾙ</td>	</tr>
+					<tr id="saturday">	<th>土</th>	<td>ﾊﾞﾄﾙﾒｲｼﾞ</td>		<td>神官戦士長</td>	<td>ﾄｯﾌﾟﾀﾞﾝｻｰ</td>	<td>ﾄﾞﾗｺﾞﾝﾅｲﾄ</td>	<td>ﾊｲﾚﾝｼﾞｬｰ</td>	</tr>
+					<tr id="sunday">	<th>日</th>	<td>ﾎﾞｳﾗｲﾀﾞｰﾁｰﾌ</td>	<td>機甲士</td>		<td>ﾊｲｱﾙｹﾐｽﾄ</td>	<td>ﾏｽﾀｰｼｰﾌ</td>		<td>呪術師</td>		</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="panel-group">
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab">
+			<h4 class="panel-title">画面上の位置</h4>
+		</div>
+		<div class="panel">
+			<table class="table table-condensed table-bordered" id="orb-table">
+				<tbody>
+					<tr><td class="水">ｿﾙｼﾞｬｰ</td>		<td class="木">ﾊﾞﾄﾙﾏｽﾀｰ</td>	<td class="火">ﾕﾆｺｰﾝﾅｲﾄ</td>		<td class="水">ｱｻｼﾝ</td>		</tr>
+					<tr><td class="火">ﾊﾞｰｻｰｶｰ</td>		<td class="木">ｻﾑﾗｲﾏｽﾀｰ</td>	<td class="金">忍者ﾏｽﾀｰ</td>		<td class="火">ﾍﾟｶﾞｻｽﾅｲﾄ</td>	</tr>
+					<tr><td class="月">ﾀﾞｰｸﾅｲﾄ</td>		<td class="火">ﾏｽﾀｰﾓﾝｸ</td>	<td class="金">前衛軍師</td>		<td class="木">ﾙｰﾝﾌｪﾝｻｰ</td>	</tr>
+					<tr><td class="金">ｱｰｸｴﾝｼﾞｪﾙ</td>	<td class="日">機甲士</td>	<td class="木">ｾｰﾗｰﾁｰﾌ</td>		<td class="土">神官戦士長</td></tr>
+					<tr><td class="土">ﾊﾞﾄﾙﾒｲｼﾞ</td>		<td class="土">ﾄﾞﾗｺﾞﾝﾅｲﾄ</td>	<td class="日">ﾎﾞｳﾗｲﾀﾞｰﾁｰﾌ</td>	<td class="月">ｽﾅｲﾊﾟｰ</td>	</tr>
+					<tr><td class="金">ｳｫｰﾛｯｸ</td>		<td class="月">ﾌﾟﾘｰｽﾄ</td>	<td class="金">ﾛｰﾄﾞｳｨｯﾁ</td>		<td class="水">ｷｬﾌﾟﾃﾝ</td>	</tr>
+					<tr><td class="木">ｳﾞｧﾝﾊﾟｲｱｷﾗｰ</td>	<td class="水">ﾊｲｼｬｰﾏﾝ</td>	<td class="水">ﾊｲﾋﾞｼｮｯﾌﾟ</td>		<td class="月">後衛軍師</td>	</tr>
+					<tr><td class="火">風水士</td>		<td class="月">重砲士</td>	<td class="土">ﾄｯﾌﾟﾀﾞﾝｻｰ</td>		<td class="日">ﾊｲｱﾙｹﾐｽﾄ</td>	</tr>
+					<tr><td class="土">ﾊｲﾚﾝｼﾞｬｰ</td>		<td class="日">ﾏｽﾀｰｼｰﾌ</td>	<td class="日">呪術師</td>									</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- jQuery読み込み -->
+<script src="./jquery-1.12.4.min.js"></script>
+<!-- BootstrapのJS読み込み -->
+<script src="bootstrap/js/bootstrap.js"></script>
+
+<script>
+
+$(function(){
+
+	/** ハイライトを消す */
+	function remove_highlight( $tr ) {
+
+		$tr.removeClass('current');
+		$tr.children('th, td').each( function( index, element ) {
+			$(element).removeClass('current');
+		} );
+
+		return this;
+	}
+
+	/** ハイライトを付ける */
+	function set_highlight( $td, $tr ) {
+
+		$tr.addClass('current');
+		$tr.children('th, td').each( function( index, element ) {
+			$(element).addClass('current');
+		} );
+
+		return this;
+	};
+
+	// 0:日 1:月 2:火　3:水 4:木 5:金 6:土
+	var dayIndex = new Date().getDay();
+	var $current_selected_tr;
+	var $current_selected_td;
+	switch( dayIndex ) {
+		case 0: $current_selected_tr = $("#monday"); break;
+		case 1: $current_selected_tr = $("#thesday"); break;
+		case 2: $current_selected_tr = $("#wednesday"); break;
+		case 3: $current_selected_tr = $("#thursday"); break;
+		case 4: $current_selected_tr = $("#friday"); break;
+		case 5: $current_selected_tr = $("#saturday"); break;
+		case 6: $current_selected_tr = $("#sunday"); break;
+	}
+	set_highlight( null, $current_selected_tr );
+
+	// 列タップ時に色変更を行う
+	$("#orb-list tbody tr td").click( function(){
+
+		remove_highlight( $("#monday") );
+		remove_highlight( $("#thesday") );
+		remove_highlight( $("#wednesday") );
+		remove_highlight( $("#thursday") );
+		remove_highlight( $("#friday") );
+		remove_highlight( $("#saturday") );
+		remove_highlight( $("#sunday") );
+
+		var $cur_td = $(this);
+		var $cur_tr = $(this).closest('tr');
+		set_highlight( $cur_td, $cur_tr );
+
+		var rowIndex = $cur_tr.index();
+		var colIndex = $cur_td.cellIndex();
+
+		$current_selected_tr = $cur_tr;
+		$current_selected_td = $cur_td;
+	} );
+});
+</script>
+
+
+</body>
+</html>
