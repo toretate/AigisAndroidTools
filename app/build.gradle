@@ -10,11 +10,13 @@ buildscript {
 	}
 }
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 
 repositories {
 	maven { url 'https://maven.fabric.io/public' }
  	maven { url 'https://jcenter.bintray.com/com/mopub/mopub-sdk/' }
+	mavenCentral()
 }
 
 android {
@@ -48,6 +50,9 @@ android {
 			signingConfig signingConfigs.debug
 		}
 	}
+	sourceSets {
+		main.java.srcDirs += 'src/main/kotlin'
+	}
 }
 
 dependencies {
@@ -65,5 +70,7 @@ dependencies {
         transitive = true;
     }
 	compile 'de.codecrafters.tableview:tableview:2.4.1'
+	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+	compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 

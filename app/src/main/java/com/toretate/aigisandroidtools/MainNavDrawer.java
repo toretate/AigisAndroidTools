@@ -2,7 +2,9 @@ package com.toretate.aigisandroidtools;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
@@ -11,8 +13,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import com.toretate.aigisandroidtools.pager.PagerAdapter;
 import com.toretate.aigisandroidtools.pager.ViewPagerContentFragment;
@@ -31,6 +35,9 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
     private static final String TWITTER_KEY = "66gsxBA0dccvtroeHnmUJNfhQ";
     private static final String TWITTER_SECRET = "8tbn8YFHabqNJuQ0QTBetKgmfaJJfGuljIuubq3slRLCej1YYh";
 
+	private static final String TAG = MainNavDrawer.class.getCanonicalName();
+
+	private  boolean m_enabled = true;
 
 	private MoPubSettings m_moPub;
 	private ViewPager m_pager;
@@ -41,6 +48,17 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	}
 
 	private static final int CALL_SETTINGS_ACTIVITY = 100;
+	private static final int REQUEST_OVERLAY_PERMISSION = 101;
+
+	private boolean hasOverlayPermissison() {
+		if( Build.VERSION.SDK_INT >= 23 ) return Settings.canDrawOverlays( this );
+		return true;
+	}
+
+	private void requesstOverlayPermisison( int requesstCode ) {
+		Intent intent = new Intent( Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:com.toretate.aigisandroidtools") );
+		startActivityForResult( intent, requesstCode );
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +110,27 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		if( hasOverlayPermissison() ) {
+			Intent intent = new Intent( this, ScreenshotService.class ).setAction( ScreenshotService.Companion.getACTION_START() );
+			startService( intent );
+		} else {
+			requesstOverlayPermisison( REQUEST_OVERLAY_PERMISSION );
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if( m_enabled && hasOverlayPermissison() ) {
+			Intent intent = new Intent( this, ScreenshotService.class );
+			intent.setAction( ScreenshotService.Companion.getACTION_STOP() );
+			startService( intent );
+		}
+	}
+
+	@Override
 	protected void onDestroy() {
 		m_moPub.destroy();
 		super.onDestroy();
@@ -140,6 +179,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 			ViewPagerPageDefs.getInstance( this ).updateVisibility( this );
 			m_pager.getAdapter().notifyDataSetChanged();
 			break;
+			case REQUEST_OVERLAY_PERMISSION:
+				Log.d( TAG, "enable overlay permision" );
 		}
 	}
 
@@ -178,6 +219,12 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	@Override
 	public void onPageScrollStateChanged(int state) {
 
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		m_enabled = false;
+		return super.onTouchEvent(event);
 	}
 
 	// ViewPagerContentFragment.OnFragmentInteractionListener,

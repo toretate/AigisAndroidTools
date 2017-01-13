@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.toretate.aigisandroidtools"
-		  xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.toretate.aigisandroidtools">
 
-	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-	<application
-		android:allowBackup="true"
-		android:icon="@mipmap/ic_launcher"
-		android:label="@string/app_name"
-		android:supportsRtl="true"
-		android:theme="@style/AppTheme">
-		<activity
-			android:name=".MainNavDrawer"
-			android:label="@string/app_name"
-			android:theme="@style/AppTheme.NoActionBar">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainNavDrawer"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
-		<activity android:name=".SettingsActivity" />
-		<activity
-			android:name="com.mopub.mobileads.MoPubActivity"
-			android:configChanges="keyboardHidden|orientation|screenSize"/>
-		<activity
-			android:name="com.mopub.mobileads.MraidActivity"
-			android:configChanges="keyboardHidden|orientation|screenSize"/>
-		<activity
-			android:name="com.mopub.common.MoPubBrowser"
-			android:configChanges="keyboardHidden|orientation|screenSize"/>
-		<activity
-			android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
-			android:configChanges="keyboardHidden|orientation|screenSize"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SettingsActivity" />
+        <activity
+            android:name="com.mopub.mobileads.MoPubActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.MraidActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.common.MoPubBrowser"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
-		<meta-data
-			android:name="io.fabric.ApiKey"
-			android:value="041b680b2fa609810c35ec822866aa864f21f356"/>
+        <!-- スクショ撮影用 -->
+        <service android:name=".ScreenshotService" />
 
-	</application>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="041b680b2fa609810c35ec822866aa864f21f356" />
+    </application>
 
 </manifest>
