@@ -1,11 +1,15 @@
 package com.toretate.aigisandroidtools
 
+import android.content.Intent
 import android.graphics.PixelFormat
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import com.mopub.common.util.Intents
+import com.toretate.aigisandroidtools.capture.Capture
+import com.toretate.aigisandroidtools.capture.CaptureService
 
 /**
  * http://nosix.hatenablog.com/entry/2016/09/16/175238 より
@@ -63,6 +67,11 @@ class FloatingButton(val windowManager: WindowManager, val view: View) {
         }
         view.setOnClickListener {
             Log.d(TAG, "onClick")
+
+            var context = this.view.context;
+            val intent = Intent(context, CaptureService::class.java)
+            intent.setAction(CaptureService.ACTION_DO_CAPTURE)
+            context.startService( intent )
         }
     }
 
