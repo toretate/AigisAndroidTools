@@ -38,6 +38,8 @@
 
         <!-- スクショ撮影用 -->
         <service android:name=".ScreenshotService" />
+        <service android:name=".capture.CaptureService" />
+        <activity android:name=".capture.CaptureActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
