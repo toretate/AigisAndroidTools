@@ -20,6 +20,9 @@
     <!-- 合成表  -->
     <webview title="合成表" itemID="@id/tool_compose" key="tool_compose" defVisible="false" fragment="@layout/compose_fragment" html="compose.html" />
 
+    <!-- オーブ表  -->
+    <webview title="オーブ表" itemID="@id/daily_orb" key="daily_orb" defVisible="false" fragment="@layout/compose_fragment" html="daily_orb.html" />
+
     <!-- twitter(@aigis1000A) -->
     <twitter title="作者" summary="twitter" itemID="@id/tw_toretatenee" key="tw_toretatenee" defVisible="false" user="toretatenee" />
 
