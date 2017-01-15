@@ -26,4 +26,5 @@ public class CommonViewPagerPage extends AbstractViewPagerPage {
 
     protected void afterCreateView(final @Nullable View root, final LayoutInflater inflater) {
     }
+    
 }

@@ -1,4 +1,4 @@
-package com.toretate.aigisandroidtools
+package com.toretate.aigisandroidtools.capture
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.IBinder
 import android.view.WindowManager
 import android.widget.ImageView
+import com.toretate.aigisandroidtools.MainNavDrawer
+import com.toretate.aigisandroidtools.R
 import java.util.*
 
 /**

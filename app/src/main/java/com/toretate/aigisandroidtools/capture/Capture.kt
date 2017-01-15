@@ -2,6 +2,7 @@ package com.toretate.aigisandroidtools.capture
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.hardware.display.DisplayManager
@@ -10,6 +11,10 @@ import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.os.Build
 import android.util.Log
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class Capture(val context: Context) : ImageReader.OnImageAvailableListener {
@@ -44,9 +49,30 @@ class Capture(val context: Context) : ImageReader.OnImageAvailableListener {
     }
 
     override fun onImageAvailable(reader: ImageReader) {
-        if (display != null) {
+        if (display != null ) {
+
+            // Bitmapの保存
             var bitmap = captureImage( reader )
-            onCaptureListener?.invoke( bitmap )
+
+            var timeStamp = SimpleDateFormat( "yyyy_MM_dd_hh_mm_ss" ).format( Calendar.getInstance().time )
+            var imageFile = File( context.getFilesDir(), "captured.png" );
+
+            FileOutputStream( imageFile ).use {
+                bitmap.compress( Bitmap.CompressFormat.PNG, 0, it );
+            }
+
+            // captureを終了
+            this.stop()
+
+//            // CaptureServiceの終了
+//            var intent = Intent( this.context, CaptureService::class.java );
+//            context.stopService( intent )
+//
+//            // CapturePager.Reciever へメッセージ送信
+//            var broadcast = Intent();
+//            broadcast.putExtra( "file", imageFile.absolutePath );
+//            broadcast.action = "ACTION_CAPTURE_RESULT";
+//            context.sendBroadcast( broadcast )
         }
     }
 

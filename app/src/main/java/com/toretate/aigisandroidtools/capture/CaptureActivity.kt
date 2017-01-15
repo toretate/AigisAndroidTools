@@ -14,7 +14,7 @@ import android.widget.Toast
 class CaptureActivity : Activity() {
 
     companion object {
-        private const val REQUEST_CAPTURE = 1
+        private const val REQUEST_CAPTURE = 1000
 
         var projection: MediaProjection? = null
     }

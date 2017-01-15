@@ -37,7 +37,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <!-- スクショ撮影用 -->
-        <service android:name=".ScreenshotService" />
+        <service android:name=".capture.ScreenshotService" />
         <service android:name=".capture.CaptureService" />
         <activity android:name=".capture.CaptureActivity" />
 
