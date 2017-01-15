@@ -1,4 +1,4 @@
-package com.toretate.aigisandroidtools
+package com.toretate.aigisandroidtools.capture
 
 import android.content.Intent
 import android.graphics.PixelFormat
