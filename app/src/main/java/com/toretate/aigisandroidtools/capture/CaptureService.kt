@@ -10,6 +10,9 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -53,9 +56,6 @@ class CaptureService : Service() {
         CaptureActivity.projection?.run {
             capture.run(this){
                 capture.stop()
-                // save bitmap
-
-                // it に Bitmap が入ってるらしー
             }
         }
     }

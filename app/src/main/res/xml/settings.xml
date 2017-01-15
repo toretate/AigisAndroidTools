@@ -29,6 +29,9 @@
     <!-- 管理 -->
     <common title="管理" itemID="@id/action_settings" key="action_settings" defVisible="false" />
 
+	<!-- キャプチャ -->
+	<capture title="キャプチャ" itemID="@+id/action_capture" key="action_capture" defVisible="false" layout="@layout/tool_capture" />
+
     <!-- データ表示 -->
     <db title="データ" itemID="@id/db_view" key="db_view_key" defVisible="false" layout="@layout/db_view" />
 </pager-defs>

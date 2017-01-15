@@ -1,11 +1,12 @@
 package com.toretate.aigisandroidtools;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
+import com.toretate.aigisandroidtools.capture.ScreenshotService;
 import com.toretate.aigisandroidtools.pager.PagerAdapter;
 import com.toretate.aigisandroidtools.pager.ViewPagerContentFragment;
 import com.toretate.aigisandroidtools.pager.ViewPagerPageDefs;
@@ -50,14 +52,18 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	private static final int CALL_SETTINGS_ACTIVITY = 100;
 	private static final int REQUEST_OVERLAY_PERMISSION = 101;
 
-	private boolean hasOverlayPermissison() {
-		if( Build.VERSION.SDK_INT >= 23 ) return Settings.canDrawOverlays( this );
+	public static boolean hasOverlayPermissison( Context context ) {
+		if( Build.VERSION.SDK_INT >= 23 ) return Settings.canDrawOverlays( context );
 		return true;
 	}
 
-	private void requesstOverlayPermisison( int requesstCode ) {
+	public static void requestOverlayPermission( final Context context ) {
+		requestOverlayPermisison( REQUEST_OVERLAY_PERMISSION, context );
+	}
+	private static void requestOverlayPermisison( int requesstCode, final Context context ) {
+		if( context == null || ( context instanceof Activity ) == false ) return;
 		Intent intent = new Intent( Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:com.toretate.aigisandroidtools") );
-		startActivityForResult( intent, requesstCode );
+		((Activity) context).startActivityForResult( intent, requesstCode );
 	}
 
 	@Override
@@ -112,27 +118,29 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	@Override
 	protected void onStart() {
 		super.onStart();
-		if( hasOverlayPermissison() ) {
-			Intent intent = new Intent( this, ScreenshotService.class ).setAction( ScreenshotService.Companion.getACTION_START() );
-			startService( intent );
-		} else {
-			requesstOverlayPermisison( REQUEST_OVERLAY_PERMISSION );
-		}
+//		if( hasOverlayPermissison( this ) ) {
+//			Intent intent = new Intent( this, ScreenshotService.class ).setAction( ScreenshotService.Companion.getACTION_START() );
+//			startService( intent );
+//		} else {
+//			requestOverlayPermisison( REQUEST_OVERLAY_PERMISSION, this );
+//		}
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if( m_enabled && hasOverlayPermissison() ) {
-			Intent intent = new Intent( this, ScreenshotService.class );
-			intent.setAction( ScreenshotService.Companion.getACTION_STOP() );
-			startService( intent );
-		}
 	}
 
 	@Override
 	protected void onDestroy() {
 		m_moPub.destroy();
+		
+		if( m_enabled && hasOverlayPermissison( this ) ) {
+			Intent intent = new Intent( this, ScreenshotService.class );
+			intent.setAction( ScreenshotService.Companion.getACTION_STOP() );
+			startService( intent );
+		}
+		
 		super.onDestroy();
 	}
 
@@ -179,8 +187,9 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 			ViewPagerPageDefs.getInstance( this ).updateVisibility( this );
 			m_pager.getAdapter().notifyDataSetChanged();
 			break;
-			case REQUEST_OVERLAY_PERMISSION:
-				Log.d( TAG, "enable overlay permision" );
+		case REQUEST_OVERLAY_PERMISSION:
+			Log.d( TAG, "enable overlay permision" );
+			break;
 		}
 	}
 
