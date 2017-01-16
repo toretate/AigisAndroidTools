@@ -64,15 +64,13 @@ class Capture(val context: Context) : ImageReader.OnImageAvailableListener {
             // captureを終了
             this.stop()
 
-//            // CaptureServiceの終了
-//            var intent = Intent( this.context, CaptureService::class.java );
-//            context.stopService( intent )
-//
-//            // CapturePager.Reciever へメッセージ送信
-//            var broadcast = Intent();
-//            broadcast.putExtra( "file", imageFile.absolutePath );
-//            broadcast.action = "ACTION_CAPTURE_RESULT";
-//            context.sendBroadcast( broadcast )
+            // CaptureServiceの終了
+            var intent = Intent( this.context, CaptureService::class.java );
+            context.stopService( intent )
+
+            // ScreenshotServiceの終了
+            intent = Intent( this.context, ScreenshotService::class.java );
+            context.stopService( intent )
         }
     }
 

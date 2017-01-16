@@ -177,6 +177,7 @@ public class ViewPagerPageDefs {
 	public @Nullable View createView( final int index, final Context context, final LayoutInflater inflater, final ViewGroup container ) {
 		if( m_pageVisibles.size() <= index ) return null;
 		final AbstractViewPagerPage viewPager = m_pageVisibles.get( index );
+		viewPager.setContext( context );
 		View view = null;
 		if( viewPager != null ) view = viewPager.createView( context, inflater, container );
 		return view;

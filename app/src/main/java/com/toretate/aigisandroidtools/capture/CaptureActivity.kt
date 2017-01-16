@@ -14,7 +14,7 @@ import android.widget.Toast
 class CaptureActivity : Activity() {
 
     companion object {
-        private const val REQUEST_CAPTURE = 1000
+        private const val REQUEST_CAPTURE = 1
 
         var projection: MediaProjection? = null
     }
@@ -30,9 +30,16 @@ class CaptureActivity : Activity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CAPTURE) {
             if (resultCode == RESULT_OK) {
+                val capture = Capture(this)
                 projection = mediaProjectionManager.getMediaProjection(resultCode, data)
-                val intent = Intent(this, CaptureService::class.java).setAction(CaptureService.ACTION_ENABLE_CAPTURE)
-                startService(intent)
+                projection?.run {
+                    capture.run(this){
+                        capture.stop()
+                    }
+                }
+
+//                val intent = Intent(this, CaptureService::class.java).setAction(CaptureService.ACTION_ENABLE_CAPTURE)
+//                startService(intent)
             } else {
                 projection = null
                 Toast.makeText( this, "Capture Error!", Toast.LENGTH_SHORT ).show()

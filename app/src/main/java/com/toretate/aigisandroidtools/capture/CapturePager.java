@@ -1,11 +1,14 @@
 package com.toretate.aigisandroidtools.capture;
 
+import android.app.Activity;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,13 +23,14 @@ import com.toretate.aigisandroidtools.MainNavDrawer;
 import com.toretate.aigisandroidtools.R;
 import com.toretate.aigisandroidtools.pager.CommonViewPagerPage;
 
+import java.io.File;
+
 /**
  * Created by toretate on 2017/01/14.
  */
 
-public class CapturePager extends CommonViewPagerPage {
+public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.ScreenshotPermissionListener {
 	
-	private Reciever m_reciever;
 	private ImageView m_imageView;
 	
 	private Handler m_handler = new Handler() {
@@ -40,61 +44,54 @@ public class CapturePager extends CommonViewPagerPage {
 		}
 	};
 	
-	public static class Reciever extends BroadcastReceiver {
-		
-		private CapturePager m_pager;
-		public Reciever( CapturePager pager ) {
-			m_pager = pager;
-		}
-		
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Bundle bundle = intent.getExtras();
-			String message = bundle.getString( "message" );
-			
-			Toast.makeText( context, message, Toast.LENGTH_LONG ).show();
-			
-			Message msg = new Message();
-			msg.setData( new Bundle( bundle ) );
-			m_pager.m_handler.handleMessage( msg );
-			
-		}
-	}
-	
-	
 	public CapturePager( String title, int itemId, String key, boolean defVisible, int layoutId ) {
 		super( title, itemId, key, defVisible, layoutId );
 	}
-	
+
+	private MediaProjectionManager m_mediaProjectionManager;
 	
 	@Override
 	protected void afterCreateView(final @Nullable View root, final LayoutInflater inflater ) {
+		final Context context = root.getContext();
+
 		m_imageView = (ImageView)root.findViewById( R.id.capturedImageView );
-		
-		Button button = (Button)root.findViewById( R.id.button );
+		reloadScreenshot( context );
+
+		Button button;
+
+		button = (Button)root.findViewById( R.id.capture_button );
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Context context = root.getContext();
-				
-				// recieverを登録しとく
-				if( m_reciever == null ) {
-					m_reciever = new Reciever( CapturePager.this );
-					IntentFilter filter = new IntentFilter();
-					filter.addAction( "ACTION_CAPTURE_RESULT" );
-					context.registerReceiver( m_reciever, filter );
-				}
-				
 				if(MainNavDrawer.hasOverlayPermissison( context ) ) {
-					Intent intent = new Intent( context, ScreenshotService.class ).setAction( ScreenshotService.Companion.getACTION_START() );
-					context.startService( intent );
+					MainNavDrawer.setScreenshotPermissionListener( CapturePager.this );
+					MainNavDrawer.requestScreenshotPermission( context );
 				} else {
 					MainNavDrawer.requestOverlayPermission( context );
 				}
 			}
 		});
-		
+
+		button = (Button)root.findViewById(R.id.reload_button);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				reloadScreenshot( context );
+			}
+		});
 	}
-	
-	
+
+	private void reloadScreenshot( Context context ) {
+		File file = new File( context.getFilesDir(), "captured.png" );
+		if( file.exists() ) {
+			Bitmap bitmap = BitmapFactory.decodeFile( file.getAbsolutePath() );
+			m_imageView.setImageBitmap( bitmap );
+		}
+	}
+
+	// ScreenshotPermissionListener
+	public void screenshotPermissionCompleted() {
+		Intent intent = new Intent( this.getContext(), ScreenshotService.class ).setAction( ScreenshotService.Companion.getACTION_START() );
+		this.getContext().startService( intent );
+	}
 }
