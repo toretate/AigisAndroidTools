@@ -10,6 +10,7 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import com.toretate.aigisandroidtools.MainNavDrawer
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -53,11 +54,14 @@ class CaptureService : Service() {
     }
 
     private fun onEnableCapture() {
-        CaptureActivity.projection?.run {
+        MainNavDrawer.getMediaProjection()?.run {
             capture.run(this){
                 capture.stop()
             }
         }
+//
+//        CaptureActivity.projection?.run {
+//        }
     }
 
     private fun disableCapture() {

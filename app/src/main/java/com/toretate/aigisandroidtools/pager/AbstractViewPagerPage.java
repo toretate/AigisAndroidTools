@@ -33,6 +33,10 @@ public abstract class AbstractViewPagerPage {
     private boolean m_defaultVisible;
     public boolean isDefaultVisible() { return m_defaultVisible; }
 
+    private Context m_context;
+    public void setContext( final Context ctx ) { m_context = ctx; }
+    public Context getContext() { return m_context; }
+
     protected AbstractViewPagerPage( @NonNull final String title, final int itemId, @NonNull final String key, final boolean defVisible ) {
         this.m_title = title;
         this.m_itemId = itemId;
