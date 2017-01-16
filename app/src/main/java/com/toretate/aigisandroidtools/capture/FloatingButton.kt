@@ -70,7 +70,7 @@ class FloatingButton(val windowManager: WindowManager, val view: View) {
 
             var context = this.view.context;
             val intent = Intent(context, CaptureService::class.java)
-            intent.setAction(CaptureService.ACTION_DO_CAPTURE)
+            intent.setAction(CaptureService.ACTION_ENABLE_CAPTURE)
             context.startService( intent )
         }
     }
