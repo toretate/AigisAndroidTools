@@ -20,6 +20,7 @@
     		.金 { background-color: #e6b422; -moz-opacity:0.5; opacity:0.5; }
     		.土 { background-color: #8b4513; -moz-opacity:0.5; opacity:0.5; }
     		.日 { background-color: #ffea00; -moz-opacity:0.5; opacity:0.5; }
+    		.table > tbody > tr > td.cell-highlight { border-color: #FF0000; border-width: 3px; border-style: dashed; }
     	</style>
 	</head>
 <body>
@@ -129,8 +130,25 @@ $(function(){
 		var $cur_tr = $(this).closest('tr');
 		set_highlight( $cur_td, $cur_tr );
 
+		// 選択した(x,y)が判明
 		var rowIndex = $cur_tr.index();
-		var colIndex = $cur_td.cellIndex();
+		//var colIndex = $cur_td.cellIndex();
+		$('.月').removeClass('cell-highlight');
+		$('.火').removeClass('cell-highlight');
+		$('.水').removeClass('cell-highlight');
+		$('.木').removeClass('cell-highlight');
+		$('.金').removeClass('cell-highlight');
+		$('.土').removeClass('cell-highlight');
+		$('.日').removeClass('cell-highlight');
+		switch( rowIndex ) {
+			case 0: $('.月').addClass('cell-highlight'); break;
+			case 1: $('.火').addClass('cell-highlight'); break;
+			case 2: $('.水').addClass('cell-highlight'); break;
+			case 3: $('.木').addClass('cell-highlight'); break;
+			case 4: $('.金').addClass('cell-highlight'); break;
+			case 5: $('.土').addClass('cell-highlight'); break;
+			case 6: $('.日').addClass('cell-highlight'); break;
+		}
 
 		$current_selected_tr = $cur_tr;
 		$current_selected_td = $cur_td;
