@@ -63,7 +63,6 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 
 	private static final int CALL_SETTINGS_ACTIVITY = 100;
 	private static final int REQUEST_OVERLAY_PERMISSION = 101;
-	private static final int REQUEST_CAPTURE = 102;
 
 	public static boolean hasOverlayPermissison( Context context ) {
 		if( Build.VERSION.SDK_INT >= 23 ) return Settings.canDrawOverlays( context );
@@ -77,24 +76,6 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		if( context == null || ( context instanceof Activity ) == false ) return;
 		Intent intent = new Intent( Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:com.toretate.aigisandroidtools") );
 		((Activity) context).startActivityForResult( intent, requesstCode );
-	}
-
-	// Screenshot
-	private static MediaProjectionManager s_mediaProjectionManager;
-	private static MediaProjection s_mediaProjection;
-	public static @Nullable MediaProjection getMediaProjection() {
-		return s_mediaProjection;
-	}
-
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public static void requestScreenshotPermission( final Context context ) {
-		if( context == null || ( context instanceof MainNavDrawer ) == false ) return;
-		((MainNavDrawer)context).requestScreenshotPermission();
-	}
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	private void requestScreenshotPermission() {
-		s_mediaProjectionManager = (MediaProjectionManager)this.getSystemService(Service.MEDIA_PROJECTION_SERVICE);
-		this.startActivityForResult( s_mediaProjectionManager.createScreenCaptureIntent(), REQUEST_CAPTURE);
 	}
 
 	@Override
@@ -220,13 +201,6 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 			break;
 		case REQUEST_OVERLAY_PERMISSION:
 			Log.d( TAG, "enable overlay permision" );
-			break;
-		case REQUEST_CAPTURE:
-			Log.d( TAG, "enable screenshot permision" );
-			if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
-				s_mediaProjection = s_mediaProjectionManager.getMediaProjection( resultCode, data );
-				if( s_screenshotPermisionListener != null ) s_screenshotPermisionListener.screenshotPermissionCompleted();
-			}
 			break;
 		}
 	}

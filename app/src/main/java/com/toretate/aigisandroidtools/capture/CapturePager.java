@@ -64,8 +64,9 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 			@Override
 			public void onClick(View view) {
 				if(MainNavDrawer.hasOverlayPermissison( context ) ) {
-					MainNavDrawer.setScreenshotPermissionListener( CapturePager.this );
-					MainNavDrawer.requestScreenshotPermission( context );
+					// CaptureActivity を起動して、スクリーンショットの許可をユーザからもらう
+					Intent intent = new Intent( context, CaptureActivity.class );
+					context.startActivity( intent );
 				} else {
 					MainNavDrawer.requestOverlayPermission( context );
 				}
