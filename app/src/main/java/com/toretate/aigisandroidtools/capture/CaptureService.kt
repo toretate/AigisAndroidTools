@@ -1,67 +1,38 @@
 package com.toretate.aigisandroidtools.capture
 
-
 import android.annotation.TargetApi
-import android.app.Notification
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
-import com.toretate.aigisandroidtools.MainNavDrawer
-import java.io.File
-import java.io.FileOutputStream
-import java.text.SimpleDateFormat
-import java.util.*
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class CaptureService : Service() {
 
     companion object {
         private val TAG = CaptureService::class.qualifiedName
-        val ACTION_ENABLE_CAPTURE = "enable_capture"
-        val ACTION_DO_CAPTURE = "do_capture"
+        val ACTION_CAPTURE = "capture"
     }
 
-    private val notificationId = Random().nextInt()
-
     private val capture = Capture(this)
-
-    // ... snip ...
 
     override fun onBind(intent: Intent?): IBinder?  = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent != null) {
             when (intent.action) {
-                ACTION_ENABLE_CAPTURE -> onEnableCapture()
-                ACTION_DO_CAPTURE -> enableCapture()
+                ACTION_CAPTURE -> doCapture()
             }
         }
         return Service.START_STICKY
     }
 
-    private fun enableCapture() {
-        if (CaptureActivity.projection == null) {
-            Log.d(TAG, "startActivity(CaptureActivity)")
-            val intent = Intent(this, CaptureActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        } else {
-            onEnableCapture()
-        }
-    }
-
-    private fun onEnableCapture() {
-        MainNavDrawer.getMediaProjection()?.run {
-            capture.run(this){
+    private fun doCapture() {
+        CaptureActivity.projection?.run {
+            capture?.run( this ) {
                 capture.stop()
             }
         }
-//
-//        CaptureActivity.projection?.run {
-//        }
     }
 
     private fun disableCapture() {

@@ -12,6 +12,7 @@ import com.toretate.aigisandroidtools.R
 import java.util.*
 
 /**
+ * スクリーンショットを撮るためのサービス
  */
 class ScreenshotService : Service() {
 

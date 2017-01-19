@@ -66,12 +66,14 @@ class FloatingButton(val windowManager: WindowManager, val view: View) {
             false
         }
         view.setOnClickListener {
-            Log.d(TAG, "onClick")
-
+            // クリック時にスクリーンショットを撮る
             var context = this.view.context;
             val intent = Intent(context, CaptureService::class.java)
-            intent.setAction(CaptureService.ACTION_ENABLE_CAPTURE)
+            intent.setAction(CaptureService.ACTION_CAPTURE)
             context.startService( intent )
+
+            // もうUIは必要ないので自サービス終了
+            context.stopService( Intent( context, ScreenshotService::class.java ))
         }
     }
 
