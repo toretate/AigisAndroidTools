@@ -13,8 +13,6 @@ import android.os.Build
 import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
-import java.text.SimpleDateFormat
-import java.util.*
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class Capture(val context: Context) : ImageReader.OnImageAvailableListener {
@@ -53,8 +51,6 @@ class Capture(val context: Context) : ImageReader.OnImageAvailableListener {
 
             // Bitmapの保存
             var bitmap = captureImage( reader )
-
-            var timeStamp = SimpleDateFormat( "yyyy_MM_dd_hh_mm_ss" ).format( Calendar.getInstance().time )
             var imageFile = File( context.getFilesDir(), "captured.png" );
 
             FileOutputStream( imageFile ).use {
@@ -66,10 +62,6 @@ class Capture(val context: Context) : ImageReader.OnImageAvailableListener {
 
             // CaptureServiceの終了
             var intent = Intent( this.context, CaptureService::class.java );
-            context.stopService( intent )
-
-            // ScreenshotServiceの終了
-            intent = Intent( this.context, ScreenshotService::class.java );
             context.stopService( intent )
         }
     }
