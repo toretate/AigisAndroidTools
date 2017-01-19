@@ -23,6 +23,20 @@
 			android:layout_weight="1"
 			android:layout_height="wrap_content"
 			android:text="更新" />
+
+		<Button
+			android:id="@+id/ocr_button"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"
+			android:text="OCR" />
+
+		<Button
+			android:id="@+id/setting_tess_button"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"
+			android:text="配置" />
 	</LinearLayout>
 
 	<ImageView
