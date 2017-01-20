@@ -15,6 +15,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,9 +24,12 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.googlecode.leptonica.android.Scale;
@@ -70,7 +74,8 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 	}
 
 	private MediaProjectionManager m_mediaProjectionManager;
-	private Rect m_rect;
+    private SelectRectView m_selectRectView;
+    private Rect m_rect;
 
 	@Override
 	protected void afterCreateView(final @Nullable View root, final LayoutInflater inflater ) {
@@ -115,7 +120,7 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 
 					Canvas canvas = new Canvas( bitmap );
 
-					RectF rect = new RectF( 56, 81, 56 + 230, 81 + 22 );
+					Rect rect = new Rect( 56, 81, 56 + 230, 81 + 22 );
 					Paint paint = new Paint();
 					paint.setStyle( Paint.Style.STROKE );
 					paint.setStrokeWidth( 10.0f );
@@ -153,6 +158,42 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 				}
 			}
 		});
+
+		final HorizontalScrollView scrollH = (HorizontalScrollView)root.findViewById( R.id.image_h_scroll );
+		final ScrollView scrollV = (ScrollView)root.findViewById(R.id.image_v_scroll);
+        m_selectRectView = (SelectRectView)root.findViewById( R.id.select_rect );
+		m_selectRectView.setVisibility( View.GONE );
+
+        button = (Button)root.findViewById( R.id.select_rect_button );
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+				if( m_selectRectView.getVisibility() == View.VISIBLE ) {
+					m_selectRectView.setVisibility( View.GONE );
+					scrollH.setOnTouchListener( null );
+					scrollV.setOnTouchListener( null );
+
+					m_rect = m_selectRectView.getSelectRect();
+					reloadScreenshot( CapturePager.this.getContext() );
+				} else {
+					m_selectRectView.setVisibility( View.VISIBLE );
+					m_selectRectView.setSelectRect( m_rect );
+
+					scrollH.setOnTouchListener(new View.OnTouchListener() {
+						@Override
+						public boolean onTouch(View view, MotionEvent motionEvent) {
+							return true;
+						}
+					});
+					scrollV.setOnTouchListener(new View.OnTouchListener() {
+						@Override
+						public boolean onTouch(View view, MotionEvent motionEvent) {
+							return true;
+						}
+					});
+				}
+            }
+        });
 	}
 
 	/**
@@ -168,15 +209,21 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 
 			Canvas canvas = new Canvas( bitmap );
 
-			m_rect = new Rect( 490, 25, 650, 55 );	// left:550でちょうどカリスマの右横
+			if( m_rect == null ) {
+				m_rect = new Rect( 490, 25, 650, 55 );	// left:550でちょうどカリスマの右横
+			}
 			Paint paint = new Paint();
 			paint.setStyle( Paint.Style.STROKE );
 			paint.setStrokeWidth( 1.0f );
 			paint.setColor(Color.RED);
 			canvas.drawRect( m_rect, paint );
 
+			BitmapDrawable drawable = (BitmapDrawable)m_imageView.getDrawable();
+			Bitmap oldBMP = drawable.getBitmap();
+
 			m_imageView.setImageBitmap( bitmap );
-			m_imageView.setScaleType(ImageView.ScaleType.CENTER);
+
+			oldBMP.recycle();
 		}
 	}
 
