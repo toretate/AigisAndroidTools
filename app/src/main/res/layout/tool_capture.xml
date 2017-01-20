@@ -8,67 +8,107 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
-
-		<Button
-			android:id="@+id/capture_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
+		android:orientation="vertical"
+		>
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Capture" />
+			android:orientation="horizontal">
+			<Button
+				android:id="@+id/capture_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="Capture" />
 
-		<Button
-			android:id="@+id/reload_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
-			android:layout_height="wrap_content"
-			android:text="更新" />
+			<Button
+				android:id="@+id/reload_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="更新" />
+		</LinearLayout>
 
-		<Button
-			android:id="@+id/reload_sample_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="更新(Sample)" />
+			android:orientation="horizontal">
 
-		<Button
-			android:id="@+id/ocr_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
-			android:layout_height="wrap_content"
-			android:text="OCR" />
+			<Button
+				android:id="@+id/reload_sample_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="更新(Sample)" />
 
-		<Button
-			android:id="@+id/setting_tess_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
-			android:layout_height="wrap_content"
-			android:text="配置" />
+			<Button
+				android:id="@+id/ocr_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="OCR" />
+
+			<Button
+				android:id="@+id/setting_tess_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="配置" />
+
+			<Button
+				android:id="@+id/select_rect_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="矩形選択"
+				/>
+
+		</LinearLayout>
 	</LinearLayout>
 
-	<RelativeLayout
+	<!--&lt;!&ndash; 矩形選択が行われるView &ndash;&gt;-->
+	<!--<com.toretate.aigisandroidtools.capture.SelectRectView-->
+		<!--android:id="@+id/select_rect"-->
+		<!--android:layout_width="match_parent"-->
+		<!--android:layout_height="match_parent"-->
+		<!--/>-->
+
+	<ScrollView
+		android:id="@+id/image_v_scroll"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:gravity="center"
 		>
-
-		<ScrollView
+		<HorizontalScrollView
+			android:id="@+id/image_h_scroll"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
-			<HorizontalScrollView
+			<RelativeLayout
 				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+				android:layout_height="match_parent"
+				android:gravity="center"
+				>
+
 				<ImageView
 					android:id="@+id/capturedImageView"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:scaleType="center"
 					app:srcCompat="@android:drawable/ic_menu_gallery"/>
-			</HorizontalScrollView>
-		</ScrollView>
 
-		<!--<com.toretate.aigisandroidtools.capture.RectSelectView-->
-			<!--android:layout_width="match_parent"-->
-			<!--android:layout_height="match_parent" />-->
-	</RelativeLayout>
+				<!-- 矩形選択が行われるView -->
+				<com.toretate.aigisandroidtools.capture.SelectRectView
+					android:id="@+id/select_rect"
+					android:visibility="gone"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_alignLeft="@id/capturedImageView"
+					android:layout_alignTop="@id/capturedImageView"
+					android:layout_alignRight="@id/capturedImageView"
+					android:layout_alignBottom="@id/capturedImageView"
+					/>
+
+			</RelativeLayout>
+
+		</HorizontalScrollView>
+	</ScrollView>
 </LinearLayout>
