@@ -1,5 +1,6 @@
 package com.toretate.aigisandroidtools.capture;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -16,21 +17,28 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.media.projection.MediaProjectionManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.googlecode.leptonica.android.Scale;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -168,7 +176,13 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-				if( m_selectRectView.getVisibility() == View.VISIBLE ) {
+                View ui = root.findViewById( R.id.select_rect_ui );
+                ui.setVisibility( View.VISIBLE );
+
+                View rootUI = root.findViewById( R.id.root_ui_ocr );
+                rootUI.setVisibility( View.GONE );
+
+                if( m_selectRectView.getVisibility() == View.VISIBLE ) {
 					m_selectRectView.setVisibility( View.GONE );
 					scrollH.setOnTouchListener( null );
 					scrollV.setOnTouchListener( null );
@@ -194,7 +208,52 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 				}
             }
         });
+
+		setupSelectRectUI( root );
 	}
+
+	private void setupSelectRectUI( final @Nullable View root ) {
+		ToggleButton button;
+
+		CompoundButton.OnCheckedChangeListener l = new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				int id;
+				switch( compoundButton.getId() ) {
+					case R.id.fix_left_button: m_selectRectView.setFixL( b ); break;
+					case R.id.fix_top_button: m_selectRectView.setFixT( b ); break;
+					case R.id.fix_right_button: m_selectRectView.setFixR( b ); break;
+					case R.id.fix_bottom_button: m_selectRectView.setFixB( b ); break;
+				}
+			}
+		};
+
+		int[] buttonIds = { R.id.fix_left_button, R.id.fix_top_button, R.id.fix_right_button, R.id.fix_bottom_button };
+        for( int buttonId : buttonIds ) {
+            button = (ToggleButton)root.findViewById( buttonId );
+			button.setOnCheckedChangeListener( l );
+        }
+
+        Button okButton = (Button)root.findViewById( R.id.select_rect_ok );
+		okButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				View ui = root.findViewById( R.id.select_rect_ui );
+				ui.setVisibility( View.GONE );
+
+				View rootUI = root.findViewById( R.id.root_ui_ocr );
+				rootUI.setVisibility( View.VISIBLE );
+
+//                if( Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return false;
+
+//                int cx = (ui.getLeft() + ui.getRight() ) / 2;
+//                int cy = (ui.getTop() + ui.getBottom() ) / 2;
+//                int initialRadius = ui.getWidth();
+//                Animator anim = ViewAnimationUtils.createCircularReveal( ui, cx, cy, initialRadius, /*endRadius*/0 );
+			}
+		});
+    }
+
 
 	/**
 	 * スクリーンショットを再ロードする

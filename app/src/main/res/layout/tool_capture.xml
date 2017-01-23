@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:app="http://schemas.android.com/apk/res-auto"
-			  android:orientation="vertical"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -30,6 +32,7 @@
 		</LinearLayout>
 
 		<LinearLayout
+			android:id="@+id/root_ui_ocr"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal">
@@ -62,16 +65,77 @@
 				android:layout_height="wrap_content"
 				android:text="矩形選択"
 				/>
+		</LinearLayout>
+
+		<!-- 矩形選択UI -->
+		<LinearLayout
+			android:id="@+id/select_rect_ui"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:visibility="gone"
+			>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				tools:text="各選択範囲テキスト"
+				/>
+
+			<!-- 左固定 -->
+			<ToggleButton
+				android:id="@+id/fix_left_button"
+				android:layout_width="32dp"
+				android:layout_height="32dp"
+				android:background="@drawable/fix_button"
+				android:rotation="180"
+				android:textOn=""
+				android:textOff=""
+				/>
+
+			<!-- 上固定 -->
+			<ToggleButton
+				android:id="@+id/fix_top_button"
+				android:layout_width="32dp"
+				android:layout_height="32dp"
+				android:background="@drawable/fix_button"
+				android:rotation="270"
+				android:textOn=""
+				android:textOff=""
+				/>
+
+			<!-- 右固定 -->
+			<ToggleButton
+				android:id="@+id/fix_right_button"
+				android:layout_width="32dp"
+				android:layout_height="32dp"
+				android:background="@drawable/fix_button"
+				android:rotation="0"
+				android:textOn=""
+				android:textOff=""
+				/>
+
+			<!-- 下固定 -->
+			<ToggleButton
+				android:id="@+id/fix_bottom_button"
+				android:layout_width="32dp"
+				android:layout_height="32dp"
+				android:background="@drawable/fix_button"
+				android:rotation="90"
+				android:textOn=""
+				android:textOff=""
+				/>
+
+			<!-- 完了 -->
+			<Button
+				android:id="@+id/select_rect_ok"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@android:string/ok"
+				/>
 
 		</LinearLayout>
-	</LinearLayout>
 
-	<!--&lt;!&ndash; 矩形選択が行われるView &ndash;&gt;-->
-	<!--<com.toretate.aigisandroidtools.capture.SelectRectView-->
-		<!--android:id="@+id/select_rect"-->
-		<!--android:layout_width="match_parent"-->
-		<!--android:layout_height="match_parent"-->
-		<!--/>-->
+	</LinearLayout>
 
 	<ScrollView
 		android:id="@+id/image_v_scroll"
