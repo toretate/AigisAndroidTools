@@ -12,6 +12,15 @@
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		>
+		<com.toretate.aigisandroidtools.capture.ChaStaInfoView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="2dp"
+			android:layout_marginBottom="2dp"
+			android:layout_marginLeft="4dp"
+			android:layout_marginRight="4dp"
+			/>
+
 		<LinearLayout
 			android:id="@+id/root_ui_ocr"
 			android:layout_width="match_parent"
@@ -29,7 +38,7 @@
 				android:layout_width="0dp"
 				android:layout_weight="1"
 				android:layout_height="wrap_content"
-				android:text="矩形選択" />
+				android:text="範囲設定" />
 
 			<Button
 				android:id="@+id/reload_button"

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="■カリスマ・スタミナ状態"
+            />
+        <TextView
+            android:id="@+id/cha_kaihuku_text"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="回復 Cha 19時22分"
+            tools:text="回復 Cha 19時22分"
+            />
+        <TextView
+            android:id="@+id/sta_kaihuku_text"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:text="回復 Sta 20時22分"
+            tools:text="回復 Sta 20時22分"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/status_ui"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/rank_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:text="Rank 300"
+                tools:text="Rank 300"
+                />
+
+            <Button
+                android:id="@+id/rank_areaselect_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="9sp"
+                android:background="@drawable/borderless_button"
+                android:text="範囲"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/cha_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:text="Cha xxx/xxx x:xx"
+                tools:text="Cha 100/427 2:00"
+                />
+
+            <Button
+                android:id="@+id/cha_areaselect_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="9sp"
+                android:background="@drawable/borderless_button"
+                android:text="範囲"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/sta_text"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:text="Sta xx/xx xx:xx"
+                tools:text="Sta 10/18 10:10"
+                />
+
+            <Button
+                android:id="@+id/sta_areaselect_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="9sp"
+                android:background="@drawable/borderless_button"
+                android:text="範囲"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</merge>
