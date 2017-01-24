@@ -19,6 +19,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.media.projection.MediaProjectionManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -56,40 +57,39 @@ import java.io.OutputStream;
  * Created by toretate on 2017/01/14.
  */
 
-public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.ScreenshotPermissionListener {
+public class CapturePager extends CommonViewPagerPage {
 	
 	private static String TAG = CapturePager.class.getSimpleName();
-	private static String EXSTORAGE_PATH = String.format("%s/%s", Environment.getExternalStorageDirectory().toString(), "OCRTest");
-	private static String TESSDATA_PATH = String.format("%s/%s", EXSTORAGE_PATH, "tessdata");
-	private static String TRAIN_LANG = "jpn";
-	private static String TRAINEDDATA = String.format("%s.traineddata", TRAIN_LANG);
-	
+
 	private ImageView m_imageView;
-	
-	private Handler m_handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			Bundle bundle = msg.getData();
-			String filePath = bundle.getString( "file" );
-			
-			Bitmap bitmap = BitmapFactory.decodeFile( filePath );
-			m_imageView.setImageBitmap( bitmap );
-		}
-	};
 	
 	public CapturePager( String title, int itemId, String key, boolean defVisible, int layoutId ) {
 		super( title, itemId, key, defVisible, layoutId );
 	}
 
-	private MediaProjectionManager m_mediaProjectionManager;
+	/** 矩形選択View */
     private SelectRectView m_selectRectView;
+
+    /** OCR選択範囲 */
     private Rect m_rect;
 
-	@Override
+    /** 画像のスクローラ */
+    private HorizontalScrollView m_scrollH;
+    /** 画像のスクローラ */
+    private ScrollView m_scrollV;
+
+    @Override
 	protected void afterCreateView(final @Nullable View root, final LayoutInflater inflater ) {
 		final Context context = root.getContext();
 
-		m_imageView = (ImageView)root.findViewById( R.id.capturedImageView );
+        // Tessデータをアセットから外部ストレージに配置。TessBaseAPIがアセットを扱えないため。
+        try {
+            TessUtilKt.doTessSetting( context );
+        } catch( Exception e ) {
+        }
+
+
+        m_imageView = (ImageView)root.findViewById( R.id.capturedImageView );
 		reloadScreenshot( context );
 
 		Button button;
@@ -116,59 +116,39 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 			}
 		});
 
-		button = (Button)root.findViewById(R.id.reload_sample_button);
-		button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				AssetManager assetManager = context.getAssets();
-				try {
-					InputStream is = assetManager.open( "sample.jpg" );
-					Bitmap bitmap = BitmapFactory.decodeStream( is );
-					bitmap = bitmap.copy( Bitmap.Config.ARGB_8888, true );
-
-					Canvas canvas = new Canvas( bitmap );
-
-					Rect rect = new Rect( 56, 81, 56 + 230, 81 + 22 );
-					Paint paint = new Paint();
-					paint.setStyle( Paint.Style.STROKE );
-					paint.setStrokeWidth( 10.0f );
-					paint.setColor(Color.RED);
-					canvas.drawRect( rect, paint );
-
-
-					m_imageView.setImageBitmap( bitmap );
-				} catch( IOException e ) {
-
-				}
-			}
-		});
-		
 		button = (Button)root.findViewById(R.id.ocr_button);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View view) {
+			public void onClick( final View view) {
+				view.setEnabled( false );
+				final Drawable background = view.getBackground();
+				view.setBackgroundColor( Color.argb( 0x88, 0xff, 0x00, 0x00 ) );
 				Bitmap bitmap = ((BitmapDrawable)m_imageView.getDrawable()).getBitmap();
 
-				String text = TessUtilKt.doOCR( bitmap, m_rect );
+				AsyncTask<Bitmap, Void, String > task = new AsyncTask<Bitmap, Void, String>() {
 
-				Log.d(TAG, "Recognized : " + text );
+					@Override
+					protected String doInBackground(Bitmap... bmps) {
+						String text = TessUtilKt.doOCR( bmps[0], m_rect );
+						return text;
+					}
+
+					@Override
+					protected void onPostExecute(String s) {
+						view.setEnabled( true );
+						view.setBackground( background );
+						Toast.makeText( context, s, Toast.LENGTH_LONG ).show();
+						Log.d(TAG, "Recognized : " + s );
+					}
+				};
+				task.execute( bitmap );
+
 			}
 		});
-		
-		// Tessデータをアセットから外部ストレージに配置。TessBaseAPIがアセットを扱えないため。
-		button = (Button)root.findViewById(R.id.setting_tess_button);
-		button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				try {
-					TessUtilKt.doTessSetting( context );
-				} catch( Exception e ) {
-				}
-			}
-		});
 
-		final HorizontalScrollView scrollH = (HorizontalScrollView)root.findViewById( R.id.image_h_scroll );
-		final ScrollView scrollV = (ScrollView)root.findViewById(R.id.image_v_scroll);
+        // 画像表示領域の設定
+		m_scrollH = (HorizontalScrollView)root.findViewById( R.id.image_h_scroll );
+        m_scrollV = (ScrollView)root.findViewById(R.id.image_v_scroll);
         m_selectRectView = (SelectRectView)root.findViewById( R.id.select_rect );
 		m_selectRectView.setVisibility( View.GONE );
 
@@ -176,41 +156,57 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View ui = root.findViewById( R.id.select_rect_ui );
-                ui.setVisibility( View.VISIBLE );
-
-                View rootUI = root.findViewById( R.id.root_ui_ocr );
-                rootUI.setVisibility( View.GONE );
-
-                if( m_selectRectView.getVisibility() == View.VISIBLE ) {
-					m_selectRectView.setVisibility( View.GONE );
-					scrollH.setOnTouchListener( null );
-					scrollV.setOnTouchListener( null );
-
-					m_rect = m_selectRectView.getSelectRect();
-					reloadScreenshot( CapturePager.this.getContext() );
-				} else {
-					m_selectRectView.setVisibility( View.VISIBLE );
-					m_selectRectView.setSelectRect( m_rect );
-
-					scrollH.setOnTouchListener(new View.OnTouchListener() {
-						@Override
-						public boolean onTouch(View view, MotionEvent motionEvent) {
-							return true;
-						}
-					});
-					scrollV.setOnTouchListener(new View.OnTouchListener() {
-						@Override
-						public boolean onTouch(View view, MotionEvent motionEvent) {
-							return true;
-						}
-					});
-				}
+                switchOcrSelectAreaUI( root );
             }
         });
 
+        // 矩形選択UIの設定
 		setupSelectRectUI( root );
 	}
+
+	/** select_rect_ui の表示を出したり引っ込めたり */
+	private void switchOcrSelectAreaUI( final View root ) {
+        View ui = root.findViewById( R.id.select_rect_ui );
+        View rootUI = root.findViewById( R.id.root_ui_ocr );
+
+        if( ui.getVisibility() == View.VISIBLE ) {
+            // 閉じる
+            ui.setVisibility( View.GONE );
+            rootUI.setVisibility( View.VISIBLE );
+
+            m_selectRectView.setVisibility( View.GONE );
+
+            // ScrollViewのイベント再開
+            m_scrollH.setOnTouchListener( null );
+            m_scrollV.setOnTouchListener( null );
+
+            // 設定した矩形を反映
+            m_rect = m_selectRectView.getSelectRect();
+            reloadScreenshot( CapturePager.this.getContext() );
+        } else {
+            // 開く
+            ui.setVisibility( View.VISIBLE );
+            rootUI.setVisibility( View.GONE );
+
+            m_selectRectView.setVisibility( View.VISIBLE );
+            m_selectRectView.setSelectRect( m_rect );
+
+            // ScrollViewを無反応に
+            m_scrollH.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return true;
+                }
+            });
+            m_scrollV.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return true;
+                }
+            });
+        }
+    }
+
 
 	private void setupSelectRectUI( final @Nullable View root ) {
 		ToggleButton button;
@@ -238,18 +234,7 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 		okButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				View ui = root.findViewById( R.id.select_rect_ui );
-				ui.setVisibility( View.GONE );
-
-				View rootUI = root.findViewById( R.id.root_ui_ocr );
-				rootUI.setVisibility( View.VISIBLE );
-
-//                if( Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return false;
-
-//                int cx = (ui.getLeft() + ui.getRight() ) / 2;
-//                int cy = (ui.getTop() + ui.getBottom() ) / 2;
-//                int initialRadius = ui.getWidth();
-//                Animator anim = ViewAnimationUtils.createCircularReveal( ui, cx, cy, initialRadius, /*endRadius*/0 );
+                switchOcrSelectAreaUI( root );
 			}
 		});
     }
@@ -285,11 +270,4 @@ public class CapturePager extends CommonViewPagerPage implements MainNavDrawer.S
 			oldBMP.recycle();
 		}
 	}
-
-	// ScreenshotPermissionListener
-	public void screenshotPermissionCompleted() {
-		Intent intent = new Intent( this.getContext(), ScreenshotService.class ).setAction( ScreenshotService.Companion.getACTION_START() );
-		this.getContext().startService( intent );
-	}
-	
 }
