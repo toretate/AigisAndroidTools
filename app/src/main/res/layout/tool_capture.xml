@@ -13,6 +13,7 @@
 		android:orientation="vertical"
 		>
 		<LinearLayout
+			android:id="@+id/root_ui_ocr"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal">
@@ -24,18 +25,18 @@
 				android:text="Capture" />
 
 			<Button
+				android:id="@+id/select_rect_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="矩形選択" />
+
+			<Button
 				android:id="@+id/reload_button"
 				android:layout_width="0dp"
 				android:layout_weight="1"
 				android:layout_height="wrap_content"
 				android:text="更新" />
-		</LinearLayout>
-
-		<LinearLayout
-			android:id="@+id/root_ui_ocr"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
 
 			<Button
 				android:id="@+id/ocr_button"
@@ -43,14 +44,6 @@
 				android:layout_weight="1"
 				android:layout_height="wrap_content"
 				android:text="OCR" />
-
-			<Button
-				android:id="@+id/select_rect_button"
-				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:layout_height="wrap_content"
-				android:text="矩形選択"
-				/>
 		</LinearLayout>
 
 		<!-- 矩形選択UI -->
