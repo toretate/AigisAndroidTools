@@ -250,6 +250,7 @@ public class CapturePager extends CommonViewPagerPage {
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inMutable = true;
 			Bitmap bitmap = BitmapFactory.decodeFile( file.getAbsolutePath(), options );
+			if( bitmap == null ) return;
 
 			Canvas canvas = new Canvas( bitmap );
 
