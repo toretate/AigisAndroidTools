@@ -13,6 +13,7 @@
 		android:orientation="vertical"
 		>
 		<com.toretate.aigisandroidtools.capture.ChaStaInfoView
+			android:id="@+id/chaStaInfoView"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="2dp"
@@ -32,13 +33,6 @@
 				android:layout_weight="1"
 				android:layout_height="wrap_content"
 				android:text="Capture" />
-
-			<Button
-				android:id="@+id/select_rect_button"
-				android:layout_width="0dp"
-				android:layout_weight="1"
-				android:layout_height="wrap_content"
-				android:text="範囲設定" />
 
 			<Button
 				android:id="@+id/reload_button"
@@ -62,64 +56,104 @@
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
 			android:visibility="gone"
+			tools:visibility="visible"
 			>
-			<TextView
-				android:layout_width="wrap_content"
+
+			<LinearLayout
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				tools:text="各選択範囲テキスト"
-				/>
+				android:layout_weight="1"
+				android:layout_gravity="center"
+				>
+				<!-- 左固定 -->
+				<ToggleButton
+					android:id="@+id/fix_left_button"
+					android:layout_width="32dp"
+					android:layout_weight="1"
+					android:layout_height="32dp"
+					android:background="@drawable/fix_button"
+					android:rotation="180"
+					android:textOn=""
+					android:textOff=""
+					/>
 
-			<!-- 左固定 -->
-			<ToggleButton
-				android:id="@+id/fix_left_button"
-				android:layout_width="32dp"
+				<!-- 上固定 -->
+				<ToggleButton
+					android:id="@+id/fix_top_button"
+					android:layout_width="32dp"
+					android:layout_weight="1"
+					android:layout_height="32dp"
+					android:background="@drawable/fix_button"
+					android:rotation="270"
+					android:textOn=""
+					android:textOff=""
+					/>
+
+				<!-- 右固定 -->
+				<ToggleButton
+					android:id="@+id/fix_right_button"
+					android:layout_width="32dp"
+					android:layout_weight="1"
+					android:layout_height="32dp"
+					android:background="@drawable/fix_button"
+					android:rotation="0"
+					android:textOn=""
+					android:textOff=""
+					/>
+
+				<!-- 下固定 -->
+				<ToggleButton
+					android:id="@+id/fix_bottom_button"
+					android:layout_width="32dp"
+					android:layout_weight="1"
+					android:layout_height="32dp"
+					android:background="@drawable/fix_button"
+					android:rotation="90"
+					android:textOn=""
+					android:textOff=""
+					/>
+			</LinearLayout>
+
+
+			<RadioGroup
+				android:layout_width="0dp"
+				android:layout_weight="1"
 				android:layout_height="32dp"
-				android:background="@drawable/fix_button"
-				android:rotation="180"
-				android:textOn=""
-				android:textOff=""
-				/>
+				android:layout_gravity="center"
+				android:orientation="horizontal"
+				>
 
-			<!-- 上固定 -->
-			<ToggleButton
-				android:id="@+id/fix_top_button"
-				android:layout_width="32dp"
-				android:layout_height="32dp"
-				android:background="@drawable/fix_button"
-				android:rotation="270"
-				android:textOn=""
-				android:textOff=""
-				/>
+				<RadioButton
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Rank"
+					style="@style/FlatRadioButton"
+					/>
 
-			<!-- 右固定 -->
-			<ToggleButton
-				android:id="@+id/fix_right_button"
-				android:layout_width="32dp"
-				android:layout_height="32dp"
-				android:background="@drawable/fix_button"
-				android:rotation="0"
-				android:textOn=""
-				android:textOff=""
-				/>
+				<RadioButton
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Cha"
+					style="@style/FlatRadioButton"
+					/>
 
-			<!-- 下固定 -->
-			<ToggleButton
-				android:id="@+id/fix_bottom_button"
-				android:layout_width="32dp"
-				android:layout_height="32dp"
-				android:background="@drawable/fix_button"
-				android:rotation="90"
-				android:textOn=""
-				android:textOff=""
-				/>
+				<RadioButton
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Sta"
+					style="@style/FlatRadioButton"
+					/>
 
-			<!-- 完了 -->
-			<Button
-				android:id="@+id/select_rect_ok"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@android:string/ok"
-				/>
+				<RadioButton
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Sta(分)"
+					style="@style/FlatRadioButton"
+					/>
+
+
+
+			</RadioGroup>
 
 		</LinearLayout>
 

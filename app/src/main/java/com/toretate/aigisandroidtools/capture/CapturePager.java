@@ -67,6 +67,9 @@ public class CapturePager extends CommonViewPagerPage {
 		super( title, itemId, key, defVisible, layoutId );
 	}
 
+	/** カリスマ／スタミナ 表示部分 */
+	private ChaStaInfoView m_chaStaInfoView;
+
 	/** 矩形選択View */
     private SelectRectView m_selectRectView;
 
@@ -88,12 +91,20 @@ public class CapturePager extends CommonViewPagerPage {
         } catch( Exception e ) {
         }
 
+        m_chaStaInfoView = (ChaStaInfoView)root.findViewById( R.id.chaStaInfoView );
+        m_chaStaInfoView.setAreaSelectButtonChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                switchOcrSelectAreaUI( root );
+            }
+        });
 
         m_imageView = (ImageView)root.findViewById( R.id.capturedImageView );
 		reloadScreenshot( context );
 
 		Button button;
 
+        // スクリーンキャプチャボタン
 		button = (Button)root.findViewById( R.id.capture_button );
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -108,6 +119,7 @@ public class CapturePager extends CommonViewPagerPage {
 			}
 		});
 
+        // 更新ボタン
 		button = (Button)root.findViewById(R.id.reload_button);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -116,6 +128,7 @@ public class CapturePager extends CommonViewPagerPage {
 			}
 		});
 
+        // OCR実行ボタン
 		button = (Button)root.findViewById(R.id.ocr_button);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -151,14 +164,6 @@ public class CapturePager extends CommonViewPagerPage {
         m_scrollV = (ScrollView)root.findViewById(R.id.image_v_scroll);
         m_selectRectView = (SelectRectView)root.findViewById( R.id.select_rect );
 		m_selectRectView.setVisibility( View.GONE );
-
-        button = (Button)root.findViewById( R.id.select_rect_button );
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchOcrSelectAreaUI( root );
-            }
-        });
 
         // 矩形選択UIの設定
 		setupSelectRectUI( root );
@@ -229,14 +234,6 @@ public class CapturePager extends CommonViewPagerPage {
             button = (ToggleButton)root.findViewById( buttonId );
 			button.setOnCheckedChangeListener( l );
         }
-
-        Button okButton = (Button)root.findViewById( R.id.select_rect_ok );
-		okButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-                switchOcrSelectAreaUI( root );
-			}
-		});
     }
 
 
