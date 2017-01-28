@@ -69,7 +69,6 @@
 				<ToggleButton
 					android:id="@+id/fix_left_button"
 					android:layout_width="32dp"
-					android:layout_weight="1"
 					android:layout_height="32dp"
 					android:background="@drawable/fix_button"
 					android:rotation="180"
@@ -81,7 +80,6 @@
 				<ToggleButton
 					android:id="@+id/fix_top_button"
 					android:layout_width="32dp"
-					android:layout_weight="1"
 					android:layout_height="32dp"
 					android:background="@drawable/fix_button"
 					android:rotation="270"
@@ -93,7 +91,6 @@
 				<ToggleButton
 					android:id="@+id/fix_right_button"
 					android:layout_width="32dp"
-					android:layout_weight="1"
 					android:layout_height="32dp"
 					android:background="@drawable/fix_button"
 					android:rotation="0"
@@ -105,12 +102,23 @@
 				<ToggleButton
 					android:id="@+id/fix_bottom_button"
 					android:layout_width="32dp"
-					android:layout_weight="1"
 					android:layout_height="32dp"
 					android:background="@drawable/fix_button"
 					android:rotation="90"
 					android:textOn=""
 					android:textOff=""
+					/>
+
+				<!-- スクロール -->
+				<ToggleButton
+					android:id="@+id/scroll_button"
+					android:layout_width="32dp"
+					android:layout_height="32dp"
+					android:layout_marginLeft="16dp"
+					android:background="@drawable/scroll_button"
+					android:rotation="0"
+					android:textOff=""
+					android:textOn=""
 					/>
 			</LinearLayout>
 
@@ -124,30 +132,50 @@
 				>
 
 				<RadioButton
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="1"
 					android:layout_height="wrap_content"
+					android:layout_margin="0dp"
+					android:paddingLeft="0dp"
+					android:paddingRight="0dp"
 					android:text="Rank"
+					android:textSize="9sp"
 					style="@style/FlatRadioButton"
 					/>
 
 				<RadioButton
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="1"
 					android:layout_height="wrap_content"
+					android:layout_margin="0dp"
+					android:paddingLeft="0dp"
+					android:paddingRight="0dp"
+					android:textSize="9sp"
 					android:text="Cha"
 					style="@style/FlatRadioButton"
 					/>
 
 				<RadioButton
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="1"
 					android:layout_height="wrap_content"
+					android:layout_margin="0dp"
+					android:paddingLeft="0dp"
+					android:paddingRight="0dp"
 					android:text="Sta"
+					android:textSize="9sp"
 					style="@style/FlatRadioButton"
 					/>
 
 				<RadioButton
-					android:layout_width="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="1"
 					android:layout_height="wrap_content"
+					android:layout_margin="0dp"
+					android:paddingLeft="0dp"
+					android:paddingRight="0dp"
 					android:text="Sta(分)"
+					android:textSize="9sp"
 					style="@style/FlatRadioButton"
 					/>
 
@@ -164,10 +192,12 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		>
+
 		<HorizontalScrollView
 			android:id="@+id/image_h_scroll"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
+
 			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
@@ -184,13 +214,13 @@
 				<!-- 矩形選択が行われるView -->
 				<com.toretate.aigisandroidtools.capture.SelectRectView
 					android:id="@+id/select_rect"
-					android:visibility="gone"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
-					android:layout_alignLeft="@id/capturedImageView"
-					android:layout_alignTop="@id/capturedImageView"
-					android:layout_alignRight="@id/capturedImageView"
 					android:layout_alignBottom="@id/capturedImageView"
+					android:layout_alignLeft="@id/capturedImageView"
+					android:layout_alignRight="@id/capturedImageView"
+					android:layout_alignTop="@id/capturedImageView"
+					android:visibility="gone"
 					/>
 
 			</RelativeLayout>
