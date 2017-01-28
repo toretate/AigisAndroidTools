@@ -6,4 +6,8 @@
 		<item name="android:windowDrawsSystemBarBackgrounds">true</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 	</style>
+
+	<style name="FlatRadioButton" parent="android:Widget.Material.Button.Toggle">
+		<item name="android:button">@null</item>	<!-- 先頭ボタンを消す -->
+	</style>
 </resources>
