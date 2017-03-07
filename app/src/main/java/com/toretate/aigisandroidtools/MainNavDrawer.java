@@ -1,17 +1,15 @@
 package com.toretate.aigisandroidtools;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.media.projection.MediaProjection;
-import android.media.projection.MediaProjectionManager;
+import android.content.SharedPreferences;
+import android.content.res.XmlResourceParser;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.toretate.aigisandroidtools.capture.ScreenshotService;
 import com.toretate.aigisandroidtools.pager.PagerAdapter;
@@ -32,7 +31,9 @@ import com.toretate.aigisandroidtools.twitter.TwitterSettings;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
-import java.util.List;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -51,6 +52,8 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 
 	private MoPubSettings m_moPub;
 	private ViewPager m_pager;
+	private ActionBarDrawerToggle m_drawerToggle;
+	private NavigationView m_navView;
 
 	public void setTitle( String title ) {
 		Toolbar toolbar = (Toolbar)this.findViewById( R.id.toolbar );
@@ -102,13 +105,23 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		*/
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
-		drawer.addDrawerListener(toggle);
-		toggle.syncState();
+		m_drawerToggle = new ActionBarDrawerToggle( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close ) {
+			@Override
+			public void onDrawerOpened(View drawerView) {
+				super.onDrawerOpened(drawerView);
+				createNavigationMenu( MainNavDrawer.this );
+				Integer cur_itemIndex = m_pager.getCurrentItem();
+				m_navView.getMenu().getItem( cur_itemIndex ).setChecked( true );
+			}
+		};
+		drawer.addDrawerListener(m_drawerToggle);
+		m_drawerToggle.syncState();
 
 		// NavigationDrawer の選択リスナを張っておく
-		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-		navigationView.setNavigationItemSelectedListener(this);
+		m_navView = (NavigationView) findViewById(R.id.nav_view);
+		createNavigationMenu( this );
+		m_navView.setItemIconTintList( null );
+		m_navView.setNavigationItemSelectedListener(this);	// 選択リスナ
 
 		// ViewPagerの設定
 		{
@@ -176,6 +189,10 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 
+		if( m_drawerToggle.onOptionsItemSelected( item ) ) {
+			return true;
+		}
+
 		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_settings) {
 			Intent intent = new Intent( this, SettingsActivity.class );
@@ -218,6 +235,7 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
+
 		return true;
 	}
 
@@ -250,4 +268,66 @@ public class MainNavDrawer extends AppCompatActivity implements NavigationView.O
 	public void onFragmentInteraction(Uri uri) {
 
 	}
+
+	/** NavigationDrawerのメニューを作成する */
+	private void createNavigationMenu( final Context ctx ) {
+
+		Menu menu = m_navView.getMenu();
+		menu.clear();
+
+		final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences( ctx.getApplicationContext() );
+
+		// /pager-defs/* から @key, @title, @summary を取得してチェックボックス項目を作成
+		XmlResourceParser parser = ctx.getResources().getXml( R.xml.settings );
+		try {
+			int event;
+			boolean isPagerDefsChildren = false;
+			while ((event = parser.next()) != XmlResourceParser.END_DOCUMENT) {
+				switch( event ) {
+					case XmlResourceParser.START_DOCUMENT:
+					case XmlResourceParser.END_DOCUMENT:
+						break;
+					case XmlResourceParser.START_TAG: {
+						String tagName = parser.getName();
+						if( tagName.equals( "pager-defs" ) ) {
+							isPagerDefsChildren = true;
+							break;
+						}
+
+						String title = parser.getAttributeValue( null, "title" );
+						int itemID = parser.getAttributeResourceValue( null, "itemID", -1 );
+						String key = parser.getAttributeValue( null, "key" );
+						boolean defVisible = parser.getAttributeBooleanValue( null, "defVisible", true );
+
+						if( sp.getBoolean( key, defVisible ) ) {
+							MenuItem added = menu.add( Menu.NONE, itemID, Menu.NONE, title );
+							switch( tagName ) {
+								case "twitter":
+									added.setIcon(R.drawable.twitter_40_40);
+									break;
+							}
+						}
+
+						break;
+					}
+					case XmlResourceParser.END_TAG: {
+						String tagName = parser.getName();
+						switch( tagName ) {
+							case "pager-defs":
+								isPagerDefsChildren = false;
+								break;
+							default:
+								break;
+						}
+						break;
+					}
+					case XmlResourceParser.TEXT:
+						break;
+				}
+			}
+		} catch( XmlPullParserException e ) {
+		} catch( IOException e ) {
+		}
+	}
+
 }
