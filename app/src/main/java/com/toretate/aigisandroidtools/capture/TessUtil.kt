@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.os.Environment
 import android.util.Log
+import android.widget.Toast
 import com.googlecode.tesseract.android.TessBaseAPI
 import java.io.File
 import java.io.FileOutputStream
@@ -29,19 +30,41 @@ fun doTessSetting( ctx : Context) {
     // MEMO : Manifestの android.permission.WRITE_EXTERNAL_STORAGEを忘れずに
 
     // 外部ストレージに Tesseract データを配置するためのディレクトリを作成
-    var paths = arrayOf( EXSTORAGE_PATH, EXSTORAGE_PATH + "/tessdata" );
-    for( path in paths ) {
-        var dir = File( path )
-        if( dir.exists() ) continue;
-        if( dir.mkdirs() ) continue;
+    var paths = arrayOf(EXSTORAGE_PATH, EXSTORAGE_PATH + "/tessdata");
+    for (path in paths) {
+        var dir = File(path)
+        if (dir.exists()) continue;
+        if (dir.mkdirs()) continue;
 
-        throw Exception( "Tesseractデータ ディレクトリ作成に失敗" )
+        throw Exception("Tesseractデータ ディレクトリ作成に失敗")
     }
 
     // 学習済みデータの配置
-    var traineddata_path = String.format( "%s/%s", TESSDATA_PATH, TRAINEDDATA );
-    if( File( traineddata_path).exists() ) return;  // 既に学習済みデータが配置されている
+    var traineddata_path = String.format("%s/%s", TESSDATA_PATH, TRAINEDDATA);
+    if (File(traineddata_path).exists()) return;  // 既に学習済みデータが配置されている
 
+    loadFromInternet( ctx, traineddata_path );
+//    loadFromAsset( ctx, traineddata_path );
+
+}
+
+/**
+ * Tesserectの学習済みデータをインターネットからダウンロードして配置
+ */
+private fun loadFromInternet( ctx : Context, traineddata_path: String ) {
+    Toast.makeText( ctx, "ダウンロード開始", Toast.LENGTH_SHORT ).show()
+
+    var downloader = TesserectDataDownloader( ctx );
+    downloader.download( traineddata_path ) {
+        // complete
+        Toast.makeText( ctx, "ダウンロード終了", Toast.LENGTH_SHORT ).show()
+    }
+}
+
+/**
+ * Tessの学習済みデータを Assets からロードする
+ */
+private fun loadFromAsset( ctx : Context, traineddata_path : String ) {
     try {
         ctx.assets.open( TRAINEDDATA ).use {
             var input = it
