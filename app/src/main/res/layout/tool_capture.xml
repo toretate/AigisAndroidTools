@@ -124,6 +124,7 @@
 
 
 			<RadioGroup
+				android:id="@+id/areaButtons"
 				android:layout_width="0dp"
 				android:layout_weight="1"
 				android:layout_height="32dp"
@@ -132,6 +133,7 @@
 				>
 
 				<RadioButton
+					android:id="@+id/rankAreaButton"
 					android:layout_width="0dp"
 					android:layout_weight="1"
 					android:layout_height="wrap_content"
@@ -144,6 +146,7 @@
 					/>
 
 				<RadioButton
+					android:id="@+id/chaAreaButton"
 					android:layout_width="0dp"
 					android:layout_weight="1"
 					android:layout_height="wrap_content"
@@ -156,6 +159,7 @@
 					/>
 
 				<RadioButton
+					android:id="@+id/staAreaButton"
 					android:layout_width="0dp"
 					android:layout_weight="1"
 					android:layout_height="wrap_content"
@@ -168,6 +172,7 @@
 					/>
 
 				<RadioButton
+					android:id="@+id/chaSubAreaButton"
 					android:layout_width="0dp"
 					android:layout_weight="1"
 					android:layout_height="wrap_content"
