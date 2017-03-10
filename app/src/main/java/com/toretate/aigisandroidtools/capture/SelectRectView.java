@@ -32,7 +32,7 @@ public class SelectRectView extends View {
     public boolean getFixR() { return m_fixR; }
     public boolean getFixB() { return m_fixB; }
 
-    public void setSelectRect( Rect rect ) {m_rect = rect; }
+    public void setSelectRect( Rect rect ) { m_rect = rect; }
     public Rect getSelectRect() { return m_rect; }
 
     public SelectRectView(Context context) {
