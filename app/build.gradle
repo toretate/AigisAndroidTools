@@ -60,15 +60,19 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 
 	// Twitter Kit
-	compile('com.twitter.sdk.android:twitter:2.3.1@aar') {
+	compile('com.twitter.sdk.android:twitter:2.3.2@aar') {
 		transitive = true
 	}
 	compile 'com.android.support:appcompat-v7:25.0.1'
 	compile 'com.android.support:design:25.0.1'
 	compile 'com.android.support:support-v4:25.0.1'
-    compile('com.mopub:mopub-sdk:4.11.0@aar') {
+
+	// MoPub( banner only )
+    compile('com.mopub:mopub-sdk:4.12.0@aar') {
         transitive = true;
     }
+
+	// TableView
 	compile 'de.codecrafters.tableview:tableview:2.4.1'
 
 	// kotlin
