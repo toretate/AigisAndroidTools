@@ -1,6 +1,7 @@
 package com.toretate.aigisandroidtools.capture
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.util.Log
 import android.view.Gravity
@@ -21,8 +22,8 @@ class FloatingButton(val windowManager: WindowManager, val view: View) {
     }
 
     private val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
+            100,
+            100,
             WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT)
@@ -66,6 +67,9 @@ class FloatingButton(val windowManager: WindowManager, val view: View) {
             false
         }
         view.setOnClickListener {
+            // 自分を隠す
+            this.visible = false
+
             // クリック時にスクリーンショットを撮る
             var context = this.view.context;
             val intent = Intent(context, CaptureService::class.java)
