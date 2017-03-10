@@ -24,6 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
+
+        <!-- MoPub -->
         <activity
             android:name="com.mopub.mobileads.MoPubActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
@@ -36,6 +38,9 @@
         <activity
             android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.mopub.mobileads.RewardedMraidActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <!-- スクショ撮影用 -->
         <service android:name=".capture.ScreenshotService" />
