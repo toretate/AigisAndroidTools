@@ -80,7 +80,7 @@ dependencies {
 	compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
 	// tesseract-ocr
-	compile "com.rmtheis:tess-two:6.1.1"
+	compile "com.rmtheis:tess-two:6.2.0"
 
 }
 

@@ -94,7 +94,7 @@ class TesserectDataDownloader( context : Context ) {
     public fun download( outFile : String, complete : ( Boolean ) -> Unit ) {
         val downloader = AsyncFileDownload(
                             m_context,
-                            "https://github.com/tesseract-ocr/tessdata/raw/master/jpn.traineddata",
+                            "https://github.com/tesseract-ocr/tessdata/raw/3.04.00/jpn.traineddata",
                             File( outFile ),
                             complete
                         )
