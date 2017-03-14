@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="Content-Script-Type" content="text/javascript">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<title>収集管理</title>
+
+    	<!-- BootstrapのCSS読み込み -->
+    	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    	<style>
+    		.progress {
+    			box-shadow: none;
+    			-webkit-box-shadow: none;
+    		}
+			table .progress {
+				margin-bottom: 0;
+			}
+    	</style>
+	</head>
+<body>
+
+<!-- 収集イベントの管理用 -->
+
+<div class="panel-group">
+	<div class="panel panel-default">
+		<span id="remainTime">あとα日β時間</span> <span id="remainParts">目標までy個</span>
+	</div>
+	<div class="panel panel-default">
+		<table class="table table-condensed table-striped">
+			<tbody>
+			<tr class="progress">
+				<td class="col-xs-2">目標</td><td><div class="progress-bar progress-bar-info" id="collection_bar_target" style="width:80%;">1000/1500</div></td>
+			</tr>
+			<tr class="progress">
+				<td class="col-xs-2">現在</td><td><div class="progress-bar progress-bar-success" id="collection_bar_current" style="width:50%;">100</div></td>
+			</tr>
+			<tr class="progress">
+				<td class="col-xs-2">ペース</td><td><div class="progress-bar progress-bar-warning" id="collection_bar_pase" style="width:50%;">300</div></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!-- jQuery読み込み -->
+<script src="./jquery-1.12.4.min.js"></script>
+<!-- BootstrapのJS読み込み -->
+<script src="bootstrap/js/bootstrap.js"></script>
+
+<script>
+$(function(){
+
+	var collection_current = 200;	// 収集個数
+	var collection_target = 1300;	// 収集目標
+	var collection_max = 1500;		// 今回の収集MAX(もらえる最大個数)
+
+	// 固定時間
+	var start = new Date( 2017, 2, 9, 15, 0, 0, 0, 0 );	// 15時開始とする
+	var last = new Date( 2017, 2, 23, 10, 0, 0, 0, 0 );	// 10時終了
+
+	function showRemainTimeAndParts() {
+
+		// 時間
+		var current = new Date();
+
+		if( last < current ) {
+			$("#remainTime").text( "終了しました" );
+		} else {
+			var dDay = last.getDate() - current.getDate();
+
+			var cHour = current.getHours();
+			var dHour = cHour < 10 ? last.getHours() - cHour : last.getHours() + 24 - cHour;
+			dHour -= 1; // 現時刻が 0M 0s 0ms なわけないので -1 しておく
+
+			$("#remainTime").text( "あと" +dDay +"日" +dHour +"時間" );
+		}
+
+		// 収集個数
+		var collection_remain = collection_target - collection_current;
+		$("#remainParts").text( "あと" +collection_remain +"個" );
+
+		var percent;
+		// 目標のゲージ位置
+		percent = Math.round( collection_target / collection_max * 100 );
+		$("#collection_bar_target").css( {'width': percent + '%'} );
+		$("#collection_bar_target").text( collection_target + " / " + collection_max );
+
+		// 現在のゲージ位置
+		percent = Math.round( collection_current / collection_max * 100 );
+		$("#collection_bar_current").css( {'width': percent +'%'} );
+		$("#collection_bar_current").text( collection_current );
+
+		// 目標までのペース位置
+		{
+			var collection_hour_pase = collection_target / ( 14 * 24 ); // targetを14日間の時間数で割った個数
+			var dMs = ( current.getTime() - start.getTime() );
+			var dHourTime = Math.round( dMs / 1000 / 60 / 60 );	// 経過時間(H)
+
+			var collection_current_pase = Math.round( collection_hour_pase * dHourTime );	// 現在のペース個数
+
+			percent = Math.round( collection_current_pase / collection_max * 100 );
+			$("#collection_bar_pase").css( {'width': percent +'%'} );
+			$("#collection_bar_pase").text( collection_current_pase + " (" +collection_hour_pase.toFixed(1) +" / 時)" );
+		}
+
+	}
+
+	$(window).load( showRemainTimeAndParts() );
+});
+</script>
+
+
+</body>
+</html>
