@@ -61,6 +61,19 @@ $(function(){
 	var start = new Date( 2017, 2, 9, 15, 0, 0, 0, 0 );	// 15時開始とする
 	var last = new Date( 2017, 2, 23, 10, 0, 0, 0, 0 );	// 10時終了
 
+	function loadParametersFromAndroid() {
+
+		collection_current = wbAPI.loadCurrent();
+		collection_target = wbAPI.loadTarget();
+		collection_max = wbAPI.loadMax();
+
+		alert( collection_current );
+
+		showRemainTimeAndParts();
+	}
+
+	loadParametersFromAndroid();
+
 	function showRemainTimeAndParts() {
 
 		// 時間
