@@ -18,6 +18,10 @@
 			table .progress {
 				margin-bottom: 0;
 			}
+			.padding-zero {
+				padding: 0px;
+				height: auto;
+			}
     	</style>
 	</head>
 <body>
@@ -32,17 +36,37 @@
 		<table class="table table-condensed table-striped">
 			<tbody>
 			<tr class="progress">
-				<td class="col-xs-2">目標</td><td><div class="progress-bar progress-bar-info" id="collection_bar_target" style="width:80%;">1000/1500</div></td>
+				<td class="col-xs-2">目標</td>
+				<td><div class="progress-bar progress-bar-info" id="collection_bar_target" style="width:80%;" /></td>
+				<td class="col-xs-1"><a id="collection_edit_target"><span class="glyphicon glyphicon-pencil"/></a></td>
 			</tr>
 			<tr class="progress">
-				<td class="col-xs-2">現在</td><td><div class="progress-bar progress-bar-success" id="collection_bar_current" style="width:50%;">100</div></td>
+				<td class="col-xs-2">現在</td>
+				<td><div class="progress-bar progress-bar-success" id="collection_bar_current" style="width:50%;">100</div></td>
+				<td class="col-xs-1"><a id="collection_edit_current"><span class="glyphicon glyphicon-pencil"/></a></td>
 			</tr>
 			<tr class="progress">
-				<td class="col-xs-2">ペース</td><td><div class="progress-bar progress-bar-warning" id="collection_bar_pase" style="width:50%;">300</div></td>
+				<td class="col-xs-2">ペース</td>
+				<td><div class="progress-bar progress-bar-warning" id="collection_bar_pase" style="width:50%;">300</div></td>
+				<td class="col-xs-1" />
 			</tr>
 			</tbody>
 		</table>
 	</div>
+</div>
+
+<!-- 数値入力ダイアログ -->
+<div class="modal fade" id="modal-example">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<input id="modal-example-input" type="number" class="form-control" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-primary">保存</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- jQuery読み込み -->
@@ -53,32 +77,45 @@
 <script>
 $(function(){
 
-	var collection_current = 200;	// 収集個数
-	var collection_target = 1300;	// 収集目標
-	var collection_max = 1500;		// 今回の収集MAX(もらえる最大個数)
+	var collection_current;	// 収集個数
+	var collection_target;	// 収集目標
+	var collection_max;		// 今回の収集MAX(もらえる最大個数)
 
 	// 固定時間
 	var start = new Date( 2017, 2, 9, 15, 0, 0, 0, 0 );	// 15時開始とする
 	var last = new Date( 2017, 2, 23, 10, 0, 0, 0, 0 );	// 10時終了
 
-	function loadParametersFromAndroid() {
+	// Modalの状態保持
+	var $modal_open_from;
 
-		collection_current = wbAPI.loadCurrent();
-		collection_target = wbAPI.loadTarget();
-		collection_max = wbAPI.loadMax();
+	/**
+	 * パラメータの初期化を行う。必要があればシステムからデータを取ってくる
+	 */
+	function loadParameters() {
+		var agent = navigator.userAgent;
+		if( agent.search(/Android/) != -1 ) {
+			collection_current = wbAPI.loadCurrent();
+			collection_target = wbAPI.loadTarget();
+			collection_max = wbAPI.loadMax();
+		} else {
+			collection_current = 200;
+			collection_target = 1300;
+			collection_max = 1500;
+		}
 
-		alert( collection_current );
-
+		// ゲージの初期化
 		showRemainTimeAndParts();
 	}
 
-	loadParametersFromAndroid();
-
 	function showRemainTimeAndParts() {
-
 		// 時間
 		var current = new Date();
 
+		showRemainTime( current );
+		showParts( current );
+	}
+
+	function showRemainTime( current ) {
 		if( last < current ) {
 			$("#remainTime").text( "終了しました" );
 		} else {
@@ -90,7 +127,9 @@ $(function(){
 
 			$("#remainTime").text( "あと" +dDay +"日" +dHour +"時間" );
 		}
+	}
 
+	function showParts( current ) {
 		// 収集個数
 		var collection_remain = collection_target - collection_current;
 		$("#remainParts").text( "あと" +collection_remain +"個" );
@@ -99,7 +138,7 @@ $(function(){
 		// 目標のゲージ位置
 		percent = Math.round( collection_target / collection_max * 100 );
 		$("#collection_bar_target").css( {'width': percent + '%'} );
-		$("#collection_bar_target").text( collection_target + " / " + collection_max );
+		$("#collection_bar_target").text( collection_target );
 
 		// 現在のゲージ位置
 		percent = Math.round( collection_current / collection_max * 100 );
@@ -118,11 +157,34 @@ $(function(){
 			$("#collection_bar_pase").css( {'width': percent +'%'} );
 			$("#collection_bar_pase").text( collection_current_pase + " (" +collection_hour_pase.toFixed(1) +" / 時)" );
 		}
-
 	}
 
-	$(window).load( showRemainTimeAndParts() );
+	$(window).load( loadParameters() );
+
+	// イベント処理
+	$( "#collection_edit_target" ).on( 'click', function() {
+		$modal_open_from = $( "#collection_edit_target" ).get(0);
+		$( '#modal-example-input' ).val( collection_target );
+		$( '#modal-example' ).modal('show');
+	});
+	$( "#collection_edit_current" ).on( 'click', function() {
+		$modal_open_from = $( "#collection_edit_current" ).get(0);
+		$( '#modal-example-input' ).val( collection_current );
+		$( '#modal-example' ).modal('show');
+	});
+	$( '#modal-example' ).on( 'click', '.modal-footer .btn-primary', function() {
+		$( '#modal-example' ).modal( 'hide' );
+		var value = $( '#modal-example-input' ).val();
+		if( $modal_open_from == $('#collection_edit_target').get(0) ) {
+			collection_target = value;
+		} else {
+			collection_current = value;
+		}
+		showRemainTimeAndParts();
+	});
+
 });
+
 </script>
 
 
