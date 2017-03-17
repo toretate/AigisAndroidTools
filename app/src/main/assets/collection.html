@@ -41,15 +41,38 @@
 				<td class="col-xs-1"><a id="collection_edit_target"><span class="glyphicon glyphicon-pencil"/></a></td>
 			</tr>
 			<tr class="progress">
-				<td class="col-xs-2">現在</td>
-				<td><div class="progress-bar progress-bar-success" id="collection_bar_current" style="width:50%;">100</div></td>
-				<td class="col-xs-1"><a id="collection_edit_current"><span class="glyphicon glyphicon-pencil"/></a></td>
-			</tr>
-			<tr class="progress">
 				<td class="col-xs-2">ペース</td>
 				<td><div class="progress-bar progress-bar-warning" id="collection_bar_pase" style="width:50%;">300</div></td>
 				<td class="col-xs-1" />
 			</tr>
+			<tr class="progress">
+				<td class="col-xs-2">現在</td>
+				<td><div class="progress-bar progress-bar-success" id="collection_bar_current" style="width:50%;">100</div></td>
+				<td class="col-xs-1"><a id="collection_edit_current"><span class="glyphicon glyphicon-pencil"/></a></td>
+			</tr>
+			</tbody>
+		</table>
+		現在のペースだと<span id="collection_current_pase_max">n</span>個の予定です
+	</div>
+</div>
+
+<div class="panel-group">
+	<div class="panel panel-header">
+		古代龍の目覚め ドロップ表
+	</div>
+	<div class="panel panel-default">
+		<table class="table table-condensed table-striped">
+			<tbody>
+			<tr><th>名前</th>			<th class="col-xs-1">ｶﾘ</th><th class="col-xs-1">ｽﾀ</th><th>ドロップ表					</th></tr>
+			<tr><td>悠久を生きし龍</td>	<td class="col-xs-1">20</td><td class="col-xs-1">1</td>	<td>片1x2, 花束				</td></tr>
+			<tr><td>古代龍の眠る島</td>	<td class="col-xs-1">30</td><td class="col-xs-1">2</td>	<td>片1x3, ｳﾞｪﾛｯﾃ, 魔2		</td></tr>
+			<tr><td>封印のほこら</td>		<td class="col-xs-1">40</td><td class="col-xs-1">4</td>	<td>片3x1, 片1x3, ﾆｴﾙ, ﾏｰﾔ	</td></tr>
+			<tr><td>雨下の激戦</td>		<td class="col-xs-1">50</td><td class="col-xs-1">7</td>	<td>片5x2, 片3x2, ﾈｰﾆｬ, 白精</td></tr>
+			<tr><td>樹霊の暴走</td>		<td class="col-xs-1">80</td><td class="col-xs-1">9</td>	<td>片5x3, ﾛｻﾞﾘｰ, ﾛｰﾚﾝ, 魔2	</td></tr>
+			<tr><td>河童の雨乞い</td>		<td class="col-xs-1">40</td><td class="col-xs-1">5</td>	<td>片3x3, ｲﾛﾊ, 女王, 白鎧	</td></tr>
+			<tr><td>大海原を泳ぐ巨龍</td>	<td class="col-xs-1">70</td><td class="col-xs-1">8</td>	<td>片5x2, 片3x1, ﾊﾘｯｻ, ﾙﾋﾞｰ</td></tr>
+			<tr><td>古代龍の目覚め</td>	<td class="col-xs-1">90</td><td class="col-xs-1">12</td><td>片5x4, 片3x2, 技			</td></tr>
+			<tr><td>新たなるｷｮﾝｼｰ</td>	<td class="col-xs-1">100</td><td class="col-xs-1">2</td><td>金精, 白精, 黒精, 技		</td></tr>
 			</tbody>
 		</table>
 	</div>
@@ -88,23 +111,48 @@ $(function(){
 	// Modalの状態保持
 	var $modal_open_from;
 
+	function isAndroid() {
+		var agent = navigator.userAgent;
+		if( agent.search(/Android/) != -1 ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * パラメータの初期化を行う。必要があればシステムからデータを取ってくる
 	 */
 	function loadParameters() {
-		var agent = navigator.userAgent;
-		if( agent.search(/Android/) != -1 ) {
+		if( isAndroid() ) {
 			collection_current = wbAPI.loadCurrent();
 			collection_target = wbAPI.loadTarget();
 			collection_max = wbAPI.loadMax();
 		} else {
-			collection_current = 200;
-			collection_target = 1300;
-			collection_max = 1500;
+			collection_current = window.localStorage["CollectionCurrent"];
+			collection_target = window.localStorage["CollectionTarget"];
+			collection_max = window.localStorage["CollectionMax"];
+			if( collection_current == null )collection_current = 200;
+			if( collection_target == null )	collection_target = 1300;
+			if( collection_max == null )	collection_max = 1500;
 		}
 
 		// ゲージの初期化
 		showRemainTimeAndParts();
+	}
+
+	function saveParameters() {
+		if( isAndroid() ) {
+			wbAPI.save(
+					collection_current
+					, collection_target
+					, collection_max
+				);
+		} else {
+			window.localStorage["CollectionCurrent"] = collection_current;
+			window.localStorage["CollectionTarget"] = collection_target;
+			window.localStorage["CollectionMax"] = collection_max;
+		}
 	}
 
 	function showRemainTimeAndParts() {
@@ -140,22 +188,30 @@ $(function(){
 		$("#collection_bar_target").css( {'width': percent + '%'} );
 		$("#collection_bar_target").text( collection_target );
 
+		// 目標までのペース位置
+		{
+			var target_par_hour = collection_target / ( 14 * 24 ); // targetを14日間の時間数で割った個数
+			var dHourTime = Math.round( ( current.getTime() - start.getTime() ) / 3600000 );	// 経過時間(H)
+
+			var target_pase_current = Math.round( target_par_hour * dHourTime );	// target/h のとき、現時刻の個数
+
+			percent = Math.round( target_pase_current / collection_max * 100 );
+			$("#collection_bar_pase").css( {'width': percent +'%'} );
+			$("#collection_bar_pase").text( target_pase_current + " (" +target_par_hour.toFixed(1) +" / 時)" );
+		}
+
 		// 現在のゲージ位置
 		percent = Math.round( collection_current / collection_max * 100 );
 		$("#collection_bar_current").css( {'width': percent +'%'} );
 		$("#collection_bar_current").text( collection_current );
 
-		// 目標までのペース位置
+		// 現在のペースで何個になるか
 		{
-			var collection_hour_pase = collection_target / ( 14 * 24 ); // targetを14日間の時間数で割った個数
-			var dMs = ( current.getTime() - start.getTime() );
-			var dHourTime = Math.round( dMs / 1000 / 60 / 60 );	// 経過時間(H)
+			var dHourTime = Math.round( ( current.getTime() - start.getTime() ) / 3600000 );	// 経過時間(H)
+			var current_par_hour = collection_current / ( dHourTime ); // currentを現在までの経過時間数で割った個数
 
-			var collection_current_pase = Math.round( collection_hour_pase * dHourTime );	// 現在のペース個数
-
-			percent = Math.round( collection_current_pase / collection_max * 100 );
-			$("#collection_bar_pase").css( {'width': percent +'%'} );
-			$("#collection_bar_pase").text( collection_current_pase + " (" +collection_hour_pase.toFixed(1) +" / 時)" );
+			var current_pase_max = Math.floor( current_par_hour * 14 * 24 );	// 14日 x 24時間
+			$("#collection_current_pase_max").text( current_pase_max );
 		}
 	}
 
@@ -180,6 +236,7 @@ $(function(){
 		} else {
 			collection_current = value;
 		}
+		saveParameters();
 		showRemainTimeAndParts();
 	});
 

@@ -32,9 +32,9 @@ public class WebViewPagerPage extends CommonViewPagerPage {
         LoadWebViewParams( final Context ctx ) {
             m_sp = PreferenceManager.getDefaultSharedPreferences( ctx.getApplicationContext() );
 
-            m_current = 506;
-            m_target = 1145;
-            m_max = 1500;
+            m_current = m_sp.getInt( "CollectionCurrent", 500 );
+            m_target = m_sp.getInt( "CollectionTarget", 1500 );
+            m_max = m_sp.getInt( "CollectionMax", 1800 );
         }
 
 
@@ -48,11 +48,16 @@ public class WebViewPagerPage extends CommonViewPagerPage {
         public int loadMax() { return m_max; }
 
         @JavascriptInterface
-        public void save( int current, int target, int max ) {
-            m_current = current;
-            m_target = target;
-            m_max = max;
+        public void save( String current, String target, String max ) {
+            m_current = Integer.parseInt( current );
+            m_target = Integer.parseInt( target );
+            m_max = Integer.parseInt( max );
 
+            SharedPreferences.Editor editor = m_sp.edit();
+            editor.putInt( "CollectionCurrent", m_current );
+            editor.putInt( "CollectionTarget", m_target );
+            editor.putInt( "CollectionMax", m_target );
+            editor.apply(); // 書き込み非同期
         }
 
     }
