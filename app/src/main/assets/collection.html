@@ -23,21 +23,23 @@
 				height: auto;
 			}
 			.img16 {
-				width: 16px; height: 16px;
 			}
 			.c1 {
+				width: 16px; height: 16px;
 				background-image: url("./ic_collect_1.png");
 				display: inline-block;
 				position: relative;
 				background-size: contain;
 			}
 			.c3 {
+				width: 16px; height: 16px;
 				background-image: url("./ic_collect_3.png");
 				display: inline-block;
 				position: relative;
 				background-size: contain;
 			}
 			.c5 {
+				width: 16px; height: 16px;
 				background-image: url("./ic_collect_5.png");
 				display: inline-block;
 				position: relative;
@@ -81,19 +83,72 @@
 	<div class="panel panel-header">
 		<a data-toggle="collapse" href="#collapseDrop"><span class="glyphicon glyphicon-triangle-bottom" />古代龍の目覚め ドロップ表</a>
 	</div>
-	<div id="collapseDrop" class="panel panel-default panel-collapse collapse in">
+	<div id="collapseDrop" class="panel panel-default panel-collapse collapse">
 		<table class="table table-condensed table-striped">
+			<colgroup><col/><col class="col-xs-1"/><col class="col-xs-1"/><col/></colgroup>
 			<tbody>
-			<tr><th>名前</th>			<th class="col-xs-1">ｶﾘ</th><th class="col-xs-1">ｽﾀ</th><th>ドロップ表					</th></tr>
-			<tr><td>悠久を生きし龍</td>	<td class="col-xs-1">20</td><td class="col-xs-1">1</td>	<td><span class="img16 c1"></span>x2, 花束</td></tr>
-			<tr><td>古代龍の眠る島</td>	<td class="col-xs-1">30</td><td class="col-xs-1">2</td>	<td><span class="img16 c1"></span>x3, ｳﾞｪﾛｯﾃ, 魔2	</td></tr>
-			<tr><td>封印のほこら</td>		<td class="col-xs-1">40</td><td class="col-xs-1">4</td>	<td><span class="img16 c3"></span>x1, <span class="img16 c1"></span>x3, ﾆｴﾙ, ﾏｰﾔ</td></tr>
-			<tr><td>雨下の激戦</td>		<td class="col-xs-1">50</td><td class="col-xs-1">7</td>	<td><span class="img16 c5"></span>x2, <span class="img16 c3"></span>x2, ﾈｰﾆｬ, 白精</td></tr>
-			<tr><td>樹霊の暴走</td>		<td class="col-xs-1">80</td><td class="col-xs-1">9</td>	<td><span class="img16 c5"></span>x3, ﾛｻﾞﾘｰ, ﾛｰﾚﾝ, 魔2	</td></tr>
-			<tr><td>河童の雨乞い</td>		<td class="col-xs-1">40</td><td class="col-xs-1">5</td>	<td><span class="img16 c3"></span>x3, ｲﾛﾊ, 女王, 白鎧	</td></tr>
-			<tr><td>大海原を泳ぐ巨龍</td>	<td class="col-xs-1">70</td><td class="col-xs-1">8</td>	<td><span class="img16 c5"></span>x2, <span class="img16 c3"></span>x1, ﾊﾘｯｻ, ﾙﾋﾞｰ</td></tr>
-			<tr><td>古代龍の目覚め</td>	<td class="col-xs-1">90</td><td class="col-xs-1">12</td><td><span class="img16 c5"></span>x4, <span class="img16 c3"></span>x2, 技			</td></tr>
-			<tr><td>新たなるｷｮﾝｼｰ</td>	<td class="col-xs-1">100</td><td class="col-xs-1">2</td><td>金精, 白精, 黒精, 技		</td></tr>
+			<tr><th>名前</th>			<th> ｶﾘ</th><th>ｽﾀ</th><th>ドロップ表</th></tr>
+			<tr><td>悠久を生きし龍</td>		<td> 20</td><td> 1</td><td><span class="c1"></span>x2, 花束</td></tr>
+			<tr><td>古代龍の眠る島</td>	<td> 30</td><td> 2</td><td><span class="c1"></span>x3, ｳﾞｪﾛｯﾃ, 魔2</td></tr>
+			<tr><td>封印のほこら</td>		<td> 40</td><td> 4</td><td><span class="c3"></span>x1, <span class="c1"></span>x3, ﾆｴﾙ, ﾏｰﾔ</td></tr>
+			<tr><td>雨下の激戦</td>		<td> 50</td><td> 7</td><td><span class="c5"></span>x2, <span class="c3"></span>x2, ﾈｰﾆｬ, 白聖</td></tr>
+			<tr><td>樹霊の暴走</td>		<td> 80</td><td> 9</td><td><span class="c5"></span>x3, ﾛｻﾞﾘｰ, ﾛｰﾚﾝ, 魔2</td></tr>
+			<tr><td>河童の雨乞い</td>		<td> 40</td><td> 5</td><td><span class="c3"></span>x3, ｲﾛﾊ, 女王, 白鎧</td></tr>
+			<tr><td>大海原を泳ぐ巨龍</td>	<td> 70</td><td> 8</td><td><span class="c5"></span>x2, <span class="c3"></span>x1, ﾊﾘｯｻ, ﾙﾋﾞｰ</td></tr>
+			<tr><td>古代龍の目覚め</td>	<td> 90</td><td>12</td><td><span class="c5"></span>x4, <span class="c3"></span>x2, 技聖</td></tr>
+			<tr><td>新たなるｷｮﾝｼｰ</td>		<td>100</td><td> 2</td><td>金聖, 白聖, 黒聖, 技聖</td></tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="panel-group">
+	<div class="panel panel-header">
+		<a data-toggle="collapse" href="#collapseReward"><span class="glyphicon glyphicon-triangle-bottom" />古代龍の目覚め 報酬表</a>
+	</div>
+	<div id="collapseReward" class="panel panel-default panel-collapse collapse">
+		<table class="table table-condensed table-striped">
+			<colgroup><col class="col-xs-2"/><col class="col-xs-4"/></colgroup>
+			<colgroup><col class="col-xs-2"/><col class="col-xs-4"/></colgroup>
+			<tbody>
+			<tr><th>個数</th><th>報酬</th>		<th>個数</th><th>報酬</th></tr>
+			<tr><td> 10</td><td>仲間加入</td>		<td> 600</td><td>コスト -3</td></tr>
+			<tr><td> 30</td><td>スキル 2</td>		<td> 700</td><td>スキル 7</td></tr>
+			<tr><td> 50</td><td>初期Lv. 10</td>	<td> 800</td><td>初期Lv. 30</td></tr>
+			<tr><td>100</td><td>スキル 3</td>		<td> 900</td><td>スキル 8</td></tr>
+			<tr><td>150</td><td>コスト -1</td>		<td>1000</td><td>コスト -4</td></tr>
+			<tr><td>200</td><td>スキル 4</td>		<td>1100</td><td>初期Lv. 40</td></tr>
+			<tr><td>250</td><td>コスト -2</td>		<td>1200</td><td>スキル 9</td></tr>
+			<tr><td>300</td><td>スキル 5</td>		<td>1300</td><td>コスト -5</td></tr>
+			<tr><td>400</td><td>初期Lv. 20</td>	<td>1400</td><td>スキル 10</td></tr>
+			<tr><td>500</td><td>スキル 6</td>		<td>1500</td><td>初期Lv. 50</td></tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="panel-group">
+	<div class="panel panel-header">
+		<a data-toggle="collapse" href="#collapseAppendReward"><span class="glyphicon glyphicon-triangle-bottom" />古代龍の目覚め 追加報酬表</a>
+	</div>
+	<div id="collapseAppendReward" class="panel panel-default panel-collapse collapse">
+		<table class="table table-condensed table-striped">
+			<colgroup><col class="col-xs-1"/><col class="col-xs-2"/></colgroup>
+			<colgroup><col class="col-xs-1"/><col class="col-xs-2"/></colgroup>
+			<colgroup><col class="col-xs-1"/><col class="col-xs-2"/></colgroup>
+			<colgroup><col class="col-xs-1"/><col class="col-xs-2"/></colgroup>
+			<tbody>
+			<tr><th>個数</th><th>報酬</th>	<th>個数</th><th>報酬</th>	<th>個数</th><th>報酬</th>	<th>個数</th><th>報酬</th></tr>
+			<tr><td> 45</td><td>金ア</td>	<td>495</td><td>結欠</td>	<td> 945</td><td>白ア</td>	<td>1395</td><td>黒聖</td></tr>
+			<tr><td> 90</td><td>金聖</td>	<td>540</td><td>黒聖</td>	<td> 990</td><td>白聖</td>	<td>1440</td><td>白聖</td></tr>
+			<tr><td>135</td><td>白ア</td>	<td>585</td><td>金ア</td>	<td>1035</td><td>絆聖</td>	<td>1485</td><td>白ア</td></tr>
+			<tr><td>180</td><td>金聖</td>	<td>630</td><td>技聖</td>	<td>1080</td><td>白聖</td>	<td>1530</td><td>白聖</td></tr>
+			<tr><td>225</td><td>結欠</td>	<td>675</td><td>白ア</td>	<td>1125</td><td>結欠</td>	<td>1575</td><td>結欠</td></tr>
+			<tr><td>270</td><td>白聖</td>	<td>720</td><td>白聖</td>	<td>1170</td><td>黒聖</td>	<td>1620</td><td>黒聖</td></tr>
+			<tr><td>315</td><td>金ア</td>	<td>765</td><td>絆金</td>	<td>1215</td><td>白ア</td>	<td>1665</td><td>金ア</td></tr>
+			<tr><td>360</td><td>白聖</td>	<td>810</td><td>白聖</td>	<td>1260</td><td>黒聖</td>	<td>1710</td><td>黒聖</td></tr>
+			<tr><td>405</td><td>白ア</td>	<td>855</td><td>結欠</td>	<td>1305</td><td>絆黒</td>	<td>1755</td><td>白ア</td></tr>
+			<tr><td>450</td><td>黒聖</td>	<td>900</td><td>黒聖</td>	<td>1350</td><td>技聖</td>	<td>1800</td><td>技聖</td></tr>
 			</tbody>
 		</table>
 	</div>
@@ -264,12 +319,13 @@ $(function(){
 		showRemainTimeAndParts();
 	});
 
+	// Collapseの開閉による変更
 	$('.collapse').on('show.bs.collapse', function() {
-		var v1 = $(this).parent().find("span");
+		var v1 = $(this).parent().find("span:first");
 		v1.attr('class', 'glyphicon glyphicon-triangle-bottom');
 	});
 	$('.collapse').on('hide.bs.collapse', function() {
-		var v1 = $(this).parent().find("span");
+		var v1 = $(this).parent().find("span:first");
 		v1.attr('class', 'glyphicon glyphicon-triangle-right');
 	});
 
