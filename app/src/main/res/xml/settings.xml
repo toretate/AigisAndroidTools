@@ -18,7 +18,7 @@
     <timer title="カリ/スタ管理" itemID="@id/tool_timer" key="tool_timer" defVisible="false" />
 
     <!-- 収集  -->
-    <webview title="収集" itemID="@+id/collection" key="collection" defVisible="false" fragment="@layout/compose_fragment" html="collection.html" />
+    <collection title="収集" itemID="@+id/collection" key="collection" defVisible="false" fragment="@layout/compose_fragment" html="collection.html" />
 
     <!-- 合成表  -->
     <webview title="合成表" itemID="@id/tool_compose" key="tool_compose" defVisible="false" fragment="@layout/compose_fragment" html="compose.html" />
