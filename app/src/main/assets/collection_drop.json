@@ -1,0 +1,13 @@
+{
+	"drops" : [
+		[ "悠久を生きし龍"		, 20,  1, "<span class='c1'></span>x2, 花束" ],
+		[ "古代龍の眠る島"		, 30,  2, "<span class='c1'></span>x3, ｳﾞｪﾛｯﾃ, 魔2" ],
+		[ "封印のほこら"		, 40,  4, "<span class='c3'></span>x1, <span class='c1'></span>x3, ﾆｴﾙ, ﾏｰﾔ" ],
+		[ "雨下の激戦"		, 50,  7, "<span class='c5'></span>x2, <span class='c3'></span>x2, ﾈｰﾆｬ, 白聖" ],
+		[ "樹霊の暴走"		, 80,  9, "<span class='c5'></span>x3, ﾛｻﾞﾘｰ, ﾛｰﾚﾝ, 魔2" ],
+		[ "河童の雨乞い"		, 40,  5, "<span class='c3'></span>x3, ｲﾛﾊ, 女王, 白鎧" ],
+		[ "大海原を泳ぐ巨龍"	, 70,  8, "<span class='c5'></span>x2, <span class='c3'></span>x1, ﾊﾘｯｻ, ﾙﾋﾞｰ" ],
+		[ "古代龍の目覚め"		, 90, 12, "<span class='c5'></span>x4, <span class='c3'></span>x2, 技聖" ],
+		[ "新たなるｷｮﾝｼｰ"		,100,  2, "金聖, 白聖, 黒聖, 技聖" ]
+	]
+}
