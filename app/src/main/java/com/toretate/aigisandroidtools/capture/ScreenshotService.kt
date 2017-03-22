@@ -4,7 +4,9 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.graphics.Color
 import android.os.IBinder
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import com.toretate.aigisandroidtools.MainNavDrawer
@@ -61,7 +63,9 @@ class ScreenshotService : Service() {
     private fun startOverlay() {
         ImageView(this).run {
             val windowManager = getSystemService(Service.WINDOW_SERVICE) as WindowManager
-            setImageResource(android.R.drawable.ic_menu_add)
+            this.scaleType = ImageView.ScaleType.FIT_CENTER
+            this.setBackgroundResource( R.drawable.circle )
+            setImageResource( R.mipmap.ic_photo )
             button = FloatingButton(windowManager, this).apply {
                 visible = true
             }

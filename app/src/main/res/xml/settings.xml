@@ -17,6 +17,9 @@
     <!-- タイマー  -->
     <timer title="カリ/スタ管理" itemID="@id/tool_timer" key="tool_timer" defVisible="false" />
 
+    <!-- 収集  -->
+    <collection title="収集" itemID="@+id/collection" key="collection" defVisible="false" fragment="@layout/compose_fragment" html="collection.html" />
+
     <!-- 合成表  -->
     <webview title="合成表" itemID="@id/tool_compose" key="tool_compose" defVisible="false" fragment="@layout/compose_fragment" html="compose.html" />
 
@@ -25,9 +28,6 @@
 
     <!-- twitter(@aigis1000A) -->
     <twitter title="作者" summary="twitter" itemID="@id/tw_toretatenee" key="tw_toretatenee" defVisible="false" user="toretatenee" />
-
-    <!-- 管理 -->
-    <common title="管理" itemID="@id/action_settings" key="action_settings" defVisible="false" />
 
 	<!-- キャプチャ -->
 	<capture title="キャプチャ" itemID="@+id/action_capture" key="action_capture" defVisible="false" layout="@layout/tool_capture" />

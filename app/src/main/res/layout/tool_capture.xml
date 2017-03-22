@@ -1,47 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:app="http://schemas.android.com/apk/res-auto"
-			  android:orientation="vertical"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
-
-		<Button
-			android:id="@+id/capture_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
+		android:orientation="vertical"
+		>
+		<com.toretate.aigisandroidtools.capture.ChaStaInfoView
+			android:id="@+id/chaStaInfoView"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Capture" />
+			android:layout_marginTop="2dp"
+			android:layout_marginBottom="2dp"
+			android:layout_marginLeft="4dp"
+			android:layout_marginRight="4dp"
+			/>
 
-		<Button
-			android:id="@+id/reload_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
+		<LinearLayout
+			android:id="@+id/root_ui_ocr"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="更新" />
+			android:orientation="horizontal">
+			<Button
+				android:id="@+id/capture_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="Capture" />
 
-		<Button
-			android:id="@+id/ocr_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
-			android:layout_height="wrap_content"
-			android:text="OCR" />
+			<Button
+				android:id="@+id/reload_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="更新" />
 
-		<Button
-			android:id="@+id/setting_tess_button"
-			android:layout_width="0dp"
-			android:layout_weight="1"
+			<Button
+				android:id="@+id/ocr_button"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:text="OCR" />
+		</LinearLayout>
+
+		<!-- 矩形選択UI -->
+		<LinearLayout
+			android:id="@+id/select_rect_ui"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="配置" />
+			android:orientation="horizontal"
+			android:visibility="gone"
+			tools:visibility="visible"
+			>
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:layout_gravity="center"
+				>
+				<!-- 左固定 -->
+				<ToggleButton
+					android:id="@+id/fix_left_button"
+					android:layout_width="32dp"
+					android:layout_height="32dp"
+					android:background="@drawable/fix_button"
+					android:rotation="180"
+					android:textOn=""
+					android:textOff=""
+					/>
+
+				<!-- 上固定 -->
+				<ToggleButton
+					android:id="@+id/fix_top_button"
+					android:layout_width="32dp"
+					android:layout_height="32dp"
+					android:background="@drawable/fix_button"
+					android:rotation="270"
+					android:textOn=""
+					android:textOff=""
+					/>
+
+				<!-- 右固定 -->
+				<ToggleButton
+					android:id="@+id/fix_right_button"
+					android:layout_width="32dp"
+					android:layout_height="32dp"
+					android:background="@drawable/fix_button"
+					android:rotation="0"
+					android:textOn=""
+					android:textOff=""
+					/>
+
+				<!-- 下固定 -->
+				<ToggleButton
+					android:id="@+id/fix_bottom_button"
+					android:layout_width="32dp"
+					android:layout_height="32dp"
+					android:background="@drawable/fix_button"
+					android:rotation="90"
+					android:textOn=""
+					android:textOff=""
+					/>
+
+				<!-- スクロール -->
+				<ToggleButton
+					android:id="@+id/scroll_button"
+					android:layout_width="32dp"
+					android:layout_height="32dp"
+					android:layout_marginLeft="16dp"
+					android:background="@drawable/scroll_button"
+					android:rotation="0"
+					android:textOff=""
+					android:textOn=""
+					/>
+			</LinearLayout>
+
+
+			<RadioGroup
+				android:id="@+id/areaButtons"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="32dp"
+				android:layout_gravity="center"
+				android:orientation="horizontal"
+				>
+
+				<RadioButton
+					android:id="@+id/rankAreaButton"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:layout_margin="0dp"
+					android:paddingLeft="0dp"
+					android:paddingRight="0dp"
+					android:text="Rank"
+					android:textSize="9sp"
+					style="@style/FlatRadioButton"
+					/>
+
+				<RadioButton
+					android:id="@+id/chaAreaButton"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:layout_margin="0dp"
+					android:paddingLeft="0dp"
+					android:paddingRight="0dp"
+					android:textSize="9sp"
+					android:text="Cha"
+					style="@style/FlatRadioButton"
+					/>
+
+				<RadioButton
+					android:id="@+id/staAreaButton"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:layout_margin="0dp"
+					android:paddingLeft="0dp"
+					android:paddingRight="0dp"
+					android:text="Sta"
+					android:textSize="9sp"
+					style="@style/FlatRadioButton"
+					/>
+
+				<RadioButton
+					android:id="@+id/chaSubAreaButton"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:layout_margin="0dp"
+					android:paddingLeft="0dp"
+					android:paddingRight="0dp"
+					android:text="Sta(分)"
+					android:textSize="9sp"
+					style="@style/FlatRadioButton"
+					/>
+
+
+
+			</RadioGroup>
+
+		</LinearLayout>
+
 	</LinearLayout>
 
-	<ImageView
-		android:id="@+id/capturedImageView"
+	<ScrollView
+		android:id="@+id/image_v_scroll"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		app:srcCompat="@android:drawable/ic_menu_gallery"/>
+		>
+
+		<HorizontalScrollView
+			android:id="@+id/image_h_scroll"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center"
+				>
+
+				<ImageView
+					android:id="@+id/capturedImageView"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:scaleType="center"
+					app:srcCompat="@android:drawable/ic_menu_gallery"/>
+
+				<!-- 矩形選択が行われるView -->
+				<com.toretate.aigisandroidtools.capture.SelectRectView
+					android:id="@+id/select_rect"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_alignBottom="@id/capturedImageView"
+					android:layout_alignLeft="@id/capturedImageView"
+					android:layout_alignRight="@id/capturedImageView"
+					android:layout_alignTop="@id/capturedImageView"
+					android:visibility="gone"
+					/>
+
+			</RelativeLayout>
+
+		</HorizontalScrollView>
+	</ScrollView>
 </LinearLayout>

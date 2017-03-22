@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.toretate.aigisandroidtools.R;
 import com.toretate.aigisandroidtools.capture.CapturePager;
+import com.toretate.aigisandroidtools.collection.CollectionPagerPage;
 import com.toretate.aigisandroidtools.dbview.DBViewPagerPage;
 import com.toretate.aigisandroidtools.mission.MissionViewPager;
 import com.toretate.aigisandroidtools.timer.TimerViewPager;
@@ -86,6 +87,12 @@ public class ViewPagerPageDefs {
 								case "timer":
 									pageDefs.add( new TimerViewPager( title, itemID, key, defVisible ) );
 									break;
+								case "collection": {
+									int fragment = parser.getAttributeResourceValue( null, "fragment", -1 );
+									String html = parser.getAttributeValue( null, "html" );
+									pageDefs.add( new CollectionPagerPage( title, itemID, key, defVisible,	fragment, html ) );
+									break;
+								}
 								case "webview": {
 									int fragment = parser.getAttributeResourceValue( null, "fragment", -1 );
 									String html = parser.getAttributeValue( null, "html" );
