@@ -1,0 +1,32 @@
+{
+  "name": "aigis-android-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "scripts": {
+    "build": "webpack --watch -d",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mahomaho",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-runtime": "^6.26.0",
+    "babel-watch": "^2.0.7",
+    "bable-loader": "0.0.1-security",
+    "css-loader": "^0.28.7",
+    "json-loader": "^0.5.7",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.6.0"
+  }
+}
