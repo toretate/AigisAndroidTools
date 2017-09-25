@@ -1,5 +1,5 @@
 // css
-require('./bootstrap/css/bootstrap.min.css');
+require('bootstrap/dist/css/bootstrap.css');
 
 var $ = require('jquery');
 global.jQuery = $;
