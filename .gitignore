@@ -6,3 +6,7 @@
 .DS_Store
 /build
 /captures
+app/src/main/assets/node_modules
+app/src/main/assets/public
+app/src/js_src/node_modules
+bundle.js
