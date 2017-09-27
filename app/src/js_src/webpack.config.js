@@ -6,15 +6,23 @@ const DEBUG = process.argv.indexOf('--release') === -1;
 
 module.exports = {
     entry: {
-        bundle: './collection.js'
+        collection:'./collection.js',
+        compose:'./compose.js'
     }
     , output: {
         path: path.join(__dirname, '../main/assets'),
         // filename: '[name].js'
-        filename: 'bundle.js'
+        filename: '[name].bundle.js'
     }
     , module: {
         loaders: [
+            {
+                test: /\.tag$/,
+                exclude: /node_modules/,
+                loader: 'riotjs-loader',
+                query: { type: 'none' },
+                enforce: 'pre'
+            },
             {
                 loader: 'babel-loader',
                 exclude: /node_modules/,

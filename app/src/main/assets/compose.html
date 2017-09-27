@@ -6,9 +6,6 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1">
     	<title>合成表</title>
 
-    	<!-- BootstrapのCSS読み込み -->
-    	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
     	<style>
     		td { text-align: right; }
     		th { text-align: center; }
@@ -55,8 +52,10 @@ ${目標Exp}
 ＊プラチナをサリエット有りに変更
 
 -->
+<div class="panel panel-default" style="position:fixed; top:5px; right:5px;">
 
-サリエット有り
+	<label><input type="checkbox" value="">サリエット</label>
+</div>
 
 <div class="panel-group" id="accordion">
 	<div class="panel panel-default">
@@ -349,24 +348,8 @@ ${目標Exp}
 	</div>
 </div>
 
-<!-- jQuery読み込み -->
-<script src="./jquery-1.12.4.min.js"></script>
-<!-- BootstrapのJS読み込み -->
-<script src="bootstrap/js/bootstrap.js"></script>
-
-<script>
-$(function(){
-	$('.collapse').on('show.bs.collapse', function() {
-		var v1 = $(this).parent().find("span");
-		v1.attr('class', 'glyphicon glyphicon-triangle-bottom');
-	});
-	$('.collapse').on('hide.bs.collapse', function() {
-		var v1 = $(this).parent().find("span");
-		v1.attr('class', 'glyphicon glyphicon-triangle-right');
-	});
-});
-</script>
-
+<!-- アプリの読み込み -->
+<script src="./compose.bundle.js"></script>
 
 </body>
 </html>

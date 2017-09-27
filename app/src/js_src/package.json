@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "riot": "^3.7.2",
+    "riotjs-loader": "^4.0.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
