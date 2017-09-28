@@ -6,6 +6,12 @@ global.jQuery = $;
 require('bootstrap');
 const expTable = require('./exp_table.json');
 
+import route from 'riot-route'
+riot.route = route;
+import './tags/compose/compose-table-root.tag'
+const tags = riot.mount('*');
+riot.route.start( true );
+
 $(function(){
 
 	var use_sariet = false;

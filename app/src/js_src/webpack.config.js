@@ -40,6 +40,10 @@ module.exports = {
             { test: /\.ttf$/, loader: 'url-loader?mimetype=application/font-woff' },
             { test: /\.json$/, loader: 'json-loader' }
         ]
-    }
-    , devtool: DEBUG ? 'inline-source-map' : false
+    }, plugins: [
+        new webpack.ProvidePlugin({
+            riot: 'riot'
+        })
+    ]
+    , devtool: 'inline-source-map'
 };
