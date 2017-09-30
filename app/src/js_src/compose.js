@@ -1,9 +1,29 @@
-// css
+// css : bootstrap
 require('bootstrap/dist/css/bootstrap.css');
 
-var $ = require('jquery');
+// css : Flat UI
+require('flat-ui/css/flat-ui.css');
+
+// js : jQuery
+// var $ = require('jquery');
+// global.jQuery = $;
+
+// // js : bootstrap
+// require('bootstrap');
+
+// js : Flat UI
+$ = require('flat-ui/js/jquery-2.0.3.min');
 global.jQuery = $;
-require('bootstrap');
+require('flat-ui/js/jquery-ui-1.10.3.custom.min');
+require('flat-ui/js/jquery.ui.touch-punch.min');
+require('flat-ui/js/bootstrap.min');
+require('flat-ui/js/bootstrap-select');
+require('flat-ui/js/bootstrap-switch');
+require('flat-ui/js/flatui-checkbox');
+require('flat-ui/js/flatui-radio');
+require('flat-ui/js/application');
+
+// 経験値テーブル
 const expTable = require('./exp_table.json');
 
 import route from 'riot-route'
@@ -24,13 +44,9 @@ $(function(){
 		// 	collection_target = wbAPI.loadTarget();
 		// 	collection_max = wbAPI.loadMax();
 		// } else {
-			use_sariet = window.localStorage["UseSariet"];
-			if( use_sariet == null ) use_sariet = false;
+			// use_sariet = window.localStorage["UseSariet"];
+			// if( use_sariet == null ) use_sariet = false;
 		// }
-
-		// ゲージの初期化
-		showRemainTimeAndParts();
-		reloadReward();
 	}
 
 	function saveParameters() {
@@ -41,7 +57,7 @@ $(function(){
 		// 			, collection_max
 		// 		);
 		// } else {
-			window.localStorage["UseSariet"] = use_sariet;
+			// window.localStorage["UseSariet"] = use_sariet;
 		// }
 	}
 

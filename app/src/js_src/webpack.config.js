@@ -38,6 +38,7 @@ module.exports = {
             { test: /\.woff2$/, loader: 'url-loader?mimetype=application/font-woff' },
             { test: /\.eot$/, loader: 'url-loader?mimetype=application/font-woff' },
             { test: /\.ttf$/, loader: 'url-loader?mimetype=application/font-woff' },
+            { test: /\.png$/, loader: 'url-loader' },
             { test: /\.json$/, loader: 'json-loader' }
         ]
     }, plugins: [

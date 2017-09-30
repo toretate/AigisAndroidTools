@@ -52,9 +52,31 @@ ${目標Exp}
 ＊プラチナをサリエット有りに変更
 
 -->
-<div class="panel panel-default" style="position:fixed; top:5px; right:5px;">
-
-	<label><input type="checkbox" value="">サリエット</label>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<span class="panel-title">パラメータ</span>
+	</div>
+	<div class="panel-body">
+		<div class="form-inline">
+			<div class="form-group">
+				<div class="btn-group" data-toggle="buttons">
+					<label class="btn btn-primary active"><input type="radio" autocomplete="off" checked>白金鎧</label>
+					<label class="btn btn-primary"><input type="radio" autocomplete="off">皇帝</label>
+					<label class="btn btn-primary"><input type="radio" autocomplete="off">小祝福</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>　Exp:</label>
+				<input type="number" class="form-control" autocomplete="off" />
+			</div>
+		</div>
+		<div>
+			<label class="checkbox" for="use-sariet">
+				<input type="checkbox" value="" id="use-sariet" data-toggle="checkbox"/>
+				サリエット
+			</label>
+		</div>
+	</div>
 </div>
 
 <div class="panel-group" id="accordion">
@@ -219,6 +241,8 @@ ${目標Exp}
 			</table>
 		</div>
 	</div>
+
+	<!--
 	<div class="panel panel-default">
 		<div class="panel-heading" role="tab">
 			<h4 class="panel-title">
@@ -239,7 +263,8 @@ ${目標Exp}
 			</table>
 		</div>
 	</div>
-	<compose-table-root />
+	-->
+	<compose-table-root baseexp="8000" />
 </div>
 
 

@@ -29,9 +29,16 @@
 
 	<script>
 
+		baseExp = 8000;
+		useSariet = false;
 		remainTable = [];
 
 		this.on('update', () => {
+			this.baseExp = opts.baseexp;
+			if( this.useSariet ) {
+				this.baseExp = this.baseExp * 1.1;
+			}
+
 			var maxLvNormal = Math.min( opts.type.table.length, 50 );
 			var maxLvCC = opts.type.table.length;
 			switch( opts.type.type ) {
@@ -44,9 +51,9 @@
 					break;
 			}
 
-			this.remainTable = this.getRemainTable( opts.type.table, 8800, maxLvNormal );
+			this.remainTable = this.getRemainTable( opts.type.table, this.baseExp, maxLvNormal );
 			if( maxLvCC !== -1 ) {
-				this.remainTableCC = this.getRemainTable( opts.type.table, 8800, maxLvCC );
+				this.remainTableCC = this.getRemainTable( opts.type.table, this.baseExp, maxLvCC );
 			}
 		});
 

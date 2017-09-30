@@ -3,9 +3,9 @@ const expTable = require('../../exp_table.json');
 
 <compose-table-root>
 	<div>
-		<compose-table type="{ expTable.silver }" />
-		<compose-table type="{ expTable.copper }" />
-		<compose-table type="{ expTable.iron }" />
+		<compose-table type="{ expTable.silver }" baseexp="{ opts.baseexp }" />
+		<compose-table type="{ expTable.copper }" baseexp="{ opts.baseexp }" />
+		<compose-table type="{ expTable.iron }" baseexp="{ opts.baseexp }" />
 	</div>
 
 
