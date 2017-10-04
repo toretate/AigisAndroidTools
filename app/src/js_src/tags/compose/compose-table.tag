@@ -1,17 +1,28 @@
 <!-- opts.type で種別が入ってくる -->
 <compose-table>
 	<div class="panel panel-default">
-		<nav class="navbar navbar-default">
-			<div class="navbar-header">
-				<span class="navbar-brand">{opts.type.name}</span>
-			</div>
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a onclick="{ typeClicked.bind(this, 'before') }">CC前</a></li>
-					<li if="{ opts.type['max-cc0'] }"><a onclick="{ typeClicked.bind(this, 'cc0') }">ＣＣ</a></li>
-					<li if="{ opts.type['max-cc1'] }"><a onclick="{ typeClicked.bind(this, 'cc1') }">覚１</a></li>
-					<li if="{ opts.type['max-cc2'] }"><a onclick="{ typeClicked.bind(this, 'cc2') }">覚２</a></li>
-				</ul>
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<span class="navbar-brand">{opts.type.name}</span>
+					<ul class="nav navbar-nav" id="cc-nav-screen-normal">
+						<li class="active"><a onclick="{ typeClicked.bind(this, 'before') }">CC前</a></li>
+						<li if="{ opts.type['max-cc0'] }"><a onclick="{ typeClicked.bind(this, 'cc0') }">ＣＣ</a></li>
+						<li if="{ opts.type['max-cc1'] }"><a onclick="{ typeClicked.bind(this, 'cc1') }">覚１</a></li>
+						<li if="{ opts.type['max-cc2'] }"><a onclick="{ typeClicked.bind(this, 'cc2') }">覚２</a></li>
+					</ul>
+					<ul class="nav navbar-nav" id="cc-nav-screen-phone">
+						<li class="dropdown active">
+							<a class="dropdown-toggle" data-toggle="dropdown">CC前<span class="caret"></span></a>
+							<ul class="dropdown-menu" id="cc-nav-float-dropdown">
+								<li class="dropdown"><a onclick="{ typeClicked.bind(this, 'before') }">CC前<i class="fui-triangle-up" /></a></li>
+								<li class="dropdown" if="{ opts.type['max-cc0'] }"><a onclick="{ typeClicked.bind(this, 'cc0') }">ＣＣ</a></li>
+								<li class="dropdown" if="{ opts.type['max-cc1'] }"><a onclick="{ typeClicked.bind(this, 'cc1') }">覚１</a></li>
+								<li class="dropdown" if="{ opts.type['max-cc2'] }"><a onclick="{ typeClicked.bind(this, 'cc2') }">覚２</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</nav>
 		<div class="panel panel-body">
@@ -33,6 +44,21 @@
 			</table>
 		</div>
 	</div>
+
+	<style scoped>
+		.navbar-header > .navbar-brand { display:flex; align-items:center; }
+		.nav > li { float:left; display:inline-block; }
+		.navbar-nav { margin: 0px; }
+		.navbar-header > .navbar-nav > li > a { padding-top: 14.5px; padding-bottom: 14.5px;}
+		#cc-nav-float-dropdown { position:absolute; }
+
+		#cc-nav-screen-phone { display:none; }
+
+		@media screen and (max-width: 767px ) {
+			#cc-nav-screen-normal { display:none; }
+			#cc-nav-screen-phone { display:block; }
+		}
+	</style>
 
 	<script>
 
