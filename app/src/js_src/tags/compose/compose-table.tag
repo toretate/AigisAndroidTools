@@ -1,13 +1,20 @@
 <!-- opts.type で種別が入ってくる -->
 <compose-table>
 	<div class="panel panel-default">
-		<div class="panel-heading" role="tab">
-			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#collapse{ opts.type.type }"><span class="glyphicon glyphicon-triangle-right" />{ opts.type.name }</a>
-			</h4>
-		</div>
-
-		<div id="collapse{ opts.type.type }" class="panel-collapse collapse" role="tabpanel">
+		<nav class="navbar navbar-default">
+			<div class="navbar-header">
+				<span class="navbar-brand">{opts.type.name}</span>
+			</div>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a onclick="{ typeClicked.bind(this, 'before') }">CC前</a></li>
+					<li if="{ opts.type['max-cc0'] }"><a onclick="{ typeClicked.bind(this, 'cc0') }">ＣＣ</a></li>
+					<li if="{ opts.type['max-cc1'] }"><a onclick="{ typeClicked.bind(this, 'cc1') }">覚１</a></li>
+					<li if="{ opts.type['max-cc2'] }"><a onclick="{ typeClicked.bind(this, 'cc2') }">覚２</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="panel panel-body">
 			<table class="table table-condensed table-striped table-bordered">
 				<thead>
 					<tr><th>Lv</th><th>次Lv</th>
@@ -29,9 +36,10 @@
 
 	<script>
 
-		baseExp = 8000;
-		useSariet = false;
-		remainTable = [];
+		this.baseExp = 8000;
+		this.useSariet = false;
+		this.remainTable = [];
+		this.cctype = 'before';
 
 		this.on('update', () => {
 			this.baseExp = opts.baseexp;
@@ -39,28 +47,26 @@
 				this.baseExp = this.baseExp * 1.1;
 			}
 
-			var maxLvNormal = Math.min( opts.type.table.length, 50 );
-			var maxLvCC = opts.type.table.length;
-			switch( opts.type.type ) {
-				case 'iron':
-				case 'copper':
-					maxLvCC = -1;
-					break;
-				case 'silver':
-					maxLvCC = 55;
-					break;
+			var maxLv = opts.type.max;			// CC前最大レベル
+			var maxLvCC0 = opts.type['max-cc0'];	// CC後最大レベル
+			var maxLvCC1 = opts.type['max-cc1'];	// 覚１最大レベル
+			var maxLvCC2 = opts.type['max-cc2'];	// 覚２最大レベル
+			var max = 0;
+			switch( this.cctype ) {
+				case 'before':	max = maxLv; break;
+				case 'cc0': 	max = maxLvCC0; break;
+				case 'cc1': 	max = maxLvCC1; break;
+				case 'cc2': 	max = maxLvCC2; break;
 			}
+			max --;
 
-			this.remainTable = this.getRemainTable( opts.type.table, this.baseExp, maxLvNormal );
-			if( maxLvCC !== -1 ) {
-				this.remainTableCC = this.getRemainTable( opts.type.table, this.baseExp, maxLvCC );
-			}
+			this.remainTable = this.getRemainTable( opts.type.table, this.baseExp, max );
 		});
 
 
 		this.getRemainTable = ( table, addExp, maxLv ) => {
-			var remain = table[ table.length -1 ];
 			var maxLv = maxLv;
+			var remain = table[ maxLv ];
 			var lv = maxLv;
 			var result = [];
 			while( ( 0 <= lv || lv !== undefined ) && 0 <= remain) {
@@ -81,10 +87,21 @@
 			} );
 			if( index === -1 ) return { lv:undefined, remain:undefined, exp:undefined };
 			var exp = table[index];
-			if( exp === remain ) return { lv:index +1, remain:0, exp:table[index] };
+			if( exp === remain ) return { lv:index, remain:0, exp:table[index] };
 			index -= 1;
 			return { lv:index, remain:table[index +1] - remain, exp:table[index] };
 		} 
+
+		this.typeClicked = ( type, e ) => {
+			this.cctype = type;
+			this.update();
+
+			var $li = $( $(e.srcElement).closest('li')[0] );
+			var $ul = $( $li.closest('ul')[0] );
+			var $current_li = $( $ul.children('.active')[0] );
+			if( $current_li !== undefined ) $current_li.removeClass('active');
+			$li.addClass('active');
+		}
 	</script>
 
 	<!--
